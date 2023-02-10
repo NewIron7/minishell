@@ -6,11 +6,11 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/09 16:26:28 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:37:42 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
-
+/*
 static void print_id_tab(char *id_tab)
 {
 	printf("id_tab:[");
@@ -20,7 +20,7 @@ static void print_id_tab(char *id_tab)
 		id_tab++;
 	}
 	printf("]\n");
-}
+}*/
 
 static char	identify_type_char(char c)
 {
@@ -165,6 +165,7 @@ static char	get_space(char *id_tab, int *i, t_parsing **list_parsing)
 {
 	int	size;
 	t_parsing	*node;
+	char	*content;
 
 	size = 0;
 	while (id_tab[*i] != -1 && id_tab[*i] == SPACE)
@@ -174,7 +175,10 @@ static char	get_space(char *id_tab, int *i, t_parsing **list_parsing)
 	}
 	if (size)
 	{
-		node = ft_lstnew_parsing(" ", SPACE_TMP);
+		content = ft_strdup(" ");
+		if (content == NULL)
+			return (1);
+		node = ft_lstnew_parsing(content, SPACE_TMP);
 		if (!node)
 			return (1);
 		ft_lstadd_back_parsing(list_parsing, node);
@@ -323,20 +327,19 @@ char	parser(char *cmd, t_parsing **list_parsing, char **env)
 
 	if (!cmd)
 		return (1);
-	//cmd[ft_strlen(cmd) - 1] = 0;
 	cmd = ft_strtrim(cmd, " \n");
 	if (!cmd)
 		return (2);
 	printf("cmd apres trim:%s$\n", cmd);
 	if (get_id_cmd(cmd, &id_tab))
 		return (2);
-	print_id_tab(id_tab);
 	if (get_list_parsing(cmd, id_tab, list_parsing))
 		return (2);
-	print_list_parsing(*list_parsing);
 	if (put_var_env(list_parsing, env))
 		return (2);
-	printf("****VAR ENV ADDED****\n");
-	print_list_parsing(*list_parsing);
+	if (gather_txt(*list_parsing))
+		return (2);
+	if (list_parsing_clean(*list_parsing))
+		return (3);
 	return (0);
 }

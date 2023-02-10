@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/09 16:05:22 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:10:15 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -60,5 +60,8 @@ t_parsing   *ft_lstnew_parsing(char *content, char type);
 char		parser(char *cmd, t_parsing **list_parsing, char **env);
 char	*ft_strdup(const char *s);
 char    put_var_env(t_parsing **list_parsing, char **env);
+char    list_parsing_clean(t_parsing *list_parsing);
+void    print_list_parsing(t_parsing *list_parsing);
+char    gather_txt(t_parsing *list_parsing);
 
 #endif

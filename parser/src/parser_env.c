@@ -6,10 +6,19 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:17:58 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/09 16:13:57 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/10 18:46:06 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
+
+static char	is_char_var_env(char c)
+{
+	if (c == ' ' || c == '$' || c == '-')
+		return (0);
+	else if (c == '/')
+		return (0);
+	return (1);
+}
 
 char	get_var_env_txt(const char *txt, char **var)
 {
@@ -25,11 +34,13 @@ char	get_var_env_txt(const char *txt, char **var)
 		return (0);
 	size = 0;
 	i++;
-	while (txt[i] && txt[i] != ' ' && txt[i] != '$' && txt[i] != '-')
+	while (txt[i] && is_char_var_env(txt[i]))
 	{
 		i++;
 		size++;
 	}
+	if (size == 0)
+		return (0);
 	*var = malloc(size + 1);
 	if (*var == NULL)
 		return (1);
@@ -100,7 +111,7 @@ char	insert_value_var(char **content, char *value, int len_var, int i)
 char	put_var_env_elem(char **content, char **env)
 {
 	int		i;
-	int		len_var;
+	int		len_value;
 	char	*var;
 	char	*value;
 
@@ -115,10 +126,10 @@ char	put_var_env_elem(char **content, char **env)
 			{
 				if (get_value_var(var, env, &value))
 					return (1);
-				len_var = ft_strlen(var);
-				if (insert_value_var(content, value, len_var, i))
+				len_value = ft_strlen(value);
+				if (insert_value_var(content, value, ft_strlen(var), i))
 					return (1);
-				i += len_var;
+				i += len_value - 1;
 			}
 		}
 		i++;

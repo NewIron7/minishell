@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 19:02:49 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/09 16:10:58 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/10 18:21:53 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -27,5 +27,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	//print_env(env);
 	parser(argv[1], &list_parsing, env);
+	printf("////////PARSING FINISHED\\\\\\\\\\\\\\\n");
+	print_list_parsing(list_parsing);
 	return (0);
 }

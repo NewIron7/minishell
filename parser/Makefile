@@ -24,6 +24,8 @@ SRC = $(SRC_DIR)/ft_strjoin.c				\
       $(SRC_DIR)/parser.c						\
       $(SRC_DIR)/ft_strdup.c						\
       $(SRC_DIR)/parser_env.c						\
+      $(SRC_DIR)/parser_clean.c						\
+      $(SRC_DIR)/gather_txt.c						\
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)
 
