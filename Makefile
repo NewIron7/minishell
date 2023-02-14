@@ -43,8 +43,6 @@ ${NAME}		:	${LIBFT} ${OBJS}
 ${LIBFT}	:
 		make -sC ${LIBFT_DIR}
 
-debug		:	${LIBFT} ${OBJS}
-		${CC} ${DEBUG} ${CFLAGS} ${INCS} ${OBJS} -o ${NAME} ${LIBS}
 clean		:
 		rm -rf ${OBJDIR}
 		make -sC ${LIBFT_DIR} fclean
@@ -54,4 +52,4 @@ fclean		:	clean
 
 re			:	fclean all
 
-.PHONY		:	all clean fclean re debug
+.PHONY		:	all clean fclean re
