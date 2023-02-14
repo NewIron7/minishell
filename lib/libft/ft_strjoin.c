@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 22:25:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/13 22:33:54 by ddelhalt         ###   ########.fr       */
+/*   Created: 2022/10/07 03:57:47 by ddelhalt          #+#    #+#             */
+/*   Updated: 2022/11/12 12:25:21 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	builtin_unset(char *const argv[], char *envp[])
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
+	size_t	len;
+	char	*new;
+	size_t	i;
 
-	while (*++argv)
-	{
-		i = 0;
-		while (envp[i])
-		{
-			name_end = ft_strchr(envp[i], '=');
-			if (!ft_strncmp(*argv, envp[i], name_end - *argv))
-			{
-				free(envp[i]);
-				while (envp[i])
-				{
-					ft_memmove(envp[i], envp[i + 1], sizeof(char *));
-					i++;
-				}
-			}
-			if (envp[i])
-				i++;
-		}
-	}
-	return (0);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	new = malloc(len + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (*s1)
+		new[i++] = *s1++;
+	while (*s2)
+		new[i++] = *s2++;
+	new[i] = 0;
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:22:58 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/13 22:44:03 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:30:56 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	add_env(char *arg, char *envp[], int entry)
 {
-	char	*new_env;
+	char	**new_env;
 
 	new_env = malloc(sizeof(char *) * (entry + 1));
 	if (!new_env)
@@ -33,30 +33,32 @@ static int	add_env(char *arg, char *envp[], int entry)
 	new_env[entry + 1] = NULL;
 	free(envp);
 	envp = new_env;
+	return (EXIT_SUCCESS);
 }
 
 static int	update_env(char *arg, char *envp[], int entry)
 {
-	free(envp[i]);
-	envp[i] = ft_strdup(arg);
-	if (!envp[i])
+	free(envp[entry]);
+	envp[entry] = ft_strdup(arg);
+	if (!envp[entry])
 	{
 		perror("minishell: export");
 		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 
-int	export_env(char *arg, char *envp[], int entry)
+int	export_env(char *arg, char *envp[], char *split)
 {
 	int	i;
 
 	i = 0;
-	while (ft_strncmp(envp[i], *argv, split - *argv + 1))
+	while (ft_strncmp(envp[i], arg, split - arg + 1))
 		i++;
 	if (envp[i])
-		return (update_env(*argv, envp, i));
+		return (update_env(arg, envp, i));
 	else
-		return (add_env(*argv, envp, i));
+		return (add_env(arg, envp, i));
 }
 
 int	builtin_export(char *const argv[], char *envp[])
@@ -75,7 +77,7 @@ int	builtin_export(char *const argv[], char *envp[])
 				"minishell: export: `%s': not a valid identifier\n", *argv);
 		}
 		else if (split)
-			ret = (ret || export_env(*argv, envp, i));
+			ret = (ret || export_env(*argv, envp, split));
 	}
 	return (ret);
 }

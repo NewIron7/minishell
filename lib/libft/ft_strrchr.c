@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 22:19:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/13 22:32:52 by ddelhalt         ###   ########.fr       */
+/*   Created: 2022/10/06 05:59:56 by ddelhalt          #+#    #+#             */
+/*   Updated: 2022/11/12 12:22:42 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	builtin_echo(char *const argv[])
+char	*ft_strrchr(const char *s, int c)
 {
-	int	newline;
+	const char	*last;
 
-	newline = 1;
-	if (!(ft_strcmp(++*argv, "-n")))
+	if ((char) c == 0)
+		return ((char *) s + ft_strlen(s));
+	last = 0;
+	while (*s)
 	{
-		newline = 0;
-		argv++;
+		if (*s == (char) c)
+			last = s;
+		s++;
 	}
-	while (*argv)
-	{
-		ft_printf("%s", *argv);
-		if (*++argv)
-			ft_printf("%c", ' ');
-	}
-	if (newline)
-		ft_printf("%c", '\n');
-	return (0);
+	return ((char *) last);
 }
