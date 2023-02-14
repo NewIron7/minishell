@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:25:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/14 18:32:00 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/14 20:17:14 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@ int	builtin_unset(char *const argv[], char *envp[])
 
 	while (*++argv)
 	{
-		i = 0;
-		while (envp[i])
+		if (!ft_strchr(*argv, '='))
 		{
-			name_end = ft_strchr(envp[i], '=');
-			if (!ft_strncmp(*argv, envp[i], name_end - *argv))
+			i = 0;
+			while (envp[i])
 			{
-				free(envp[i]);
-				while (envp[i])
+				name_end = ft_strchr(envp[i], '=');
+				if (!ft_strncmp(*argv, envp[i], name_end - envp[i]))
 				{
-					ft_memmove(envp[i], envp[i + 1], sizeof(char *));
-					i++;
+					free(envp[i]);
+					envp[i] = envp[i + 1];
+					while (envp[++i])
+						envp[i] = envp[i + 1];
 				}
+				if (envp[i])
+					i++;
 			}
-			if (envp[i])
-				i++;
 		}
 	}
 	return (0);
