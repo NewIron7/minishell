@@ -4,7 +4,8 @@ SRCLIST		=	main.c\
 				builtins/env.c\
 				builtins/export.c\
 				builtins/pwd.c\
-				builtins/unset.c
+				builtins/unset.c\
+				env_handler.c
 
 NAME 		=	minishell
 

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/14 19:44:47 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/15 09:35:19 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <stdio.h>
 #include "libft.h"
+
+char	**init_env(char *envp[]);
+void	free_env(char *envp[]);
 
 int	builtin_cd(char *const argv[]);
 int	builtin_echo(char *const argv[]);
