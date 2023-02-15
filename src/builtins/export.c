@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:22:58 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 11:35:17 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:21:19 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	update_env(char *arg, char *envp[], int entry)
 	return (EXIT_SUCCESS);
 }
 
-int	export_env(char *arg, char **envp[], char *split)
+static int	export_env(char *arg, char **envp[], char *split)
 {
 	int	i;
 
@@ -64,6 +64,18 @@ int	export_env(char *arg, char **envp[], char *split)
 		return (add_env(arg, envp, i));
 }
 
+static int	check_id(char *id)
+{
+	if (*id == '=')
+		return (0);
+	while (*id && *id != '=')
+	{
+		if (!ft_isalnum(*id++))
+			return (0);
+	}
+	return (1);
+}
+
 int	builtin_export(char *const argv[], char **envp[])
 {
 	int		ret;
@@ -72,15 +84,18 @@ int	builtin_export(char *const argv[], char **envp[])
 	ret = 0;
 	while (*++argv)
 	{
-		split = ft_strchr(*argv, '=');
-		if (split == *argv)
+		if (!check_id(*argv))
 		{
 			ret = 1;
 			ft_printf_fd(2,
 				"minishell: export: `%s': not a valid identifier\n", *argv);
 		}
-		else if (split)
-			ret = (ret || export_env(*argv, envp, split));
+		else
+		{
+			split = ft_strchr(*argv, '=');
+			if (split)
+				ret = (ret || export_env(*argv, envp, split));
+		}
 	}
 	return (ret);
 }
