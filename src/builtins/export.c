@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:22:58 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/14 19:48:27 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:35:17 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ static int	add_env(char *arg, char **envp[], int entry)
 		perror("minishell: export");
 		return (EXIT_FAILURE);
 	}
-	i = 0;
-	while ((*envp)[i])
-	{
+	i = -1;
+	while ((*envp)[++i])
 		new_env[i] = (*envp)[i];
-		i++;
-	}
 	new_env[entry] = ft_strdup(arg);
 	if (!new_env[entry])
 	{

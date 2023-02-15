@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:13:36 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 10:01:01 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:24:32 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(void)
 {
 	extern char	**environ;
-	char	**envp;
+	char		**envp;
 
 	envp = init_env(environ);
 	if (!envp)
