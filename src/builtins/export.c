@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:22:58 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 12:21:19 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:52:47 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,13 @@ static int	export_env(char *arg, char **envp[], char *split)
 
 static int	check_id(char *id)
 {
-	if (*id == '=')
+	if (*id == '=' || ft_isdigit(*id))
 		return (0);
 	while (*id && *id != '=')
 	{
-		if (!ft_isalnum(*id++))
+		if (!ft_isalnum(*id) && *id != '_')
 			return (0);
+		id++;
 	}
 	return (1);
 }
