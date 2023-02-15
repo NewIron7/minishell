@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 18:13:36 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 10:01:01 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/02/15 10:25:27 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	main_loop(char **envp[])
 {
-	extern char	**environ;
-	char	**envp;
+	char	*line;
 
-	envp = init_env(environ);
-	if (!envp)
+	while (1)
 	{
-		perror("minishell");
-		exit(EXIT_FAILURE);
+		line = readline("minishell$ ");
+		if (!line)
+			builtin_exit(0, *envp);
+		ft_printf("%s\n", line);
+		free(line);
 	}
-	main_loop(&envp);
-	return (EXIT_SUCCESS);
 }

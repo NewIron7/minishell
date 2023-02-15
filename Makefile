@@ -5,7 +5,9 @@ SRCLIST		=	main.c\
 				builtins/export.c\
 				builtins/pwd.c\
 				builtins/unset.c\
-				env_handler.c
+				builtins/exit.c\
+				env_handler.c\
+				minishell.c
 
 NAME 		=	minishell
 
@@ -19,7 +21,7 @@ LIBFT_INC	=	$(addprefix $(LIBDIR), libft/)
 LIBFT_DIR	=	$(addprefix $(LIBDIR), libft/)
 LIBFT_NAME	=	ft
 
-LIBS		=	-L${LIBFT_INC} -l${LIBFT_NAME}
+LIBS		=	-L${LIBFT_INC} -l${LIBFT_NAME} -lreadline
 
 INCS		=	-I${INCDIR} -I${LIBFT_INC}
 SRCS		=	$(addprefix $(SRCDIR), $(SRCLIST))
