@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/10 18:18:16 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:50:21 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -40,6 +40,7 @@ char	verif_pipe(t_parsing *list_parsing)
 char	verif_redirect(t_parsing *list_parsing)
 {
 	char	*content;
+
 	while (list_parsing)
 	{
 		if (list_parsing->type == REDIRECT_TMP)
@@ -48,15 +49,15 @@ char	verif_redirect(t_parsing *list_parsing)
 			if (!ft_strcmp(content, "<"))
 				list_parsing->type = R_INPUT;
 			else if (!ft_strcmp(content, ">"))
-                list_parsing->type = R_OUTPUT;
+				list_parsing->type = R_OUTPUT;
 			else if (!ft_strcmp(content, "<<"))
-                list_parsing->type = R_DINPUT;
+				list_parsing->type = R_DINPUT;
 			else if (!ft_strcmp(content, ">>"))
-                list_parsing->type = R_DOUTPUT;
+				list_parsing->type = R_DOUTPUT;
 			else
 			{
 				printf("minishell: parse error near '%s'\n", content);
-            	return (1);
+				return (1);
 			}
 		}
 		list_parsing = list_parsing->next;

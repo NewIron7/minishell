@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    MakefileTemplate                                   :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbelleng <tbelleng@student.42.fr>          +#+  +:+       +#+         #
+#    By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 15:13:46 by tbelleng          #+#    #+#              #
-#    Updated: 2023/01/20 14:37:41 by hboissel         ###   ########.fr        #
+#    Updated: 2023/02/20 19:59:03 by hboissel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,13 @@ SRC = $(SRC_DIR)/ft_strjoin.c				\
       $(SRC_DIR)/main.c						\
       $(SRC_DIR)/list_utils.c						\
       $(SRC_DIR)/parser.c						\
+	  $(SRC_DIR)/parser_quote.c                       \
+	  $(SRC_DIR)/parser_get.c                       \
+      $(SRC_DIR)/parser_utils.c						\
+      $(SRC_DIR)/parser_print.c						\
       $(SRC_DIR)/ft_strdup.c						\
       $(SRC_DIR)/parser_env.c						\
+      $(SRC_DIR)/parser_env_utils.c						\
       $(SRC_DIR)/parser_clean.c						\
       $(SRC_DIR)/gather_txt.c						\
 

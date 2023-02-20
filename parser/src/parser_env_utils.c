@@ -1,14 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   parser_env_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 11:14:01 by hboissel          #+#    #+#             */
-/*   Updated: 2023/01/30 11:26:56 by hboissel         ###   ########.fr       */
+/*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
+/*   Updated: 2023/02/20 18:59:29 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
+#include "parser.h"
 
-int	main(int argc, char **argv, 
+char	is_char_var_env(char c)
+{
+	if (c == ' ' || c == '$' || c == '-')
+		return (0);
+	else if (c == '/')
+		return (0);
+	return (1);
+}

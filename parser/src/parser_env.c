@@ -11,15 +11,6 @@
 /* ************************************************************************** */
 #include "parser.h"
 
-static char	is_char_var_env(char c)
-{
-	if (c == ' ' || c == '$' || c == '-')
-		return (0);
-	else if (c == '/')
-		return (0);
-	return (1);
-}
-
 char	get_var_env_txt(const char *txt, char **var)
 {
 	int		i;

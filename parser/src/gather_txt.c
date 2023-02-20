@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:52:23 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/10 19:30:48 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:49:42 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -17,9 +17,9 @@ static char	is_type_txt(t_parsing *list_parsing)
 	{
 		if (list_parsing->type == TXT || list_parsing->type == TXT_S
 			|| list_parsing->type == TXT_D || list_parsing->type == ARG)
-	   	return (1);
+			return (1);
 	}
-	return (0);	
+	return (0);
 }
 
 static char	join_elem_parsing(t_parsing *elem)
@@ -44,8 +44,8 @@ static char	join_elem_parsing(t_parsing *elem)
 
 static void	delete_elem_parsing(t_parsing *elem)
 {
-	t_parsing *prev;
-	t_parsing *next;
+	t_parsing	*prev;
+	t_parsing	*next;
 
 	prev = elem->prev;
 	next = elem->next;
@@ -66,7 +66,7 @@ char	gather_txt(t_parsing *list_parsing)
 		if (is_type_txt(list_parsing) && is_type_txt(list_parsing->next))
 		{
 			if (join_elem_parsing(list_parsing))
-				return (1);		
+				return (1);
 		}
 		else if (is_type_txt(list_parsing))
 		{
