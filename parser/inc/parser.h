@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/20 20:00:53 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:04:25 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -63,7 +63,7 @@ char		put_var_env(t_parsing **list_parsing, char **env);
 char		list_parsing_clean(t_parsing *list_parsing);
 void		print_list_parsing(t_parsing *list_parsing);
 char		gather_txt(t_parsing *list_parsing);
-char		is_char_var_env(char c);
+//char		is_char_var_env(char c);
 char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);
 char		second_quote(char *id_tab, int *i);
@@ -76,6 +76,6 @@ char		get_elem_txt(char *cmd, char *id_tab, int *i,
 char		get_pipe(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_redirect(char *cmd, char *id_tab, int *i,
 	t_parsing **list_parsing);
-
+char		get_var_env_txt(const char *txt, char **var);
 
 #endif

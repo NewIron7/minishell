@@ -11,43 +11,7 @@
 /* ************************************************************************** */
 #include "parser.h"
 
-char	get_var_env_txt(const char *txt, char **var)
-{
-	int		i;
-	int		j;
-	int		size;
-
-	i = 0;
-	*var = NULL;
-	while (txt[i] && txt[i] != '$')
-		i++;
-	if (txt[i] == '\0')
-		return (0);
-	size = 0;
-	i++;
-	while (txt[i] && is_char_var_env(txt[i]))
-	{
-		i++;
-		size++;
-	}
-	if (size == 0)
-		return (0);
-	*var = malloc(size + 1);
-	if (*var == NULL)
-		return (1);
-	(*var)[size] = 0;
-	i -= size;
-	j = 0;
-	while (j < size)
-	{
-		(*var)[j] = txt[i];
-		i++;
-		j++;
-	}
-	return (0);
-}
-
-char	get_value_var(const char *var, char **env, char **value)
+static char	get_value_var(const char *var, char **env, char **value)
 {
 	int	i;
 	int	j;
@@ -73,7 +37,7 @@ char	get_value_var(const char *var, char **env, char **value)
 	return (0);
 }
 
-char	insert_value_var(char **content, char *value, int len_var, int i)
+static char	insert_value_var(char **content, char *value, int len_var, int i)
 {
 	char	*content_tail;
 	char	*content_top;
@@ -99,7 +63,7 @@ char	insert_value_var(char **content, char *value, int len_var, int i)
 	return (0);
 }
 
-char	put_var_env_elem(char **content, char **env)
+static char	put_var_env_elem(char **content, char **env)
 {
 	int		i;
 	int		len_value;
