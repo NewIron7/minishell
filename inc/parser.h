@@ -16,10 +16,12 @@
 
 # include <stdlib.h>
 
+# include <libft.h>
+
 enum e_id_char
 {
 	ALPHA_NUM,
-	SPACE,
+	SPACE_ID,
 	S_QUOTE,
 	D_QUOTE,
 	DOLLAR,
@@ -51,22 +53,19 @@ typedef struct s_parsing
 	char				type;
 }	t_parsing;
 
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strtrim(char const *s1, char const *set);
-size_t		ft_strlen(const char *s);
+char		parser(char *cmd, t_parsing **list_parsing, char **env);
+
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);
-char		parser(char *cmd, t_parsing **list_parsing, char **env);
-char		*ft_strdup(const char *s);
-char		put_var_env(t_parsing **list_parsing, char **env);
 char		list_parsing_clean(t_parsing *list_parsing);
-void		print_list_parsing(t_parsing *list_parsing);
+
+char		put_var_env(t_parsing **list_parsing, char **env);
 char		gather_txt(t_parsing *list_parsing);
-//char		is_char_var_env(char c);
 char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);
 char		second_quote(char *id_tab, int *i);
+
 char		get_space(char *id_tab, int *i, t_parsing **list_parsing);
 char		get_elem_quoted(char *cmd, char *id_tab, int *i,
 	t_parsing **list_parsing);
@@ -77,5 +76,8 @@ char		get_pipe(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_redirect(char *cmd, char *id_tab, int *i,
 	t_parsing **list_parsing);
 char		get_var_env_txt(const char *txt, char **var);
+
+//DEBUG
+void		print_list_parsing(t_parsing *list_parsing);
 
 #endif

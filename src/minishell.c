@@ -15,6 +15,7 @@
 void	main_loop(char **envp[])
 {
 	char	*line;
+	t_parsing	*list_parsing;
 
 	while (1)
 	{
@@ -22,7 +23,11 @@ void	main_loop(char **envp[])
 		if (!line)
 			builtin_exit(NULL, *envp);
 		add_history(line);
+		ft_printf("///ROW\\\\\\\n");
 		ft_printf("%s\n", line);
+		parser(line, &list_parsing, *envp);
+		ft_printf("///PARSING\\\\\\\n");
+		print_list_parsing(list_parsing);
 		free(line);
 	}
 }

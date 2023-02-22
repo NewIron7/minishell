@@ -1,4 +1,14 @@
 SRCLIST		=	main.c\
+				parser/parser.c\
+				parser/parser_utils.c\
+				parser/parser_quote.c\
+				parser/parser_print.c\
+				parser/parser_get.c\
+				parser/parser_env_utils.c\
+				parser/parser_env.c\
+				parser/parser_clean.c\
+				parser/list_utils.c\
+				parser/gather_txt.c\
 				builtins/cd.c\
 				builtins/echo.c\
 				builtins/env.c\
@@ -36,6 +46,7 @@ all			:	${OBJDIR} ${LIBFT} ${NAME}
 
 ${OBJDIR}	:
 		mkdir -p ${OBJDIR}builtins
+		mkdir -p ${OBJDIR}parser
 
 ${OBJS}		:	${OBJDIR}%.o: ${SRCDIR}%.c
 		${CC} ${CFLAGS} ${INCS} -c $< -o $@

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "parser.h"
 
-static char	ft_strcmp(char *str1, char *str2)
+static char	ft_strcmp_parsing(char *str1, char *str2)
 {
 	while (*str1 && *str2 && *str1 == *str2)
 	{
@@ -27,7 +27,7 @@ char	verif_pipe(t_parsing *list_parsing)
 {
 	while (list_parsing)
 	{
-		if (list_parsing->type == PIPE && ft_strcmp(list_parsing->content, "|"))
+		if (list_parsing->type == PIPE && ft_strcmp_parsing(list_parsing->content, "|"))
 		{
 			printf("minishell: parse error near '%s'\n", list_parsing->content);
 			return (1);
@@ -46,13 +46,13 @@ char	verif_redirect(t_parsing *list_parsing)
 		if (list_parsing->type == REDIRECT_TMP)
 		{
 			content = list_parsing->content;
-			if (!ft_strcmp(content, "<"))
+			if (!ft_strcmp_parsing(content, "<"))
 				list_parsing->type = R_INPUT;
-			else if (!ft_strcmp(content, ">"))
+			else if (!ft_strcmp_parsing(content, ">"))
 				list_parsing->type = R_OUTPUT;
-			else if (!ft_strcmp(content, "<<"))
+			else if (!ft_strcmp_parsing(content, "<<"))
 				list_parsing->type = R_DINPUT;
-			else if (!ft_strcmp(content, ">>"))
+			else if (!ft_strcmp_parsing(content, ">>"))
 				list_parsing->type = R_DOUTPUT;
 			else
 			{

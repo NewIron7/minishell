@@ -14,7 +14,7 @@
 char	identify_type_char(char c)
 {
 	if (c == ' ')
-		return (SPACE);
+		return (SPACE_ID);
 	if (c == 39)
 		return (S_QUOTE);
 	if (c == '"')
@@ -74,7 +74,7 @@ char	get_space(char *id_tab, int *i, t_parsing **list_parsing)
 	char		*content;
 
 	size = 0;
-	while (id_tab[*i] != -1 && id_tab[*i] == SPACE)
+	while (id_tab[*i] != -1 && id_tab[*i] == SPACE_ID)
 	{
 		size++;
 		(*i)++;

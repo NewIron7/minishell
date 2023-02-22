@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "parser.h"
 
 char	**init_env(char *envp[]);
 void	free_env(char *envp[]);
