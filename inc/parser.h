@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/22 16:04:25 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:11:51 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -59,6 +59,7 @@ void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);
 char		list_parsing_clean(t_parsing *list_parsing);
+void		ft_lstclear_parsing(t_parsing *list_parsing);
 
 char		put_var_env(t_parsing **list_parsing, char **env);
 char		gather_txt(t_parsing *list_parsing);

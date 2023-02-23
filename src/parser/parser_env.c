@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:17:58 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/10 18:46:06 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 20:04:16 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -45,11 +45,11 @@ static char	insert_value_var(char **content, char *value, int len_var, int i)
 
 	content_tail = ft_strdup(&(*content)[i + len_var + 1]);
 	if (content_tail == NULL)
-		return (1);
+		return (free(value), 1);
 	(*content)[i] = '\0';
 	content_top = ft_strdup(*content);
 	if (content_top == NULL)
-		return (free(content_tail), 1);
+		return (free(content_tail), free(value), 1);
 	free(*content);
 	tmp = ft_strjoin(content_top, value);
 	free(content_top);
@@ -58,6 +58,7 @@ static char	insert_value_var(char **content, char *value, int len_var, int i)
 		return (free(content_tail), 1);
 	*content = ft_strjoin(tmp, content_tail);
 	free(content_tail);
+	free(tmp);
 	if (*content == NULL)
 		return (1);
 	return (0);
@@ -70,8 +71,8 @@ static char	put_var_env_elem(char **content, char **env)
 	char	*var;
 	char	*value;
 
-	i = 0;
-	while ((*content)[i])
+	i = -1;
+	while ((*content)[++i])
 	{
 		if ((*content)[i] == '$')
 		{
@@ -80,14 +81,14 @@ static char	put_var_env_elem(char **content, char **env)
 			if (var)
 			{
 				if (get_value_var(var, env, &value))
-					return (1);
+					return (free(var), 1);
 				len_value = ft_strlen(value);
 				if (insert_value_var(content, value, ft_strlen(var), i))
-					return (1);
+					return (free(var), 1);
+				free(var);
 				i += len_value - 1;
 			}
 		}
-		i++;
 	}
 	return (0);
 }

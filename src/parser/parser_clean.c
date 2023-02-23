@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/20 18:50:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 20:02:54 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -27,7 +27,8 @@ char	verif_pipe(t_parsing *list_parsing)
 {
 	while (list_parsing)
 	{
-		if (list_parsing->type == PIPE && ft_strcmp_parsing(list_parsing->content, "|"))
+		if (list_parsing->type == PIPE
+			&& ft_strcmp_parsing(list_parsing->content, "|"))
 		{
 			printf("minishell: parse error near '%s'\n", list_parsing->content);
 			return (1);

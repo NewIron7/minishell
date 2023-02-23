@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:21:28 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 11:25:10 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/23 20:07:30 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	builtin_exit(char *const argv[], char *envp[])
 		status = 2;
 	}
 	else
-	{
-		if (*(argv + 1))
 		{
 			ft_printf_fd(STDERR_FILENO,
 				"minishell: exit: too many arguments\n");

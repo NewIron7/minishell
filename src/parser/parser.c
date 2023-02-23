@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/22 16:26:38 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:49:11 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -58,20 +58,22 @@ char	parser(char *cmd, t_parsing **list_parsing, char **env)
 	char	*id_tab;
 
 	if (!cmd)
-		return (1);
+		return (-1);
 	cmd = ft_strtrim(cmd, " \n");
 	if (!cmd)
-		return (2);
+		return (1);
 	if (get_id_cmd(cmd, &id_tab))
-		return (2);
+		return (free(cmd), 1);
 	if (get_list_parsing(cmd, id_tab, list_parsing))
-		return (2);
+		return (free(cmd), free(id_tab), 1);
 	if (put_var_env(list_parsing, env))
-		return (2);
+		return (free(cmd), free(id_tab), 1);
 	if (gather_txt(*list_parsing))
-		return (2);
+		return (free(cmd), free(id_tab), 1);
 	if (list_parsing_clean(*list_parsing))
-		return (3);
+		return (2);
 	set_cmd_arg(*list_parsing);
+	free(id_tab);
+	free(cmd);
 	return (0);
 }

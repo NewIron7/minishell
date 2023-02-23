@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 19:57:28 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/20 19:58:46 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:33:32 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -50,7 +50,7 @@ char	get_elem_txt(char *cmd, char *id_tab, int *i,
 	}
 	node = ft_lstnew_parsing(elem, TXT);
 	if (!node)
-		return (1);
+		return (free(elem), 1);
 	ft_lstadd_back_parsing(list_parsing, node);
 	return (0);
 }
@@ -79,7 +79,7 @@ char	get_pipe(char *cmd, char *id_tab, int *i, t_parsing **list_parsing)
 	}
 	node = ft_lstnew_parsing(elem, PIPE);
 	if (!node)
-		return (1);
+		return (free(elem), 1);
 	ft_lstadd_back_parsing(list_parsing, node);
 	return (0);
 }
@@ -109,7 +109,7 @@ char	get_redirect(char *cmd, char *id_tab, int *i,
 	}
 	node = ft_lstnew_parsing(elem, REDIRECT_TMP);
 	if (!node)
-		return (1);
+		return (free(elem), 1);
 	ft_lstadd_back_parsing(list_parsing, node);
 	return (0);
 }

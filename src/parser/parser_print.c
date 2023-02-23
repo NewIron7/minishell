@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 19:20:54 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/20 19:21:17 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 20:00:21 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -24,7 +24,7 @@ static char	*get_name_id_elem(char id)
 	else if (id == R_INPUT)
 		txt = "R_INPUT";
 	else if (id == R_OUTPUT)
-		txt = "R_outPUT";
+		txt = "R_OUTPUT";
 	else if (id == R_DINPUT)
 		txt = "R_DINPUT";
 	else if (id == R_DOUTPUT)
@@ -46,10 +46,12 @@ static char	*get_name_id_elem(char id)
 
 void	print_list_parsing(t_parsing *list_parsing)
 {
+	char	*txt;
 	while (list_parsing)
 	{
-		printf("[%s]-> %s\n",
-			get_name_id_elem(list_parsing->type), list_parsing->content);
+		txt = get_name_id_elem(list_parsing->type);
+		printf("[%s]-> %s\n", txt, list_parsing->content);
+		free(txt);
 		list_parsing = list_parsing->next;
 	}
 }

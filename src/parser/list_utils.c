@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:32:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/03 19:18:32 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:11:36 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -51,5 +51,18 @@ void	ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new)
 		}
 		else
 			*lst = new;
+	}
+}
+
+void	ft_lstclear_parsing(t_parsing *list_parsing)
+{
+	t_parsing	*tmp;
+
+	while (list_parsing)
+	{
+		tmp = list_parsing->next;
+		free(list_parsing->content);
+		free(list_parsing);
+		list_parsing = tmp;
 	}
 }
