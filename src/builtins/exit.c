@@ -41,6 +41,8 @@ int	builtin_exit(char *const argv[], char *envp[])
 		status = 2;
 	}
 	else
+	{
+		if (*(argv + 1))
 		{
 			ft_printf_fd(STDERR_FILENO,
 				"minishell: exit: too many arguments\n");
