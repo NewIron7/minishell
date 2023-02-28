@@ -26,6 +26,7 @@ int		exec_builtin(char *cmd[], char **envp[], int fd_in, int fd_out);
 int		exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out);
 int		redirect_in(int fd);
 int		redirect_out(int fd);
+char	*search_path(char *cmd, char **env);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);
