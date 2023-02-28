@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:37:50 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/28 23:13:42 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "libft.h"
 # include "parser.h"
 # include "get_next_line.h"
+# include <sys/stat.h>
 
 char	**init_env(char *envp[]);
 void	free_env(char *envp[]);

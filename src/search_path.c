@@ -6,9 +6,10 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:04:27 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/28 20:09:22 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/02/28 23:26:43 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 static void	free_strs(char **strs)
@@ -58,7 +59,7 @@ static char	*create_complete_path(char *path, char *cmd)
 	c_path = ft_strjoin(tmp, cmd);
 	free(tmp);
 	if (c_path == NULL)
-		return (free(tmp), NULL);
+		return (NULL);
 	return (c_path);
 }
 
@@ -94,15 +95,3 @@ char	*search_path(char *cmd, char **env)
 	free_strs(paths);
 	return (NULL);
 }
-/*
-int	main(int argc, char **argv, char **env)
-{
-	char	*err;
-	//char	**argv_cpy;
-
-	(void)argc;
-	//argv_cpy = cpy_strs(argc - 1, argv + 1);
-	err = search_path(argv[1], env);
-	printf("err:%s\n", err);
-	free(err);
-}*/
