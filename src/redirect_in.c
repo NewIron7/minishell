@@ -6,10 +6,9 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 19:31:14 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:37:10 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:54:13 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 int	redirect_in(int fd)
