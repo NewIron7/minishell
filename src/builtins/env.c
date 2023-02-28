@@ -6,15 +6,15 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:22:27 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/13 22:33:08 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/02/28 19:15:29 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(char *const envp[])
+int	builtin_env(char *const envp[], int fd)
 {
 	while (*envp)
-		ft_printf("%s\n", *envp++);
+		ft_printf_fd(fd, "%s\n", *envp++);
 	return (0);
 }

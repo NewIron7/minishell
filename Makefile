@@ -17,6 +17,10 @@ SRCLIST		=	main.c\
 				builtins/unset.c\
 				builtins/exit.c\
 				env_handler.c\
+				redirect_in.c\
+				redirect_out.c\
+				exec_builtin.c\
+				exec_cmd.c\
 				minishell.c
 
 NAME 		=	minishell

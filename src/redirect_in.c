@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 22:19:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:21:44 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/02/28 19:31:14 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/02/28 19:37:10 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_echo(char *const argv[], int fd)
+int	redirect_in(int fd)
 {
-	int	newline;
-
-	newline = 1;
-	if (!(ft_strcmp(*++argv, "-n")))
+	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		newline = 0;
-		argv++;
+		perror("minishell");
+		return (0);
 	}
-	while (*argv)
-	{
-		ft_printf_fd(fd, "%s", *argv);
-		if (*++argv)
-			ft_printf("%c", ' ');
-	}
-	if (newline)
-		ft_printf_fd(fd, "%c", '\n');
-	return (0);
+	close(fd);
+	return (1);
 }
