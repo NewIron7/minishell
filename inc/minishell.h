@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/01 14:45:51 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:47:33 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,15 @@
 # include <sys/stat.h>
 # include <signal.h>
 
-char	**init_env(char *envp[]);
+enum e_mode
+{
+	INTERACTIVE,
+	EXEC
+};
+
+extern t_list	*g_cpids;
+
+void	init_env(char **envp[]);
 void	free_env(char *envp[]);
 void	main_loop(char **envp[]);
 int		exec_builtin(char *cmd[], char **envp[], int fd_in, int fd_out);
@@ -30,6 +38,7 @@ int		exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out);
 int		redirect_in(int fd);
 int		redirect_out(int fd);
 char	*search_path(char *cmd, char **env);
+int		minishell_init(char **envp[]);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

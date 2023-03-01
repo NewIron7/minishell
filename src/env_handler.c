@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:08:27 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/15 09:31:06 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:43:27 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,27 @@ void	free_env(char *envp[])
 	free(envp);
 }
 
-char	**init_env(char *envp[])
+void	init_env(char	**envp[])
 {
-	char	**new_env;
-	int		i;
+	extern char	**environ;
+	int			i;
 
 	i = 0;
-	while (envp[i])
+	while (environ[i])
 		i++;
-	new_env = malloc(sizeof(char *) * (i + 1));
-	if (!new_env)
-		return (NULL);
+	*envp = calloc(i + 1, sizeof(char *));
+	if (!*envp)
+		return ;
 	i = 0;
-	while (envp[i])
+	while (environ[i])
 	{
-		new_env[i] = ft_strdup(envp[i]);
-		if (!new_env[i])
+		(*envp)[i] = ft_strdup(environ[i]);
+		if (!(*envp)[i])
 		{
-			free_env(new_env);
-			return (NULL);
+			free_env(*envp);
+			*envp = NULL;
+			return ;
 		}
 		i++;
 	}
-	new_env[i] = NULL;
-	return (new_env);
 }

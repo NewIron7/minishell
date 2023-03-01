@@ -6,20 +6,30 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/01 06:52:59 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:43:59 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 static void	sig_handler(int sig)
 {
-	//kill(0, sig);
-	if (sig == SIGINT)
+	t_list	*cpids;
+
+	if (*(int *) g_cpids->content == INTERACTIVE)
 	{
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
+	}
+	else
+	{
+		cpids = g_cpids->next;
+		while (cpids)
+		{
+			kill(*(int *) cpids->content, sig);
+			cpids = cpids->next;
+		}
 	}
 }
 
@@ -46,6 +56,8 @@ void	main_loop(char **envp[])
 		line = readline("minishell$ ");
 		if (!line)
 			builtin_exit(NULL, *envp);
+		*(int *) g_cpids->content = EXEC;
+		signal(SIGQUIT, &sig_handler);
 		add_history(line);
 		err_parsing = parser(line, &list_parsing, *envp);
 		if (err_parsing == 1)
@@ -53,5 +65,7 @@ void	main_loop(char **envp[])
 		print_list_parsing(list_parsing);
 		free(line);
 		ft_lstclear_parsing(list_parsing);
+		signal(SIGQUIT, SIG_IGN);
+		*(int *) g_cpids->content = INTERACTIVE;
 	}
 }

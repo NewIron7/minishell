@@ -22,6 +22,7 @@ SRCLIST		=	main.c\
 				redirect_out.c\
 				exec_builtin.c\
 				exec_cmd.c\
+				minishell_init.c\
 				minishell.c
 
 NAME 		=	minishell
