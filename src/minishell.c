@@ -6,10 +6,22 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/23 19:59:19 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/01 06:52:59 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+static void	sig_handler(int sig)
+{
+	//kill(0, sig);
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
 
 static void	malloc_err(t_parsing *list_parsing, char *line, char **envp)
 {
@@ -26,6 +38,8 @@ void	main_loop(char **envp[])
 	t_parsing	*list_parsing;
 	char		err_parsing;
 
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &sig_handler);
 	list_parsing = NULL;
 	while (1)
 	{
