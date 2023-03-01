@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 23:13:42 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/01 14:45:51 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "parser.h"
 # include "get_next_line.h"
 # include <sys/stat.h>
+# include <signal.h>
 
 char	**init_env(char *envp[]);
 void	free_env(char *envp[]);
