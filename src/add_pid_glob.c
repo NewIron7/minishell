@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 09:19:51 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/02 09:27:39 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/02 17:48:59 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	add_pid_glob(int pid)
 		free(content);
 		return (0);
 	}
-	ft_lstaddback(&g_cpids, new);
+	ft_lstadd_back(&g_cpids, new);
 	return (1);
 }

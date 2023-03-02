@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/02 07:50:37 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/02 17:38:56 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -26,7 +26,8 @@ enum e_id_char
 	D_QUOTE,
 	DOLLAR,
 	PIPE_C,
-	REDIRECT
+	REDIRECT,
+	AND_ID
 };
 
 enum e_id_elem

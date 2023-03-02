@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 20:02:54 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/02 17:48:17 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -23,11 +23,29 @@ static char	ft_strcmp_parsing(char *str1, char *str2)
 	return (0);
 }
 
-char	verif_pipe(t_parsing *list_parsing)
+static char    verif_and(t_parsing *list_parsing)
+{
+	while (list_parsing)
+	{
+		if (list_parsing->type == AND
+			&& ft_strcmp_parsing(list_parsing->content, "&"))
+		{
+			printf("minishell: parse error near '%s'\n", list_parsing->content);
+			return (1);
+		}
+		list_parsing = list_parsing->next;
+	}
+	return (0);
+}
+
+static char	verif_pipe(t_parsing *list_parsing)
 {
 	while (list_parsing)
 	{
 		if (list_parsing->type == PIPE
+			&& !ft_strcmp_parsing(list_parsing->content, "||"))
+			list_parsing->type = OR;
+		else if (list_parsing->type == PIPE
 			&& ft_strcmp_parsing(list_parsing->content, "|"))
 		{
 			printf("minishell: parse error near '%s'\n", list_parsing->content);
@@ -38,7 +56,7 @@ char	verif_pipe(t_parsing *list_parsing)
 	return (0);
 }
 
-char	verif_redirect(t_parsing *list_parsing)
+static char	verif_redirect(t_parsing *list_parsing)
 {
 	char	*content;
 
@@ -71,6 +89,8 @@ char	list_parsing_clean(t_parsing *list_parsing)
 	if (verif_pipe(list_parsing))
 		return (1);
 	if (verif_redirect(list_parsing))
+		return (1);
+	if (verif_and(list_parsing))
 		return (1);
 	return (0);
 }
