@@ -23,6 +23,10 @@ SRCLIST		=	main.c\
 				exec_builtin.c\
 				exec_cmd.c\
 				minishell_init.c\
+				add_pid_glob.c\
+				eval_exec.c\
+				exec_list.c\
+				exec_pipe.c\
 				minishell.c
 
 NAME 		=	minishell

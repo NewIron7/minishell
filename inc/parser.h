@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 19:11:51 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/02 07:50:37 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -42,7 +42,11 @@ enum e_id_elem
 	SPACE_TMP,
 	TXT,
 	TXT_S,
-	TXT_D
+	TXT_D,
+	AND,
+	OR,
+	LEFT_PAR,
+	RIGHT_PAR
 };
 
 typedef struct s_parsing

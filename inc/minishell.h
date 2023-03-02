@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/01 23:47:33 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/02 10:04:32 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int		redirect_in(int fd);
 int		redirect_out(int fd);
 char	*search_path(char *cmd, char **env);
 int		minishell_init(char **envp[]);
+int		eval_exec(t_parsing *tokens, int start, int end, char *envp[]);
+int		exec_list(t_parser tokens, int start, int end, int sep, char *envp[]);
+int		add_pid_glob(int pid);
+int		exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[]);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);
