@@ -22,12 +22,16 @@ SRCLIST		=	main.c\
 				redirect_out.c\
 				exec_builtin.c\
 				exec_cmd.c\
+				exec_simple_cmd.c\
 				minishell_init.c\
 				add_pid_glob.c\
 				eval_exec.c\
-				exec_list.c\
-				exec_pipe.c\
+				heredoc.c\
+				ft_lstsize_parsing.c\
 				minishell.c
+				#exec_list.c\
+				#exec_pipe.c\
+				
 
 NAME 		=	minishell
 
@@ -49,7 +53,7 @@ OBJSLIST	=	$(SRCLIST:.c=.o)
 OBJS		=	$(addprefix $(OBJDIR), $(OBJSLIST))
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g3
 DEBUG		=	-g3
 
 all			:	${OBJDIR} ${LIBFT} ${NAME}

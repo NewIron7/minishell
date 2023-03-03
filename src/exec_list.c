@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/02 17:54:31 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/03 21:51:07 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exec_list(t_parsing *tokens, int start, int end, int sep, char *envp[])
 		return (eval_exec(tokens, sep + 1, end, envp));
 	cpy = cpy->next;
 	i++;
-	while (cpy && (ret && cpy->type != AND) || (!ret && cpy->type != OR))
+	while ((cpy && (ret && cpy->type != AND)) || ((!ret && cpy->type != OR)))
 	{
 		if (cpy->type == LEFT_PAR)
 		{

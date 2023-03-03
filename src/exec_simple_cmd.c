@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/03 19:17:22 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/03 22:34:40 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -17,8 +17,7 @@ static void	set_on_cmd(t_parsing **tokens, int start)
 
 	i = -1;
 	while (++i < start)
-		*tokens = *tokens->next;
-	return (tokens);
+		*tokens = (*tokens)->next;
 }
 
 static char	check_redirection(t_parsing *tokens, int end)
@@ -26,7 +25,7 @@ static char	check_redirection(t_parsing *tokens, int end)
 	int	i;
 
 	i = -1;
-	while (++i < end)
+	while ((++i < end && end != -1) || (end == -1 && tokens))
 	{
 		if (tokens->type == R_INPUT || tokens->type == R_OUTPUT
 			|| tokens->type == R_DINPUT || tokens->type == R_DOUTPUT)
@@ -38,13 +37,12 @@ static char	check_redirection(t_parsing *tokens, int end)
 
 static void	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int end)
 {
-	int	fd;
 	int	i;
 
 	i = -1;
 	*fd_in = STDIN_FILENO;
 	*fd_out = STDOUT_FILENO;
-	while (++i < end)
+	while ((++i < end && end != -1) || (end == -1 && tokens))
 	{
 		if (tokens->type == R_INPUT)
 			*fd_in = open(tokens->next->content, O_RDONLY);
@@ -52,35 +50,47 @@ static void	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int e
 			*fd_out = open(tokens->next->content, O_WRONLY);
 		else if (tokens->type == R_DOUTPUT)
 			*fd_out = open(tokens->next->content, O_APPEND);
-		if (*fd_in != STIN_FILENO || *fd_out != STDOUT_FILENO)
+		if (*fd_in != STDIN_FILENO || *fd_out != STDOUT_FILENO)
 			break ;
 		tokens = tokens->next;
 	}
 }
 
-static void	get_args(t_parsing *tokens, int end, char *args[])
+static char	get_args(t_parsing *tokens, int end, char ***args)
 {
 	int	i;
 
-	i = -1;
-	while (++i < end)
+	int size = ft_lstsize_parsing(tokens);
+	(void)size;
+	*args = malloc(sizeof(**args) * (ft_lstsize_parsing(tokens) + 1));
+	if (*args == NULL)
+		return (1);
+	i = 0;
+	while ((i < end && end != -1) || (end == -1 && tokens))
 	{
-		args[i] = tokens->content;
+		*args[i] = tokens->content;
 		tokens = tokens->next;
+		i++;
 	}
+	(*args)[i] = NULL;
+	return (0);
 }
 
-int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp)
+int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
 {
 	char	redir;
 	int		fd_in;
 	int		fd_out;
-	char	*args[ARG_MAX];
+	char	**args;
 
-	set_on_cmd(tokens);
+	args = NULL;
+	set_on_cmd(&tokens, start);
 	redir = check_redirection(tokens, end - start);
 	if (redir != -1)
 			set_fd_redirection(&fd_in, &fd_out, tokens, end - start);
-	get_args(tokens, end, args);
-	return (exec_cmd(args, &envp, fd_in, fd_out));
+	if (get_args(tokens, end, &args))
+		return (1);
+	redir = exec_cmd(args, envp, fd_in, fd_out);
+	free(args);
+	return (redir);
 }

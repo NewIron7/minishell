@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:47:45 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/02 08:06:25 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/03 21:53:18 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	eval_exec(t_parsing *tokens, int start, int end, char *envp[])
 	cpy = tokens;
 	while (++i < start)
 		cpy = cpy->next;
+	/*
 	while (cpy && (i < end || end == -1))
 	{
 		if (cpy->type == AND || cpy->type == OR)
@@ -37,6 +38,6 @@ int	eval_exec(t_parsing *tokens, int start, int end, char *envp[])
 		}
 		cpy = cpy->next;
 		i++;
-	}
+	}*/
 	return (exec_simple_cmd(tokens, start, end, envp));
 }
