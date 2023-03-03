@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/02 19:10:28 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/03 19:11:57 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "get_next_line.h"
 # include <sys/stat.h>
 # include <signal.h>
+# include <limit.h>
 
 enum e_mode
 {
