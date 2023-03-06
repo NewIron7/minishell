@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:32:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 19:11:36 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:59:38 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -22,6 +22,7 @@ t_parsing	*ft_lstnew_parsing(char *content, char type)
 	new->type = type;
 	new->next = NULL;
 	new->prev = NULL;
+	new->fd = -1;
 	return (new);
 }
 

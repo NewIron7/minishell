@@ -23,6 +23,7 @@ SRCLIST		=	main.c\
 				exec_builtin.c\
 				exec_cmd.c\
 				exec_simple_cmd.c\
+				exec_simple_cmd_utils.c\
 				minishell_init.c\
 				add_pid_glob.c\
 				eval_exec.c\

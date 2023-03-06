@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/06 16:36:29 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 18:30:07 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out)
 			perror("minishell");
 			exit(EXIT_FAILURE);
 		}
-		exit(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
+		//exit(EXIT_SUCCESS);
 	}
 	else if (pid > 0)
 	{

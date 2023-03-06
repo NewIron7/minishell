@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/02 17:38:56 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:59:09 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -56,6 +56,7 @@ typedef struct s_parsing
 	struct s_parsing	*prev;
 	char				*content;
 	char				type;
+	int					fd;
 }	t_parsing;
 
 char		parser(char *cmd, t_parsing **list_parsing, char **env);

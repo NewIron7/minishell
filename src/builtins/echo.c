@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:19:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:21:44 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/06 18:43:03 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	builtin_echo(char *const argv[], int fd)
 	{
 		ft_printf_fd(fd, "%s", *argv);
 		if (*++argv)
-			ft_printf("%c", ' ');
+			ft_printf_fd(fd, "%c", ' ');
 	}
 	if (newline)
 		ft_printf_fd(fd, "%c", '\n');

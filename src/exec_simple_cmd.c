@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/06 12:58:02 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 18:18:29 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -35,40 +35,34 @@ static char	check_redirection(t_parsing *tokens, int end)
 	return (-1);
 }
 
-static void	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int end)
+static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int end)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while ((++i < end && end != -1) || (end == -1 && tokens))
 	{
-		if (tokens->type == R_INPUT)
-			*fd_in = open(tokens->next->content, O_RDONLY);
-		else if (tokens->type == R_OUTPUT)
-			*fd_out = open(tokens->next->content, O_WRONLY);
-		else if (tokens->type == R_DOUTPUT)
-			*fd_out = open(tokens->next->content, O_APPEND);
-		if (*fd_in != STDIN_FILENO || *fd_out != STDOUT_FILENO)
-			break ;
+		put_new_fd_redirec(tokens, fd_out, fd_in);
 		tokens = tokens->next;
 	}
+	if (*fd_out == -1 || *fd_in == -1)
+		return (perror("minishell"), 1);
+	return (0);
 }
 
 static char	get_args(t_parsing *tokens, int end, char ***args)
 {
 	int	i;
 
-	int size = ft_lstsize_parsing(tokens);
-	(void)size;
 	*args = malloc(sizeof(**args) * (ft_lstsize_parsing(tokens) + 1));
 	if (*args == NULL)
 		return (1);
 	i = 0;
 	while ((i < end && end != -1) || (end == -1 && tokens))
 	{
-		(*args)[i] = tokens->content;
+		if (!(is_redirection(tokens) || is_redirection(tokens->prev)))
+			(*args)[i++] = tokens->content;
 		tokens = tokens->next;
-		i++;
 	}
 	(*args)[i] = NULL;
 	return (0);
@@ -87,9 +81,14 @@ int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
 	set_on_cmd(&tokens, start);
 	redir = check_redirection(tokens, end - start);
 	if (redir != -1)
-			set_fd_redirection(&fd_in, &fd_out, tokens, end - start);
+	{
+		if (set_fd_redirection(&fd_in, &fd_out, tokens, end - start))
+			return (1);
+	}
 	if (get_args(tokens, end, &args))
 		return (1);
+	if (*args == NULL)
+		return (EXIT_SUCCESS);
 	if (is_builtin(args))
 		redir = exec_builtin(args, &envp, fd_in, fd_out);
 	else

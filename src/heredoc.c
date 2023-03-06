@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 static int	get_nb_heredoc(t_parsing *tokens)
 {
 	int	nb;
@@ -12,9 +12,9 @@ static int	get_nb_heredoc(t_parsing *tokens)
 		tokens = tokens->next;
 	}
 	return (nb);
-}
+}*/
 
-static char	do_heredoc(t_parsing **tokens, int *heredocs)
+static char	do_heredoc(t_parsing **tokens)
 {
 	char	*line;
 	int		tube[2];
@@ -24,7 +24,7 @@ static char	do_heredoc(t_parsing **tokens, int *heredocs)
 	txt = ft_strdup("");
 	if (pipe(tube) || txt == NULL)
 		return (free(txt), 1);
-	*heredocs = tube[0];
+	(*tokens)->fd = tube[0];
 	*tokens = (*tokens)->next;
 	while (1)
 	{
@@ -54,26 +54,16 @@ static char	do_heredoc(t_parsing **tokens, int *heredocs)
 	return (0);
 }
 
-int	*ft_heredoc(t_parsing *tokens)
+char	ft_heredoc(t_parsing *tokens)
 {
-	int	nb;
-	int	*heredocs;
-	int	i;
-
-	nb = get_nb_heredoc(tokens);
-	heredocs = malloc(sizeof(int) * (nb + 1));
-	if (heredocs == NULL)
-		return (NULL);
-	heredocs[nb] = -1;
-	i = 0;
 	while (tokens)
 	{
 		if (tokens->type == R_DINPUT)
 		{
-			if (do_heredoc(&tokens, &heredocs[i++]))
-				return (free(heredocs), NULL);
+			if (do_heredoc(&tokens))
+				return (1);
 		}
 		tokens = tokens->next;
 	}
-	return (heredocs);
+	return (0);
 }	
