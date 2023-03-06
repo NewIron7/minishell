@@ -28,6 +28,7 @@ SRCLIST		=	main.c\
 				eval_exec.c\
 				heredoc.c\
 				ft_lstsize_parsing.c\
+				search_path_utils.c \
 				minishell.c
 				#exec_list.c\
 				#exec_pipe.c\

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/06 13:41:26 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:36:29 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ int	exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out)
 	if (fd_out != STDOUT_FILENO)
 		redirect_out(fd_out);
 	path = search_path(*argv, envp);
-	if (!path)
+	if (!path && !get_exec_path(*argv))
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", *argv);
 		return (127);
 	}
+	else if (get_exec_path(*argv))
+		path = *argv;
 	status = 0;
 	waitoptions = 0;
 	pid = fork();
