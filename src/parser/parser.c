@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 19:49:11 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 10:39:01 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -42,7 +42,9 @@ static void	set_cmd_arg(t_parsing *list_parsing)
 	is_cmd = 1;
 	while (list_parsing)
 	{
-		if (is_cmd)
+		if (is_cmd && list_parsing->type == ARG
+			&& (list_parsing->prev == NULL || list_parsing->prev->type == PIPE
+			|| list_parsing->prev->type == ARG))
 		{
 			list_parsing->type = CMD;
 			is_cmd = 0;

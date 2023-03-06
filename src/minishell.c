@@ -47,6 +47,7 @@ void	main_loop(char **envp[])
 	char		*line;
 	t_parsing	*list_parsing;
 	char		err_parsing;
+	int		*heredocs;
 
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
@@ -64,8 +65,9 @@ void	main_loop(char **envp[])
 			malloc_err(list_parsing, line, *envp);
 		print_list_parsing(list_parsing);
 		//$? = eval_exec(list_parsing, 0, -1, *envp);
-		ft_heredoc(list_parsing);
-		eval_exec(list_parsing, 0, -1, *envp);
+		heredocs = ft_heredoc(list_parsing);
+		if (heredocs != NULL)
+			eval_exec(list_parsing, 0, -1, *envp);
 		free(line);
 		ft_lstclear_parsing(list_parsing);
 		signal(SIGQUIT, SIG_IGN);

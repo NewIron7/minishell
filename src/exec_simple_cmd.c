@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/03 22:34:40 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:58:02 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,8 +40,6 @@ static void	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int e
 	int	i;
 
 	i = -1;
-	*fd_in = STDIN_FILENO;
-	*fd_out = STDOUT_FILENO;
 	while ((++i < end && end != -1) || (end == -1 && tokens))
 	{
 		if (tokens->type == R_INPUT)
@@ -68,7 +66,7 @@ static char	get_args(t_parsing *tokens, int end, char ***args)
 	i = 0;
 	while ((i < end && end != -1) || (end == -1 && tokens))
 	{
-		*args[i] = tokens->content;
+		(*args)[i] = tokens->content;
 		tokens = tokens->next;
 		i++;
 	}
@@ -83,6 +81,8 @@ int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
 	int		fd_out;
 	char	**args;
 
+	fd_in = STDIN_FILENO;
+    fd_out = STDOUT_FILENO;
 	args = NULL;
 	set_on_cmd(&tokens, start);
 	redir = check_redirection(tokens, end - start);
@@ -90,7 +90,10 @@ int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
 			set_fd_redirection(&fd_in, &fd_out, tokens, end - start);
 	if (get_args(tokens, end, &args))
 		return (1);
-	redir = exec_cmd(args, envp, fd_in, fd_out);
+	if (is_builtin(args))
+		redir = exec_builtin(args, &envp, fd_in, fd_out);
+	else
+		redir = exec_cmd(args, envp, fd_in, fd_out);
 	free(args);
 	return (redir);
 }

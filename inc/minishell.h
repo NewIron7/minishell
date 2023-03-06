@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/03 22:21:37 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:35:56 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include "get_next_line.h"
 # include <sys/stat.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 enum e_mode
 {
@@ -46,6 +48,7 @@ int		exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[]);
 int		exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[]);
 int		*ft_heredoc(t_parsing *tokens);
 int		ft_lstsize_parsing(t_parsing *tokens);
+char		is_builtin(char *argv[]);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

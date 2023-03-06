@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+char	is_builtin(char *argv[])
+{
+	if (!strcmp(*argv, "echo"))
+		return (1);
+	else if (!strcmp(*argv, "cd"))
+		return (1);
+	else if (!strcmp(*argv, "pwd"))
+		return (1);
+	else if (!strcmp(*argv, "export"))
+		return (1);
+	else if (!strcmp(*argv, "unset"))
+		return (1);
+	else if (!strcmp(*argv, "env"))
+		return (1);
+	else if (!strcmp(*argv, "exit"))
+		return (1);
+	return (0);
+}
+
 int	exec_builtin(char *argv[], char **envp[], int fd_in, int fd_out)
 {
 	if (fd_in != STDIN_FILENO)
