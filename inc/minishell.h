@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 14:13:31 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:06:20 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int			redirect_in(int fd);
 int			redirect_out(int fd);
 char		*search_path(char *cmd, char **env);
 int			minishell_init(char **envp[]);
-int			eval_exec(t_subtokens tokens, char *envp[]);
-int			exec_list(t_subtokens tokens, char *envp[]);
+int			eval_exec(t_subtokens tokens, char **envp[]);
+int			exec_list(t_subtokens tokens, char **envp[]);
 int			add_pid_glob(int pid);
-int			exec_pipe(t_subtokens tokens, char *envp[]);
-int			exec_simple_cmd(t_subtokens tokens, char *envp[]);
+int			exec_pipe(t_subtokens tokens, char **envp[]);
+int			exec_simple_cmd(t_subtokens tokens, char **envp[]);
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
 char		is_builtin(char *argv[]);

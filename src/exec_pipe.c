@@ -6,13 +6,13 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 14:04:27 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:05:13 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_pipe_out(t_subtokens tokens, char *envp[], int fd)
+static int	exec_pipe_out(t_subtokens tokens, char **envp[], int fd)
 {
 	int	pid;
 	int	status;
@@ -41,7 +41,7 @@ static int	exec_pipe_out(t_subtokens tokens, char *envp[], int fd)
 	}
 }
 
-int	exec_pipe(t_subtokens tokens, char *envp[])
+int	exec_pipe(t_subtokens tokens, char **envp[])
 {
 	int			pid;
 	int			pipe_fd[2];

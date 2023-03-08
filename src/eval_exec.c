@@ -6,13 +6,13 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:47:45 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 15:29:43 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:03:45 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	eval_exec(t_subtokens tokens, char *envp[])
+int	eval_exec(t_subtokens tokens, char **envp[])
 {
 	int			i;
 	t_parsing	*cpy;

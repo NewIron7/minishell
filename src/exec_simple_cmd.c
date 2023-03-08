@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/08 15:35:56 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 20:06:14 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -68,7 +68,7 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-int	exec_simple_cmd(t_subtokens tokens, char *envp[])
+int	exec_simple_cmd(t_subtokens tokens, char **envp[])
 {
 	char	redir;
 	int		fd_in;
@@ -90,9 +90,9 @@ int	exec_simple_cmd(t_subtokens tokens, char *envp[])
 	if (*args == NULL)
 		return (EXIT_SUCCESS);
 	if (is_builtin(args))
-		redir = exec_builtin(args, &envp, fd_in, fd_out);
+		redir = exec_builtin(args, envp, fd_in, fd_out);
 	else
-		redir = exec_cmd(args, envp, fd_in, fd_out);
+		redir = exec_cmd(args, *envp, fd_in, fd_out);
 	free(args);
 	return (redir);
 }
