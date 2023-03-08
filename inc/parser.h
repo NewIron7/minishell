@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/06 17:59:09 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:52:58 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -27,7 +27,8 @@ enum e_id_char
 	DOLLAR,
 	PIPE_C,
 	REDIRECT,
-	AND_ID
+	AND_ID,
+	PAR
 };
 
 enum e_id_elem
@@ -46,6 +47,7 @@ enum e_id_elem
 	TXT_D,
 	AND,
 	OR,
+	PAR_TMP,
 	LEFT_PAR,
 	RIGHT_PAR
 };
@@ -83,6 +85,8 @@ char		get_pipe(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_redirect(char *cmd, char *id_tab, int *i,
 	t_parsing **list_parsing);
 char		get_var_env_txt(const char *txt, char **var);
+char    get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
+char    get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);

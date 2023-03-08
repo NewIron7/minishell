@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 19:01:21 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/02 17:47:09 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:47:55 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -27,6 +27,8 @@ char	identify_type_char(char c)
 		return (REDIRECT);
 	if (c == '&')
 		return (AND_ID);
+	if (c == '(' || c == ')')
+		return (PAR);
 	return (ALPHA_NUM);
 }
 

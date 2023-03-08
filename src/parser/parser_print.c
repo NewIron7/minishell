@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 19:20:54 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 20:00:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:16:50 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -39,6 +39,14 @@ static char	*get_name_id_elem(char id)
 		txt = "TXT_S";
 	else if (id == TXT_D)
 		txt = "TXT_D";
+	else if (id == OR)
+		txt = "OR";
+	else if (id == AND)
+		txt = "AND";
+	else if (id == LEFT_PAR)
+		txt = "LEFT_PAR";
+	else if (id == RIGHT_PAR)
+		txt = "RIGHT_PAR";
 	else
 		txt = "UNKWOWN";
 	return (ft_strdup(txt));

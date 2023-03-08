@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/06 10:39:01 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:15:43 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -31,6 +31,10 @@ static char	get_list_parsing(char *cmd, char *id_tab, t_parsing **list_parsing)
 			return (1);
 		if (get_redirect(cmd, id_tab, &i, list_parsing))
 			return (1);
+		if (get_and(cmd, id_tab, &i, list_parsing))
+			return (1);
+		if (get_par(cmd, id_tab, &i, list_parsing))
+			return (1);
 	}
 	return (0);
 }
@@ -44,12 +48,14 @@ static void	set_cmd_arg(t_parsing *list_parsing)
 	{
 		if (is_cmd && list_parsing->type == ARG
 			&& (list_parsing->prev == NULL || list_parsing->prev->type == PIPE
-			|| list_parsing->prev->type == ARG))
+			|| list_parsing->prev->type == ARG || list_parsing->prev->type == OR
+			|| list_parsing->prev->type == AND || list_parsing->prev->type == LEFT_PAR))
 		{
 			list_parsing->type = CMD;
 			is_cmd = 0;
 		}
-		else if (list_parsing->type == PIPE)
+		else if (list_parsing->type == PIPE || list_parsing->type == OR
+			|| list_parsing->type == AND || list_parsing->type == LEFT_PAR)
 			is_cmd = 1;
 		list_parsing = list_parsing->next;
 	}

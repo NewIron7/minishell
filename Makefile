@@ -9,6 +9,7 @@ SRCLIST		=	main.c\
 				parser/parser_clean.c\
 				parser/list_utils.c\
 				parser/gather_txt.c\
+				parser/parser_get_utils.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/echo.c\
