@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 14:14:06 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:23:46 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	exec_list(t_subtokens tokens, char *envp[])
 	cpy = tokens.tokens;
 	while (++i < tokens.sep)
 		cpy = cpy->next;
-	if ((ret && cpy->type == AND) || (!ret && cpy->type == OR))
+	if ((!ret && cpy->type == AND) || (ret && cpy->type == OR))
 		return (eval_exec(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp));
 	cpy = cpy->next;
 	i++;
-	while ((cpy && (ret && cpy->type != AND)) || ((!ret && cpy->type != OR)))
+	while ((cpy && (!ret && cpy->type != AND)) || ((ret && cpy->type != OR)))
 	{
 		if (cpy->type == LEFT_PAR)
 		{
