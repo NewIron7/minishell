@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/06 18:09:13 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:23:25 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -62,9 +62,9 @@ void	main_loop(char **envp[])
 		err_parsing = parser(line, &list_parsing, *envp);
 		if (err_parsing == 1)
 			malloc_err(list_parsing, line, *envp);
-		//print_list_parsing(list_parsing);
+		print_list_parsing(list_parsing);
 		//$? = eval_exec(list_parsing, 0, -1, *envp);
-		if (ft_heredoc(list_parsing) == 0)
+		if (ft_heredoc(list_parsing) == 0 && err_parsing == 0)
 			eval_exec(list_parsing, 0, -1, *envp);
 		free(line);
 		ft_lstclear_parsing(list_parsing);
