@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/02 10:01:13 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:59:50 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	exec_pipe_out(t_parsing *tokens, int start, int end, char *envp[], in
 	int	status;
 
 	pid	= fork();
-	if (fork == -1)
+	if (pid == -1)
 	{
 		close(fd);
 		return (EXIT_FAILURE);
@@ -37,21 +37,19 @@ static int	exec_pipe_out(t_parsing *tokens, int start, int end, char *envp[], in
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
-		exit(eval_exec(tokens, start, end, envp);
+		exit(eval_exec(tokens, start, end, envp));
 	}
 }
 
 int	exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[])
 {
-	int			i;
 	int			pid;
 	int			pipe_fd[2];
 
-	pipe_fd = pipe();
-	if (pipe_fd == -1)
+	if (pipe(pipe_fd) == -1)
 		return (EXIT_FAILURE);
 	pid = fork();
-	if (fork == -1)
+	if (pid == -1)
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
