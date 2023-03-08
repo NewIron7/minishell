@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:21:28 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/23 20:07:30 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 22:24:38 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,26 @@ int	builtin_exit(char *const argv[], char *envp[])
 {
 	unsigned int	status;
 
-	if (!argv)
+	ft_printf("exit\n");
+	if (!argv || !argv[1])
 		status = 0;
-	else if (!is_num(*++argv))
+	else if (!is_num(argv[1]))
 	{
 		ft_printf_fd(STDERR_FILENO,
-			"minishell: exit: %s: numeric argument required\n", *argv);
+			"minishell: exit: %s: numeric argument required\n", argv[1]);
 		status = 2;
 	}
 	else
 	{
-		if (*(argv + 1))
+		if (argv[2])
 		{
 			ft_printf_fd(STDERR_FILENO,
 				"minishell: exit: too many arguments\n");
 			return (EXIT_FAILURE);
 		}
 		else
-			status = (unsigned char) ft_atoi(*argv);
+			status = (unsigned char) ft_atoi(argv[1]);
 	}
-	ft_printf("exit\n");
 	free_env(envp);
 	exit(status);
 }
