@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/06 18:09:13 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:24:21 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -65,7 +65,7 @@ void	main_loop(char **envp[])
 		//print_list_parsing(list_parsing);
 		//$? = eval_exec(list_parsing, 0, -1, *envp);
 		if (ft_heredoc(list_parsing) == 0)
-			eval_exec(list_parsing, 0, -1, *envp);
+			eval_exec(subtokens_init(list_parsing, 0, 0, -1), *envp);
 		free(line);
 		ft_lstclear_parsing(list_parsing);
 		signal(SIGQUIT, SIG_IGN);

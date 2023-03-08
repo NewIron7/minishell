@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/06 18:18:29 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:35:56 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,7 +50,7 @@ static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int e
 	return (0);
 }
 
-static char	get_args(t_parsing *tokens, int end, char ***args)
+static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 {
 	int	i;
 
@@ -58,7 +58,7 @@ static char	get_args(t_parsing *tokens, int end, char ***args)
 	if (*args == NULL)
 		return (1);
 	i = 0;
-	while ((i < end && end != -1) || (end == -1 && tokens))
+	while ((end != -1 && i < end - start) || (end == -1 && tokens))
 	{
 		if (!(is_redirection(tokens) || is_redirection(tokens->prev)))
 			(*args)[i++] = tokens->content;
@@ -68,7 +68,7 @@ static char	get_args(t_parsing *tokens, int end, char ***args)
 	return (0);
 }
 
-int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
+int	exec_simple_cmd(t_subtokens tokens, char *envp[])
 {
 	char	redir;
 	int		fd_in;
@@ -78,14 +78,14 @@ int	exec_simple_cmd(t_parsing *tokens, int start, int end, char *envp[])
 	fd_in = STDIN_FILENO;
     fd_out = STDOUT_FILENO;
 	args = NULL;
-	set_on_cmd(&tokens, start);
-	redir = check_redirection(tokens, end - start);
+	set_on_cmd(&tokens.tokens, tokens.start);
+	redir = check_redirection(tokens.tokens, tokens.end - tokens.start);
 	if (redir != -1)
 	{
-		if (set_fd_redirection(&fd_in, &fd_out, tokens, end - start))
+		if (set_fd_redirection(&fd_in, &fd_out, tokens.tokens, tokens.end - tokens.start))
 			return (1);
 	}
-	if (get_args(tokens, end, &args))
+	if (get_args(tokens.tokens, tokens.end, tokens.start, &args))
 		return (1);
 	if (*args == NULL)
 		return (EXIT_SUCCESS);

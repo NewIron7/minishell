@@ -6,13 +6,13 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 12:59:50 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:04:27 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_pipe_out(t_parsing *tokens, int start, int end, char *envp[], int fd)
+static int	exec_pipe_out(t_subtokens tokens, char *envp[], int fd)
 {
 	int	pid;
 	int	status;
@@ -37,11 +37,11 @@ static int	exec_pipe_out(t_parsing *tokens, int start, int end, char *envp[], in
 			exit(EXIT_FAILURE);
 		}
 		close(fd);
-		exit(eval_exec(tokens, start, end, envp));
+		exit(eval_exec(tokens, envp));
 	}
 }
 
-int	exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[])
+int	exec_pipe(t_subtokens tokens, char *envp[])
 {
 	int			pid;
 	int			pipe_fd[2];
@@ -63,7 +63,7 @@ int	exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[])
 			close(pipe_fd[0]);
 			return (EXIT_FAILURE);
 		}
-		return (exec_pipe_out(tokens, sep + 1, end, envp, pipe_fd[0]));
+		return (exec_pipe_out(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp, pipe_fd[0]));
 	}
 	else
 	{
@@ -74,6 +74,6 @@ int	exec_pipe(t_parsing *tokens, int start, int end, int sep, char *envp[])
 			exit(EXIT_FAILURE);
 		}
 		close(pipe_fd[1]);
-		exit(eval_exec(tokens, start, sep, envp));
+		exit(eval_exec(subtokens_init(tokens.tokens, tokens.start, 0, tokens.sep), envp));
 	}
 }
