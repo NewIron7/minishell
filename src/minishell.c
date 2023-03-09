@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 20:02:28 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:59:56 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,6 +15,8 @@ static void	sig_handler(int sig)
 {
 	t_list	*cpids;
 
+	if (sig == SIGQUIT)
+		ft_printf("DEBUG: quit\n");
 	if (*(int *) g_cpids->content == INTERACTIVE)
 	{
 		printf("\n");
@@ -49,15 +51,15 @@ void	main_loop(char **envp[])
 	char		err_parsing;
 
 	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	list_parsing = NULL;
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
 			builtin_exit(NULL, *envp);
-		*(int *) g_cpids->content = EXEC;
 		signal(SIGQUIT, &sig_handler);
+		*(int *) g_cpids->content = EXEC;
 		add_history(line);
 		err_parsing = parser(line, &list_parsing, *envp);
 		if (err_parsing == 1)
