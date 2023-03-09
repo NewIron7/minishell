@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/09 18:59:56 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:14:33 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -15,8 +15,6 @@ static void	sig_handler(int sig)
 {
 	t_list	*cpids;
 
-	if (sig == SIGQUIT)
-		ft_printf("DEBUG: quit\n");
 	if (*(int *) g_cpids->content == INTERACTIVE)
 	{
 		printf("\n");
