@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/09 18:59:56 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:29:35 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,6 +49,7 @@ void	main_loop(char **envp[])
 	char		*line;
 	t_parsing	*list_parsing;
 	char		err_parsing;
+	int			code;
 
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -61,13 +62,13 @@ void	main_loop(char **envp[])
 		signal(SIGQUIT, &sig_handler);
 		*(int *) g_cpids->content = EXEC;
 		add_history(line);
-		err_parsing = parser(line, &list_parsing, *envp);
+		err_parsing = parser(line, &list_parsing, *envp, code);
 		if (err_parsing == 1)
 			malloc_err(list_parsing, line, *envp);
 		//print_list_parsing(list_parsing);
 		//$? = eval_exec(list_parsing, 0, -1, *envp);
 		if (ft_heredoc(list_parsing) == 0 && err_parsing == 0)
-			eval_exec(subtokens_init(list_parsing, 0, 0, -1), envp);
+			code = eval_exec(subtokens_init(list_parsing, 0, 0, -1), envp);
 		free(line);
 		ft_lstclear_parsing(list_parsing);
 		signal(SIGQUIT, SIG_IGN);

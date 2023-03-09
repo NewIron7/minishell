@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 18:13:46 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:25:45 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -61,7 +61,7 @@ typedef struct s_parsing
 	int					fd;
 }	t_parsing;
 
-char		parser(char *cmd, t_parsing **list_parsing, char **env);
+char		parser(char *cmd, t_parsing **list_parsing, char **env, int code);
 
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
@@ -69,7 +69,7 @@ t_parsing	*ft_lstnew_parsing(char *content, char type);
 char		list_parsing_clean(t_parsing *list_parsing);
 void		ft_lstclear_parsing(t_parsing *list_parsing);
 
-char		put_var_env(t_parsing **list_parsing, char **env);
+char		put_var_env(t_parsing **list_parsing, char **env, int code);
 char		gather_txt(t_parsing *list_parsing);
 char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);

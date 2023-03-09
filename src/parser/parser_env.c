@@ -6,12 +6,12 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:17:58 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 19:13:51 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:29:03 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
-static char	get_value_var(const char *var, char **env, char **value)
+static char	get_value_var(const char *var, char **env, char **value, int code)
 {
 	int	i;
 	int	j;
@@ -31,7 +31,10 @@ static char	get_value_var(const char *var, char **env, char **value)
 		}
 		i++;
 	}
-	*value = ft_strdup("");
+	if (ft_strcmp(var, "?") == 0)
+		*value = ft_itoa(code);
+	else
+		*value = ft_strdup("");
 	if (*value == NULL)
 		return (1);
 	return (0);
@@ -95,7 +98,7 @@ static char	verif_var(char **var, char *content, int pos, int *len_var)
 	return (0);
 }
 
-static char	put_var_env_elem(char **content, char **env)
+static char	put_var_env_elem(char **content, char **env, int code)
 {
 	int		i;
 	int		len_value;
@@ -118,7 +121,7 @@ static char	put_var_env_elem(char **content, char **env)
 				return (len_value);
 			if (var)
 			{
-				if (get_value_var(var, env, &value))
+				if (get_value_var(var, env, &value, code))
 					return (free(var), 1);
 				len_value = ft_strlen(value);
 				if (insert_value_var(content, value, len_var, i))
@@ -131,7 +134,7 @@ static char	put_var_env_elem(char **content, char **env)
 	return (0);
 }
 
-char	put_var_env(t_parsing **list_parsing, char **env)
+char	put_var_env(t_parsing **list_parsing, char **env, int code)
 {
 	t_parsing	*elem;
 	char		err;
@@ -141,7 +144,7 @@ char	put_var_env(t_parsing **list_parsing, char **env)
 	{
 		if (elem->type == TXT || elem->type == TXT_D)
 		{
-			err = put_var_env_elem(&elem->content, env);
+			err = put_var_env_elem(&elem->content, env, code);
 			if (err)
 				return (err);
 		}
