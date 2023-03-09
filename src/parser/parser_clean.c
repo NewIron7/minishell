@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 18:13:16 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 21:00:29 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -38,8 +38,9 @@ static char		is_unvalid_next_token(t_parsing *tokens)
 		next = tokens->next->type;
 		if (next == AND || next == OR || next == PIPE)
 			return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 static char    verif_and(t_parsing *list_parsing)
@@ -84,7 +85,7 @@ static char	is_par(char *str, char par)
 	return (1);
 }
 
-static char verif_par(t_parsing *list_parsing)
+static char verif_par_tmp(t_parsing *list_parsing)
 {
 	while (list_parsing)
 	{
@@ -102,6 +103,77 @@ static char verif_par(t_parsing *list_parsing)
 	return (0);
 }
 
+static char	is_redirect(t_parsing *token)
+{
+	int	type;
+
+	if (!token)
+		return (0);
+	type = token->type;
+	if (type == R_INPUT || type == R_OUTPUT || type == R_DINPUT
+		|| type == R_DOUTPUT || type == REDIRECT_TMP)
+		return (1);
+	return (0);
+}
+
+static char is_cmd_arg(t_parsing *token)
+{
+	int	type;
+
+	if (!token)
+		return (0);
+	type = token->type;
+	if (type == ARG || type == CMD)
+		return (1);
+	return (0);
+}
+
+static char	is_and_pipe_or(t_parsing *token)
+{
+	int	type;
+
+	if (!token)
+		return (0);
+	type = token->type;
+	if (type == OR || type == AND || type == PIPE)
+		return (1);
+	return (0);
+}
+
+static char verif_par(t_parsing *list_parsing)
+{
+	int		current;
+	int			nb[2];
+	t_parsing	*next;
+
+	nb[0] = 0;
+	nb[1] = 0;
+	while (list_parsing)
+	{
+		current = list_parsing->type;
+		if (current == LEFT_PAR || current == RIGHT_PAR)
+		{
+			if (current == LEFT_PAR)
+				nb[0]++;
+			else
+				nb[1]++;
+			next = list_parsing->next;
+			if (current == RIGHT_PAR
+				&& !((is_redirect(next) || is_and_pipe_or(next) || !next)
+				&& is_cmd_arg(list_parsing->prev)))
+				return (syntax_error_near(list_parsing->content));
+			if (current == LEFT_PAR
+				&& !(is_cmd_arg(next)
+				&& (is_and_pipe_or(list_parsing->prev) || !list_parsing->prev)))
+				return (syntax_error_near(list_parsing->content));
+		}
+		next = list_parsing;
+		list_parsing = list_parsing->next;
+	}
+	if (nb[0] != nb[1])
+		return (syntax_error_near(next->content));
+	return (0);
+}
 
 static char	verif_redirect(t_parsing *list_parsing)
 {
@@ -137,6 +209,8 @@ char	list_parsing_clean(t_parsing *list_parsing)
 	if (verif_redirect(list_parsing))
 		return (1);
 	if (verif_and(list_parsing))
+		return (1);
+	if (verif_par_tmp(list_parsing))
 		return (1);
 	if (verif_par(list_parsing))
 		return (1);

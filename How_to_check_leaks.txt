@@ -1,0 +1,2 @@
+Pour supprimer de valgrind les leaks de readline et de add_history:
+valgrind --suppressions=leaks_readline --leak-check=full --show-leak-kinds=all ./minishell
