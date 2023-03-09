@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/08 20:06:14 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:15:07 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,7 @@ static void	set_on_cmd(t_parsing **tokens, int start)
 		*tokens = (*tokens)->next;
 }
 
-static char	check_redirection(t_parsing *tokens, int end)
+static int	check_redirection(t_parsing *tokens, int end)
 {
 	int	i;
 
@@ -42,11 +42,15 @@ static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int e
 	i = -1;
 	while ((++i < end && end != -1) || (end == -1 && tokens))
 	{
-		put_new_fd_redirec(tokens, fd_out, fd_in);
+		if (put_new_fd_redirec(tokens, fd_out, fd_in))
+			tokens = tokens->next;
+		if (*fd_out == -1 || *fd_in == -1)
+		{
+			ft_printf_fd(2, "minishell: ");
+			return (perror(tokens->content), 1);
+		}
 		tokens = tokens->next;
 	}
-	if (*fd_out == -1 || *fd_in == -1)
-		return (perror("minishell"), 1);
 	return (0);
 }
 
@@ -70,10 +74,11 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 
 int	exec_simple_cmd(t_subtokens tokens, char **envp[])
 {
-	char	redir;
+	int		redir;
 	int		fd_in;
 	int		fd_out;
 	char	**args;
+	pid_t	pid;
 
 	fd_in = STDIN_FILENO;
     fd_out = STDOUT_FILENO;
@@ -92,7 +97,18 @@ int	exec_simple_cmd(t_subtokens tokens, char **envp[])
 	if (is_builtin(args))
 		redir = exec_builtin(args, envp, fd_in, fd_out);
 	else
-		redir = exec_cmd(args, *envp, fd_in, fd_out);
+	{
+		pid = fork();
+		if (pid == -1)
+			redir = EXIT_FAILURE;
+		else if (pid)
+			waitpid(pid, &redir, 0);
+		else
+		{
+			redir = exec_cmd(args, *envp, fd_in, fd_out);
+			exit(redir);
+		}
+	}
 	free(args);
 	return (redir);
 }
