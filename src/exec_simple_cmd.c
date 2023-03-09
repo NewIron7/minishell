@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 16:15:07 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 17:11:42 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,35 +20,32 @@ static void	set_on_cmd(t_parsing **tokens, int start)
 		*tokens = (*tokens)->next;
 }
 
-static int	check_redirection(t_parsing *tokens, int end)
+static int	check_redirection(t_parsing *tokens, int start, int end)
 {
 	int	i;
+	int	redirs;
 
 	i = -1;
-	while ((++i < end && end != -1) || (end == -1 && tokens))
+	redirs = 0;
+	while ((end != -1 && ++i < end - start) || (end == -1 && tokens))
 	{
 		if (tokens->type == R_INPUT || tokens->type == R_OUTPUT
 			|| tokens->type == R_DINPUT || tokens->type == R_DOUTPUT)
-			return (tokens->type);
+			redirs++;
 		tokens = tokens->next;
 	}
-	return (-1);
+	return (redirs);
 }
 
-static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int end)
+static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int redirs)
 {
-	int		i;
-
-	i = -1;
-	while ((++i < end && end != -1) || (end == -1 && tokens))
+	while (redirs--)
 	{
-		if (put_new_fd_redirec(tokens, fd_out, fd_in))
+		while (!put_new_fd_redirec(tokens, fd_out, fd_in))
 			tokens = tokens->next;
+		tokens = tokens->next;
 		if (*fd_out == -1 || *fd_in == -1)
-		{
-			ft_printf_fd(2, "minishell: ");
 			return (perror(tokens->content), 1);
-		}
 		tokens = tokens->next;
 	}
 	return (0);
@@ -57,18 +54,20 @@ static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int e
 static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 {
 	int	i;
+	int	j;
 
 	*args = malloc(sizeof(**args) * (ft_lstsize_parsing(tokens) + 1));
 	if (*args == NULL)
 		return (1);
 	i = 0;
-	while ((end != -1 && i < end - start) || (end == -1 && tokens))
+	j = 0;
+	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
 	{
 		if (!(is_redirection(tokens) || is_redirection(tokens->prev)))
-			(*args)[i++] = tokens->content;
+			(*args)[j++] = tokens->content;
 		tokens = tokens->next;
 	}
-	(*args)[i] = NULL;
+	(*args)[j] = NULL;
 	return (0);
 }
 
@@ -84,10 +83,10 @@ int	exec_simple_cmd(t_subtokens tokens, char **envp[])
     fd_out = STDOUT_FILENO;
 	args = NULL;
 	set_on_cmd(&tokens.tokens, tokens.start);
-	redir = check_redirection(tokens.tokens, tokens.end - tokens.start);
-	if (redir != -1)
+	redir = check_redirection(tokens.tokens, tokens.start, tokens.end);
+	if (redir)
 	{
-		if (set_fd_redirection(&fd_in, &fd_out, tokens.tokens, tokens.end - tokens.start))
+		if (set_fd_redirection(&fd_in, &fd_out, tokens.tokens, redir))
 			return (1);
 	}
 	if (get_args(tokens.tokens, tokens.end, tokens.start, &args))

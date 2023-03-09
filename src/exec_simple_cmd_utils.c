@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:42:48 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/06 18:52:44 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:24:57 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,6 +50,7 @@ char	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in)
 		if (*fd_in != STDIN_FILENO)
 			close(*fd_in);
 		*fd_in = tokens->fd;
+		return (1);
 	}
 	return (0);
 }
