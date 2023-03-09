@@ -6,12 +6,12 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/08 15:16:05 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:13:16 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
-static char	syntax_error_near(char *str)
+char	syntax_error_near(char *str)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", str);
 	return (1);

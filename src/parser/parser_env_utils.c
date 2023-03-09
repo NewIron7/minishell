@@ -6,14 +6,14 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/22 16:17:19 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:43:20 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
 static char	is_char_var_env(char c)
 {
-	if (c == ' ' || c == '$' || c == '-')
+	if (c == ' ' || c == '$' || c == '-' || c == '}')
 		return (0);
 	else if (c == '/')
 		return (0);

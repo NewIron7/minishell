@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/08 13:52:58 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:13:46 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -74,6 +74,7 @@ char		gather_txt(t_parsing *list_parsing);
 char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);
 char		second_quote(char *id_tab, int *i);
+char		syntax_error_near(char *str);
 
 char		get_space(char *id_tab, int *i, t_parsing **list_parsing);
 char		get_elem_quoted(char *cmd, char *id_tab, int *i,

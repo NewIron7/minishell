@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/08 14:15:43 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 18:28:33 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -64,6 +64,7 @@ static void	set_cmd_arg(t_parsing *list_parsing)
 char	parser(char *cmd, t_parsing **list_parsing, char **env)
 {
 	char	*id_tab;
+	char	err;
 
 	if (!cmd)
 		return (-1);
@@ -74,8 +75,9 @@ char	parser(char *cmd, t_parsing **list_parsing, char **env)
 		return (free(cmd), 1);
 	if (get_list_parsing(cmd, id_tab, list_parsing))
 		return (free(cmd), free(id_tab), 1);
-	if (put_var_env(list_parsing, env))
-		return (free(cmd), free(id_tab), 1);
+	err = put_var_env(list_parsing, env);
+	if (err)
+		return (free(cmd), free(id_tab), err);
 	if (gather_txt(*list_parsing))
 		return (free(cmd), free(id_tab), 1);
 	if (list_parsing_clean(*list_parsing))
