@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/06 18:30:07 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 09:53:55 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,24 @@ int	exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out)
 		redirect_in(fd_in);
 	if (fd_out != STDOUT_FILENO)
 		redirect_out(fd_out);
-	path = search_path(*argv, envp);
-	if (!path && !get_exec_path(*argv))
+	if (ft_strchr(*argv, '/'))
+		path = *argv;
+	else
+		path = search_path(*argv, envp);
+	if (!path)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", *argv);
 		return (127);
 	}
-	else if (get_exec_path(*argv))
-		path = *argv;
 	status = 0;
 	waitoptions = 0;
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, argv, envp) == -1)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
-		return (EXIT_SUCCESS);
-		//exit(EXIT_SUCCESS);
+		execve(path, argv, envp);
+		ft_printf_fd(STDERR_FILENO, "minishell: ");
+		perror(path);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 	{
@@ -52,6 +50,6 @@ int	exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out)
 	else
 	{
 		perror("minishell");
-		return (127);
+		return (EXIT_FAILURE);
 	}
 }

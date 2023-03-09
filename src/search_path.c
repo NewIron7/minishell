@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:04:27 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/28 23:26:43 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 10:14:57 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static char	*create_complete_path(char *path, char *cmd)
 	char	*c_path;
 	char	*tmp;
 
-	tmp = ft_strjoin(path, "/");
+	if (path[ft_strlen(path) - 1] != '/')
+		tmp = ft_strjoin(path, "/");
+	else
+		tmp = ft_strdup(path);
 	if (tmp == NULL)
 		return (NULL);
 	c_path = ft_strjoin(tmp, cmd);
@@ -80,13 +83,14 @@ char	*search_path(char *cmd, char **env)
 		path = create_complete_path(paths[i], cmd);
 		if (path == NULL)
 			return (free_strs(paths), NULL);
-		if (access(path, F_OK) == 0)
+		if (access(path, X_OK) == 0)
 		{
 			if (stat(path, &stat_info))
+			{
+				perror("minishell");
 				return (free(path), free_strs(paths), NULL);
-			if ((stat_info.st_mode & S_IFMT)  == S_IFDIR && access(path, X_OK))
-				return (free(path), free_strs(paths), NULL);
-			else
+			}
+			if ((stat_info.st_mode & S_IFMT) != S_IFDIR)
 				return (free_strs(paths), path);
 		}
 		free(path);

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 20:06:20 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 10:16:53 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int			exec_simple_cmd(t_subtokens tokens, char **envp[]);
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
 char		is_builtin(char *argv[]);
-char    	get_exec_path(char *cmd);
 char    	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in);
 char    	is_redirection(t_parsing *tokens);
 t_subtokens	subtokens_init(t_parsing *tokens, int start, int sep, int end);

@@ -32,7 +32,6 @@ SRCLIST		=	main.c\
 				eval_exec.c\
 				heredoc.c\
 				ft_lstsize_parsing.c\
-				search_path_utils.c \
 				subtokens_init.c\
 				minishell.c
 				
