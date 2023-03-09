@@ -6,12 +6,12 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:17:58 by hboissel          #+#    #+#             */
-/*   Updated: 2023/02/23 20:04:16 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:29:03 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
-static char	get_value_var(const char *var, char **env, char **value)
+static char	get_value_var(const char *var, char **env, char **value, int code)
 {
 	int	i;
 	int	j;
@@ -31,7 +31,10 @@ static char	get_value_var(const char *var, char **env, char **value)
 		}
 		i++;
 	}
-	*value = ft_strdup("");
+	if (ft_strcmp(var, "?") == 0)
+		*value = ft_itoa(code);
+	else
+		*value = ft_strdup("");
 	if (*value == NULL)
 		return (1);
 	return (0);
@@ -64,14 +67,47 @@ static char	insert_value_var(char **content, char *value, int len_var, int i)
 	return (0);
 }
 
-static char	put_var_env_elem(char **content, char **env)
+static char	verif_var(char **var, char *content, int pos, int *len_var)
+{
+	int		i;
+	char	*tmp;
+
+	i = 1;
+	if (var && *var)
+	{
+		while ((*var)[i] && (*var)[i] != '{')
+			i++;
+		if (**var == '{' && ((*var)[i] == '{' || content[pos + 1 + i] != '}'))
+				return (syntax_error_near(*var), 2);
+		if (**var == '{')
+		{
+			tmp = ft_strdup(&(*var)[1]);
+			(*len_var)++;
+		}
+		else
+		{
+			(*var)[i] = '\0';
+			tmp = ft_strdup(*var);
+			(*len_var) = i;
+		}
+		free(*var);
+		if (tmp == NULL)
+			return (1);
+		*var = tmp;
+	}
+	return (0);
+}
+
+static char	put_var_env_elem(char **content, char **env, int code)
 {
 	int		i;
 	int		len_value;
 	char	*var;
 	char	*value;
+	int		len_var;
 
 	i = -1;
+	len_var = 0;
 	while ((*content)[++i])
 	{
 		if ((*content)[i] == '$')
@@ -79,11 +115,16 @@ static char	put_var_env_elem(char **content, char **env)
 			if (get_var_env_txt(&(*content)[i], &var))
 				return (1);
 			if (var)
+				len_var = ft_strlen(var);
+			len_value = verif_var(&var, *content, i, &len_var);
+			if (len_value)
+				return (len_value);
+			if (var)
 			{
-				if (get_value_var(var, env, &value))
+				if (get_value_var(var, env, &value, code))
 					return (free(var), 1);
 				len_value = ft_strlen(value);
-				if (insert_value_var(content, value, ft_strlen(var), i))
+				if (insert_value_var(content, value, len_var, i))
 					return (free(var), 1);
 				free(var);
 				i += len_value - 1;
@@ -93,17 +134,19 @@ static char	put_var_env_elem(char **content, char **env)
 	return (0);
 }
 
-char	put_var_env(t_parsing **list_parsing, char **env)
+char	put_var_env(t_parsing **list_parsing, char **env, int code)
 {
 	t_parsing	*elem;
+	char		err;
 
 	elem = *list_parsing;
 	while (elem)
 	{
 		if (elem->type == TXT || elem->type == TXT_D)
 		{
-			if (put_var_env_elem(&elem->content, env))
-				return (1);
+			err = put_var_env_elem(&elem->content, env, code);
+			if (err)
+				return (err);
 		}
 		elem = elem->next;
 	}
