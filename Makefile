@@ -28,11 +28,11 @@ SRCLIST		=	main.c\
 				exec_list.c\
 				exec_pipe.c\
 				minishell_init.c\
-				add_pid_glob.c\
 				eval_exec.c\
 				heredoc.c\
 				ft_lstsize_parsing.c\
 				subtokens_init.c\
+				get_status.c\
 				minishell.c
 				
 

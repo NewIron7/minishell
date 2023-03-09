@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/09 10:16:53 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 22:55:21 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef struct s_subtokens
 	int			end;
 }	t_subtokens;
 
-extern t_list	*g_cpids;
-
 void		init_env(char **envp[]);
 void		free_env(char *envp[]);
 void		main_loop(char **envp[]);
@@ -51,7 +49,6 @@ char		*search_path(char *cmd, char **env);
 int			minishell_init(char **envp[]);
 int			eval_exec(t_subtokens tokens, char **envp[]);
 int			exec_list(t_subtokens tokens, char **envp[]);
-int			add_pid_glob(int pid);
 int			exec_pipe(t_subtokens tokens, char **envp[]);
 int			exec_simple_cmd(t_subtokens tokens, char **envp[]);
 char		ft_heredoc(t_parsing *tokens);
@@ -60,6 +57,7 @@ char		is_builtin(char *argv[]);
 char    	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in);
 char    	is_redirection(t_parsing *tokens);
 t_subtokens	subtokens_init(t_parsing *tokens, int start, int sep, int end);
+int			get_status(int status);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

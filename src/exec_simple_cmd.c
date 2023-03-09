@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 17:11:42 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 23:36:01 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -101,9 +101,14 @@ int	exec_simple_cmd(t_subtokens tokens, char **envp[])
 		if (pid == -1)
 			redir = EXIT_FAILURE;
 		else if (pid)
+		{
 			waitpid(pid, &redir, 0);
+			redir = get_status(redir);
+		}
 		else
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			redir = exec_cmd(args, *envp, fd_in, fd_out);
 			exit(redir);
 		}

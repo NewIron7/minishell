@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 20:05:13 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/09 23:34:48 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	exec_pipe_out(t_subtokens tokens, char **envp[], int fd)
 	}
 	else
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (dup2(fd, STDIN_FILENO) == -1)
 		{
 			close(fd);
@@ -45,6 +47,7 @@ int	exec_pipe(t_subtokens tokens, char **envp[])
 {
 	int			pid;
 	int			pipe_fd[2];
+	int			status;
 
 	if (pipe(pipe_fd) == -1)
 		return (EXIT_FAILURE);
@@ -58,15 +61,14 @@ int	exec_pipe(t_subtokens tokens, char **envp[])
 	if (pid)
 	{
 		close(pipe_fd[1]);
-		if (!add_pid_glob(pid))
-		{
-			close(pipe_fd[0]);
-			return (EXIT_FAILURE);
-		}
-		return (exec_pipe_out(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp, pipe_fd[0]));
+		status = exec_pipe_out(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp, pipe_fd[0]);
+		waitpid(pid, NULL, 0);
+		return (status);
 	}
 	else
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		close(pipe_fd[0]);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		{
