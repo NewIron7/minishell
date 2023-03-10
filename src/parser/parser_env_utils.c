@@ -13,7 +13,8 @@
 
 static char	is_char_var_env(char c)
 {
-	if (c == ' ' || c == '$' || c == '-' || c == '}')
+	if (c == ' ' || c == '$' || c == '-' || c == '}'
+		|| c == '=' || c == ':' || c == '%')
 		return (0);
 	else if (c == '/')
 		return (0);
