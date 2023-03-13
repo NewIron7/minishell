@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:08:27 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/01 23:43:27 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/13 08:43:18 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_env(char *envp[])
 	free(envp);
 }
 
-void	init_env(char	**envp[])
+int	init_env(char	**envp[])
 {
 	extern char	**environ;
 	int			i;
@@ -32,7 +32,7 @@ void	init_env(char	**envp[])
 		i++;
 	*envp = calloc(i + 1, sizeof(char *));
 	if (!*envp)
-		return ;
+		return (0);
 	i = 0;
 	while (environ[i])
 	{
@@ -41,8 +41,9 @@ void	init_env(char	**envp[])
 		{
 			free_env(*envp);
 			*envp = NULL;
-			return ;
+			return (0);
 		}
 		i++;
 	}
+	return (1);
 }

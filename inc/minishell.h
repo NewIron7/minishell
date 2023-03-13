@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/09 22:55:21 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/13 08:45:32 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_subtokens
 	int			end;
 }	t_subtokens;
 
-void		init_env(char **envp[]);
+int			init_env(char **envp[]);
 void		free_env(char *envp[]);
 void		main_loop(char **envp[]);
 int			exec_builtin(char *cmd[], char **envp[], int fd_in, int fd_out);
@@ -46,7 +46,6 @@ int			exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out);
 int			redirect_in(int fd);
 int			redirect_out(int fd);
 char		*search_path(char *cmd, char **env);
-int			minishell_init(char **envp[]);
 int			eval_exec(t_subtokens tokens, char **envp[]);
 int			exec_list(t_subtokens tokens, char **envp[]);
 int			exec_pipe(t_subtokens tokens, char **envp[]);

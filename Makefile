@@ -27,7 +27,6 @@ SRCLIST		=	main.c\
 				exec_simple_cmd_utils.c\
 				exec_list.c\
 				exec_pipe.c\
-				minishell_init.c\
 				eval_exec.c\
 				heredoc.c\
 				ft_lstsize_parsing.c\

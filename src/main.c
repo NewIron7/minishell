@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:13:36 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/01 23:39:58 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/13 08:44:52 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 {
 	char		**envp;
 
-	if (!minishell_init(&envp))
+	if (!init_env(&envp))
 	{
 		perror("minishell");
 		exit(EXIT_FAILURE);
