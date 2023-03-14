@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 02:12:00 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:15:23 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -184,7 +184,7 @@ static char	verif_redirect(t_parsing *list_parsing)
 		if (list_parsing->type == REDIRECT_TMP)
 		{	
 			content = list_parsing->content;
-			if (list_parsing->next && list_parsing->next->type == REDIRECT_TMP)
+			if (!list_parsing->next || list_parsing->next->type == REDIRECT_TMP)
 				return (syntax_error_near(list_parsing->content));
 			if (!ft_strcmp_parsing(content, "<"))
 				list_parsing->type = R_INPUT;
