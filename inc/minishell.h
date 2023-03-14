@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 04:40:27 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 06:05:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int			is_pipeline_sigint(t_list *pipeline);
 int			pipeline_status(t_list *pipeline);
 t_list		**free_pipeline(t_list **pipeline);
 void		free_all(t_parsing *pars, char *envp[], t_list **pipeline, char **args);
+void		exec_subshell(t_process *process, char **envp[], t_list **pipeline);
+int			get_shell_code(t_list *pipeline);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

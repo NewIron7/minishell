@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 04:46:40 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 06:05:38 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -20,7 +20,7 @@ static void	sig_handler(int sig)
 	rl_redisplay();
 }
 
-static int	get_shell_code(t_list *pipeline)
+int	get_shell_code(t_list *pipeline)
 {
 	t_process	*process;
 
