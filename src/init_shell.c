@@ -6,13 +6,13 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:48:07 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/13 09:47:35 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:38:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(char **envp[], struct termios *t_modes)
+void	init_shell(char **envp[])
 {
 	if (isatty(STDIN_FILENO))
 	{
@@ -23,7 +23,6 @@ void	init_shell(char **envp[], struct termios *t_modes)
 		}
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		tcgetattr(STDIN_FILENO, t_modes);
 	}
 	else
 		exit(0);

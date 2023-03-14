@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 02:00:56 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:39:28 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -40,10 +40,9 @@ void	main_loop(void)
 	t_parsing	*list_parsing;
 	int			code;
 	char		**envp;
-	struct termios	t_modes;
 	t_list		*pipeline;
 
-	init_shell(&envp, &t_modes);
+	init_shell(&envp);
 	list_parsing = NULL;
 	code = 0;
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 01:38:03 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:40:14 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <termios.h>
 
 enum e_mode
 {
@@ -68,7 +67,7 @@ char    	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in);
 char    	is_redirection(t_parsing *tokens);
 t_subtokens	subtokens_init(t_parsing *tokens, int start, int sep, int end);
 int			get_status(int status);
-void		init_shell(char **envp[], struct termios *t_modes);
+void		init_shell(char **envp[]);
 int			is_pipeline_sigint(t_list *pipeline);
 int			pipeline_status(t_list *pipeline);
 
