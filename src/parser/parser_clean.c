@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 02:15:23 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:18:05 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -14,7 +14,7 @@
 char	syntax_error_near(char *str)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", str);
-	return (1);
+	return (2);
 }
 
 static char	ft_strcmp_parsing(char *str1, char *str2)
