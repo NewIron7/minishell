@@ -61,13 +61,24 @@ typedef struct s_parsing
 	int					fd;
 }	t_parsing;
 
-char		parser(char *cmd, t_parsing **list_parsing, char **env, int code);
+char		parser(char *cmd, t_parsing **list_parsing);
 
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);
 char		list_parsing_clean(t_parsing *list_parsing);
 void		ft_lstclear_parsing(t_parsing *list_parsing);
+char		ft_strcmp_parsing(char *str1, char *str2);
+char		unvalid_token(t_parsing *tokens);
+char		verif_and(t_parsing *list_parsing);
+char		verif_pipe(t_parsing *list_parsing);
+char		is_par(char *str, char par);
+char		verif_par_tmp(t_parsing *list_parsing);
+char		is_redirect(t_parsing *token);
+char		is_cmd_arg(t_parsing *token);
+char		is_and_pipe_or(t_parsing *token);
+char		get_value_var(const char *var, char **env, char **value, int code);
+char		insert_value_var(char **content, char *value, int len_var, int i);
 
 char		put_var_env(t_parsing **list_parsing, char **env, int code);
 char		gather_txt(t_parsing *list_parsing);
