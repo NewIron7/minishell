@@ -1,14 +1,4 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_env.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 14:17:58 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 19:29:03 by hboissel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 #include "parser.h"
 
 static char	get_value_var(const char *var, char **env, char **value, int code)
@@ -78,7 +68,7 @@ static char	verif_var(char **var, char *content, int pos, int *len_var)
 		while ((*var)[i] && (*var)[i] != '{')
 			i++;
 		if (**var == '{' && ((*var)[i] == '{' || content[pos + 1 + i] != '}'))
-				return (syntax_error_near(*var), 2);
+			return (syntax_error_near(*var), 2);
 		if (**var == '{')
 		{
 			tmp = ft_strdup(&(*var)[1]);
@@ -98,7 +88,7 @@ static char	verif_var(char **var, char *content, int pos, int *len_var)
 	return (0);
 }
 
-static char	put_var_env_elem(char **content, char **env, int code)
+static char	put_var_env_elem(char **content, char **env, int code, int start, int end)
 {
 	int		i;
 	int		len_value;
@@ -106,14 +96,15 @@ static char	put_var_env_elem(char **content, char **env, int code)
 	char	*value;
 	int		len_var;
 
-	i = -1;
+	i = start;
 	len_var = 0;
-	while ((*content)[++i])
+	while ((*content)[i] && i < end)
 	{
 		if ((*content)[i] == '$')
 		{
 			if (get_var_env_txt(&(*content)[i], &var))
 				return (1);
+			//printf("var:%s\n", var);
 			if (var)
 				len_var = ft_strlen(var);
 			len_value = verif_var(&var, *content, i, &len_var);
@@ -130,21 +121,75 @@ static char	put_var_env_elem(char **content, char **env, int code)
 				i += len_value - 1;
 			}
 		}
+		i++;
 	}
 	return (0);
 }
+/*
+static char	*get_str(char *str, int start, int end)
+{
+	char	*nstr;
+	char	*tmp;
+
+	nstr = ft_strdup(str + start);
+	if (nstr == NULL)
+		return (NULL);
+	nstr[end] = '\0';
+	tmp = nstr;
+	nstr = ft_strdup(nstr);
+	free(tmp);
+	if (nstr == NULL)
+		return (NULL);
+	return (nstr);
+}*/
 
 char	put_var_env(t_parsing **list_parsing, char **env, int code)
 {
 	t_parsing	*elem;
 	char		err;
+	int			pos[3];
+	char		*content;
+	char		sep;
 
 	elem = *list_parsing;
 	while (elem)
 	{
-		if (elem->type == TXT || elem->type == TXT_D)
+		pos[0] = 0;
+		pos[1] = 0;
+		//printf("type:%d, CMD:%d\n", elem->type, CMD);
+		if (elem->type == CMD || elem->type == ARG)
 		{
-			err = put_var_env_elem(&elem->content, env, code);
+			sep = '\0';
+			content = elem->content;
+			while (content[pos[0]])
+			{
+				if (sep == '\0')
+				{
+					if (content[pos[0]] == '\"')
+					{
+						err = put_var_env_elem(&elem->content, env, code, pos[1], pos[0]);
+						if (err)
+							return (err);
+						pos[1] = pos[0] + 1;
+						sep = '\"';
+					}
+					else if (content[pos[0]] == '\'')
+						sep = '\'';
+				}
+				else if (content[pos[0]] == '\'' || content[pos[0]] == '\"')
+				{
+					if (sep == '\"' && sep == content[pos[0]])
+					{
+						pos[2] = pos[0];
+						err = put_var_env_elem(&elem->content, env, code, pos[1], pos[2]);
+						if (err)
+							return (err);
+						sep = '\0';
+					}	
+				}
+				pos[0]++;
+			}
+			err = put_var_env_elem(&elem->content, env, code, pos[1], pos[0]);
 			if (err)
 				return (err);
 		}
@@ -152,3 +197,23 @@ char	put_var_env(t_parsing **list_parsing, char **env, int code)
 	}
 	return (0);
 }
+
+/*
+   char	put_var_env(t_parsing **list_parsing, char **env, int code)
+   {
+   t_parsing	*elem;
+   char		err;
+
+   elem = *list_parsing;
+   while (elem)
+   {
+   if (elem->type == CMD || elem->type == ARG)
+   {
+   err = put_var_env_elem(&elem->content, env, code);
+   if (err)
+   return (err);
+   }
+   elem = elem->next;
+   }
+   return (0);
+   }*/
