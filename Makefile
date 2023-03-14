@@ -26,12 +26,13 @@ SRCLIST		=	main.c\
 				exec_simple_cmd.c\
 				exec_simple_cmd_utils.c\
 				exec_list.c\
-				exec_pipe.c\
+				exec_pipeline.c\
 				eval_exec.c\
 				heredoc.c\
 				ft_lstsize_parsing.c\
 				subtokens_init.c\
 				get_status.c\
+				init_shell.c\
 				minishell.c
 				
 
@@ -55,7 +56,7 @@ OBJSLIST	=	$(SRCLIST:.c=.o)
 OBJS		=	$(addprefix $(OBJDIR), $(OBJSLIST))
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g3
+CFLAGS		=	-Wall -Wextra -Werror
 DEBUG		=	-g3
 
 all			:	${OBJDIR} ${LIBFT} ${NAME}

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/13 08:45:32 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 01:38:03 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 
 enum e_mode
 {
@@ -38,18 +39,28 @@ typedef struct s_subtokens
 	int			end;
 }	t_subtokens;
 
+typedef struct s_process
+{
+	t_subtokens	tokens;
+	pid_t		pid;
+	char		killed;
+	int			status;
+	int			infile;
+	int			outfile;
+}	t_process;
+
 int			init_env(char **envp[]);
 void		free_env(char *envp[]);
-void		main_loop(char **envp[]);
+void		main_loop(void);
 int			exec_builtin(char *cmd[], char **envp[], int fd_in, int fd_out);
 int			exec_cmd(char *argv[], char *envp[], int fd_in, int fd_out);
 int			redirect_in(int fd);
 int			redirect_out(int fd);
 char		*search_path(char *cmd, char **env);
-int			eval_exec(t_subtokens tokens, char **envp[]);
-int			exec_list(t_subtokens tokens, char **envp[]);
-int			exec_pipe(t_subtokens tokens, char **envp[]);
-int			exec_simple_cmd(t_subtokens tokens, char **envp[]);
+void		eval_exec(t_subtokens tokens, char **envp[], t_list **pipeline);
+void		exec_list(t_subtokens tokens, char **envp[], t_list **pipeline);
+void		exec_pipeline(t_subtokens tokens, char **envp[], t_list **pipeline);
+void		exec_simple_cmd(t_process *process, char **envp[], int need_fork);
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
 char		is_builtin(char *argv[]);
@@ -57,6 +68,9 @@ char    	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in);
 char    	is_redirection(t_parsing *tokens);
 t_subtokens	subtokens_init(t_parsing *tokens, int start, int sep, int end);
 int			get_status(int status);
+void		init_shell(char **envp[], struct termios *t_modes);
+int			is_pipeline_sigint(t_list *pipeline);
+int			pipeline_status(t_list *pipeline);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

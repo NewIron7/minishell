@@ -6,28 +6,50 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/09 17:21:12 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/13 23:50:00 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_list(t_subtokens tokens, char **envp[])
+int	is_pipeline_sigint(t_list *pipeline)
 {
-	int			ret;
+	t_process	*process;
+
+	while (pipeline)
+	{
+		process = pipeline->content;
+		if (process->killed && get_status(process->status) == SIGINT)
+			return (1);
+		pipeline = pipeline->next;
+	}
+	return (0);
+}
+
+int	pipeline_status(t_list *pipeline)
+{
+	t_process	*process;
+
+	pipeline = ft_lstlast(pipeline);
+	process = pipeline->content;
+	return (get_status(process->status));
+}
+
+void	exec_list(t_subtokens tokens, char **envp[], t_list **pipeline)
+{
 	int			i;
 	t_parsing	*cpy;
 
-	ret = eval_exec(subtokens_init(tokens.tokens, tokens.start, 0, tokens.sep), envp);
+	eval_exec(subtokens_init(tokens.tokens, tokens.start, 0, tokens.sep), envp, pipeline);
 	i = -1;
 	cpy = tokens.tokens;
 	while (++i < tokens.sep)
 		cpy = cpy->next;
-	if ((!ret && cpy->type == AND) || (ret && cpy->type == OR))
-		return (eval_exec(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp));
+	if (!is_pipeline_sigint(*pipeline) && ((!pipeline_status(*pipeline) && cpy->type == AND) || (pipeline_status(*pipeline) && cpy->type == OR)))
+		return (eval_exec(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp, pipeline));
 	cpy = cpy->next;
 	i++;
-	while (cpy && ((!ret && cpy->type != AND) || (ret && cpy->type != OR)))
+	while (!is_pipeline_sigint(*pipeline) && cpy && ((!pipeline_status(*pipeline) && cpy->type != AND) || (pipeline_status(*pipeline) && cpy->type != OR)))
 	{
 		if (cpy->type == LEFT_PAR)
 		{
@@ -41,7 +63,5 @@ int	exec_list(t_subtokens tokens, char **envp[])
 		i++;
 	}
 	if (cpy)
-		return (eval_exec(subtokens_init(tokens.tokens, i + 1, 0, tokens.end), envp));
-	else
-		return (ret);
+		return (eval_exec(subtokens_init(tokens.tokens, i + 1, 0, tokens.end), envp, pipeline));
 }

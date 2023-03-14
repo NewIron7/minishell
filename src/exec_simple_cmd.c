@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 23:36:01 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 01:41:19 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -71,48 +71,41 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-int	exec_simple_cmd(t_subtokens tokens, char **envp[])
+void	exec_simple_cmd(t_process *process, char **envp[], int need_fork)
 {
-	int		redir;
-	int		fd_in;
-	int		fd_out;
-	char	**args;
-	pid_t	pid;
+	int			redir;
+	char		**args;
+	t_parsing	*tokens;
+	int			builtin;
 
-	fd_in = STDIN_FILENO;
-    fd_out = STDOUT_FILENO;
 	args = NULL;
-	set_on_cmd(&tokens.tokens, tokens.start);
-	redir = check_redirection(tokens.tokens, tokens.start, tokens.end);
+	tokens = process->tokens.tokens;
+	set_on_cmd(&tokens, process->tokens.start);
+	redir = check_redirection(tokens, process->tokens.start, process->tokens.end);
 	if (redir)
 	{
-		if (set_fd_redirection(&fd_in, &fd_out, tokens.tokens, redir))
-			return (1);
+		if (set_fd_redirection(&process->infile, &process->outfile, tokens, redir))
+			return ;
 	}
-	if (get_args(tokens.tokens, tokens.end, tokens.start, &args))
-		return (1);
+	if (get_args(tokens, process->tokens.end, process->tokens.start, &args))
+		return ;
 	if (*args == NULL)
-		return (EXIT_SUCCESS);
-	if (is_builtin(args))
-		redir = exec_builtin(args, envp, fd_in, fd_out);
-	else
+		return ;
+	builtin = is_builtin(args);
+	if (need_fork || !builtin)
 	{
-		pid = fork();
-		if (pid == -1)
-			redir = EXIT_FAILURE;
-		else if (pid)
+		process->pid = fork();
+		if (process->pid == -1)
+			return ;
+		else if (!process->pid)
 		{
-			waitpid(pid, &redir, 0);
-			redir = get_status(redir);
-		}
-		else
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			redir = exec_cmd(args, *envp, fd_in, fd_out);
-			exit(redir);
+			if (!builtin)
+				exec_cmd(args, *envp, process->infile, process->outfile);
+			else
+				exit(exec_builtin(args, envp, process->infile, process->outfile));
 		}
 	}
+	else
+		process->status = exec_builtin(args, envp, process->infile, process->outfile);
 	free(args);
-	return (redir);
 }
