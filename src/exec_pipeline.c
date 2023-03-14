@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 01:44:06 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 04:45:38 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	exec_pipeline(t_subtokens tokens, char **envp[], t_list **pipeline)
 	if (!(*pipeline)->next)
 	{
 		process = (*pipeline)->content;
-		exec_simple_cmd(process, envp, 0);
+		exec_simple_cmd(process, envp, 0, pipeline);
 		if (process->infile != STDIN_FILENO)
 			close(process->infile);
 		if (process->outfile != STDOUT_FILENO)
@@ -174,7 +174,7 @@ void	exec_pipeline(t_subtokens tokens, char **envp[], t_list **pipeline)
 		while (cpy)
 		{
 			process = cpy->content;
-			exec_simple_cmd(process, envp, 1);
+			exec_simple_cmd(process, envp, 1, pipeline);
 			if (process->infile != STDIN_FILENO)
 				close(process->infile);
 			if (process->outfile != STDOUT_FILENO)

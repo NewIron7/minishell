@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 01:41:19 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 04:42:22 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -71,7 +71,7 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-void	exec_simple_cmd(t_process *process, char **envp[], int need_fork)
+void	exec_simple_cmd(t_process *process, char **envp[], int need_fork, t_list **pipeline)
 {
 	int			redir;
 	char		**args;
@@ -100,12 +100,16 @@ void	exec_simple_cmd(t_process *process, char **envp[], int need_fork)
 		else if (!process->pid)
 		{
 			if (!builtin)
-				exec_cmd(args, *envp, process->infile, process->outfile);
+				exec_cmd(args, *envp, process, pipeline);
 			else
-				exit(exec_builtin(args, envp, process->infile, process->outfile));
+			{
+				redir = exec_builtin(args, envp, process, pipeline);
+				free_all(process->tokens.tokens, *envp, pipeline, args);
+				exit(redir);
+			}
 		}
 	}
 	else
-		process->status = exec_builtin(args, envp, process->infile, process->outfile);
+		process->status = exec_builtin(args, envp, process, pipeline);
 	free(args);
 }

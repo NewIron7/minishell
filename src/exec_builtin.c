@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:07:02 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:26:38 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 04:33:38 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ char	is_builtin(char *argv[])
 	return (0);
 }
 
-int	exec_builtin(char *argv[], char **envp[], int fd_in, int fd_out)
+int	exec_builtin(char *argv[], char **envp[], t_process *process, t_list **pipeline)
 {
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
+	if (process->infile != STDIN_FILENO)
+		close(process->infile);
 	if (!strcmp(*argv, "echo"))
-		return (builtin_echo(argv, fd_out));
+		return (builtin_echo(argv, process->outfile));
 	else if (!strcmp(*argv, "cd"))
 		return (builtin_cd(argv));
 	else if (!strcmp(*argv, "pwd"))
@@ -46,6 +46,6 @@ int	exec_builtin(char *argv[], char **envp[], int fd_in, int fd_out)
 	else if (!strcmp(*argv, "unset"))
 		return (builtin_unset(argv, *envp));
 	else if (!strcmp(*argv, "env"))
-		return (builtin_env(*envp, fd_out));
-	return (builtin_exit(argv, *envp));
+		return (builtin_env(*envp, process->outfile));
+	return (builtin_exit(argv, *envp, process->tokens.tokens, pipeline));
 }

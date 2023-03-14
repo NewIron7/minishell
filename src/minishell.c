@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 02:39:28 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 04:46:40 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,20 +49,23 @@ void	main_loop(void)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			builtin_exit(NULL, envp);
+			builtin_exit(NULL, envp, NULL, NULL);
 		add_history(line);
 		if (*line)
 		{
 			signal(SIGINT, SIG_IGN);
 			code = parser(line, &list_parsing, envp, code);
+			free(line);
 			if (!code && ft_heredoc(list_parsing) == 0)
 			{
 				eval_exec(subtokens_init(list_parsing, 0, 0, -1), &envp, &pipeline);
 				code = get_shell_code(pipeline);
+				free_pipeline(&pipeline);
 			}
-			free(line);
 			ft_lstclear_parsing(list_parsing);
 			signal(SIGINT, &sig_handler);
 		}
+		else
+			free(line);
 	}
 }

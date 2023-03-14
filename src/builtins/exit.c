@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:21:28 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 22:24:38 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 04:39:19 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_num(char *str)
 		return (1);
 }
 
-int	builtin_exit(char *const argv[], char *envp[])
+int	builtin_exit(char *argv[], char *envp[], t_parsing *pars, t_list **pipeline)
 {
 	unsigned int	status;
 
@@ -52,6 +52,6 @@ int	builtin_exit(char *const argv[], char *envp[])
 		else
 			status = (unsigned char) ft_atoi(argv[1]);
 	}
-	free_env(envp);
+	free_all(pars, envp, pipeline, argv);
 	exit(status);
 }

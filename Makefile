@@ -18,7 +18,7 @@ SRCLIST		=	main.c\
 				builtins/pwd.c\
 				builtins/unset.c\
 				builtins/exit.c\
-				env_handler.c\
+				init_env.c\
 				redirect_in.c\
 				redirect_out.c\
 				exec_builtin.c\
@@ -33,6 +33,7 @@ SRCLIST		=	main.c\
 				subtokens_init.c\
 				get_status.c\
 				init_shell.c\
+				free_utils.c\
 				minishell.c
 				
 
