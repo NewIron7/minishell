@@ -54,7 +54,7 @@ void	main_loop(void)
 		if (*line)
 		{
 			signal(SIGINT, SIG_IGN);
-			code = parser(line, &list_parsing, envp, code);
+			code = parser(line, &list_parsing);
 			//print_list_parsing(list_parsing);
 			put_var_env(&list_parsing, envp, code);
 			free(line);
