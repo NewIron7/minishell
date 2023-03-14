@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 06:05:54 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:26:48 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 enum e_mode
 {
@@ -74,6 +75,7 @@ t_list		**free_pipeline(t_list **pipeline);
 void		free_all(t_parsing *pars, char *envp[], t_list **pipeline, char **args);
 void		exec_subshell(t_process *process, char **envp[], t_list **pipeline);
 int			get_shell_code(t_list *pipeline);
+char		**exp_cmd_wild(char *str);
 
 int		builtin_cd(char *const argv[]);
 int		builtin_echo(char *const argv[], int fd);

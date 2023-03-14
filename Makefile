@@ -38,6 +38,7 @@ SRCLIST		=	main.c\
 				get_status.c\
 				init_shell.c\
 				free_utils.c\
+				wildcard_utils.c\
 				minishell.c
 				
 
