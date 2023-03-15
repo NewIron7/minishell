@@ -22,9 +22,6 @@ enum e_id_char
 {
 	ALPHA_NUM,
 	SPACE_ID,
-	S_QUOTE,
-	D_QUOTE,
-	DOLLAR,
 	PIPE_C,
 	REDIRECT,
 	AND_ID,
@@ -77,8 +74,14 @@ char		verif_par_tmp(t_parsing *list_parsing);
 char		is_redirect(t_parsing *token);
 char		is_cmd_arg(t_parsing *token);
 char		is_and_pipe_or(t_parsing *token);
-char		get_value_var(const char *var, char **env, char **value, int code);
-char		insert_value_var(char **content, char *value, int len_var, int i);
+char		get_value_var(char *var, char **env, char **value, int code);
+int			insert_value_var(char **content, char *value, int *len_var, int *i);
+char		put_var_env_elem(char **content_env[], int code, int start, char end);
+char		am_i_in_dbl(char *str, char n);
+char		move_right_part(char *str);
+char    	put_var_quote(char **content_env[], int code, int n);
+char		check_var_env_txt(char **content_env[], char **var,
+	int *len_var, int i);
 
 char		put_var_env(t_parsing **list_parsing, char **env, int code);
 char		gather_txt(t_parsing *list_parsing);

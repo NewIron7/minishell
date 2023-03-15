@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 19:34:24 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/15 16:00:53 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -24,8 +24,6 @@ static char	get_list_parsing(char *cmd, char *id_tab, t_parsing **list_parsing)
 		if (get_elem_txt(cmd, id_tab, &i, list_parsing))
 			return (1);
 		if (get_space(id_tab, &i, list_parsing))
-			return (1);
-		if (get_elem_quoted(cmd, id_tab, &i, list_parsing))
 			return (1);
 		if (get_pipe(cmd, id_tab, &i, list_parsing))
 			return (1);

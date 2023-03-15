@@ -15,12 +15,6 @@ char	identify_type_char(char c)
 {
 	if (c == ' ')
 		return (SPACE_ID);
-	if (c == 39)
-		return (S_QUOTE);
-	if (c == '"')
-		return (D_QUOTE);
-	if (c == '$')
-		return (DOLLAR);
 	if (c == '|')
 		return (PIPE_C);
 	if (c == '<' || c == '>')
@@ -51,25 +45,25 @@ char	get_id_cmd(char *cmd, char **id_tab)
 	return (0);
 }
 
-char	second_quote(char *id_tab, int *i)
-{
-	char	quote;
-	int		j;
+// char	second_quote(char *id_tab, int *i)
+// {
+// 	char	quote;
+// 	int		j;
 
-	j = *i;
-	if (id_tab[j] == S_QUOTE)
-		quote = S_QUOTE;
-	else if (id_tab[j] == D_QUOTE)
-		quote = D_QUOTE;
-	else
-		return (-1);
-	j++;
-	while (id_tab[j] != -1 && id_tab[j] != quote)
-		j++;
-	if (id_tab[j] != quote)
-		return (0);
-	return (quote);
-}
+// 	j = *i;
+// 	if (id_tab[j] == S_QUOTE)
+// 		quote = S_QUOTE;
+// 	else if (id_tab[j] == D_QUOTE)
+// 		quote = D_QUOTE;
+// 	else
+// 		return (-1);
+// 	j++;
+// 	while (id_tab[j] != -1 && id_tab[j] != quote)
+// 		j++;
+// 	if (id_tab[j] != quote)
+// 		return (0);
+// 	return (quote);
+// }
 
 char	get_space(char *id_tab, int *i, t_parsing **list_parsing)
 {

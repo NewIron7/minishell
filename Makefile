@@ -1,11 +1,11 @@
 SRCLIST		=	main.c\
 				parser/parser.c\
 				parser/parser_utils.c\
-				parser/parser_quote.c\
 				parser/parser_print.c\
 				parser/parser_get.c\
 				parser/parser_env_utils_more.c\
 				parser/parser_env_utils.c\
+				parser/parser_env_more.c\
 				parser/parser_env.c\
 				parser/parser_clean.c\
 				parser/parser_clean_utils.c\

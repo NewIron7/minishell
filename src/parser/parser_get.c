@@ -33,7 +33,7 @@ char	get_elem_txt(char *cmd, char *id_tab, int *i,
 	int			j;
 	t_parsing	*node;
 
-	size = get_size_elem_type(id_tab, i, ALPHA_NUM, DOLLAR);
+	size = get_size_elem_type(id_tab, i, ALPHA_NUM, ALPHA_NUM);
 	if (!size)
 		return (0);
 	*i -= size;
