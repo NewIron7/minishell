@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 14:32:12 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:36:00 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -18,7 +18,9 @@ static char	*get_heredoc(int fd)
 	int		rd;
 	char	*tmp;
 
-	heredoc = NULL;
+	heredoc = ft_strdup("");
+	if (heredoc == NULL)
+		return (NULL);
 	while (1)
 	{
 		rd = read(fd, buf, 64);
@@ -26,18 +28,17 @@ static char	*get_heredoc(int fd)
 			return (heredoc);
 		else if (rd < 0)
 			break ;
+		buf[rd] = '\0';
 		tmp = ft_strjoin(heredoc, buf);
 		free(heredoc);
 		heredoc = tmp;
 		if (heredoc == NULL)
-			return (1);
+			return (NULL);
 	}
-	if (heredoc)
-		return (free(heredoc), 1);
-	return (1);
+	return (free(heredoc), NULL);
 }
 
-char	put_var_env_heredoc(int *fd, char **env, int code)
+static char	put_var_env_heredoc(int *fd, char **env, int code)
 {
 	char	**content_env[2];
 	char	*txt;
@@ -45,9 +46,9 @@ char	put_var_env_heredoc(int *fd, char **env, int code)
 	char	err;
 
 	content_env[0] = env;
-	txt = get_heredoc(fd);
+	txt = get_heredoc(*fd);
 	content_env[1] = &txt;
-	close(fd);
+	close(*fd);
 	if (txt == NULL)
 		return (1);
 	if (pipe(tube))
@@ -58,5 +59,25 @@ char	put_var_env_heredoc(int *fd, char **env, int code)
 	write(tube[1], txt, ft_strlen(txt));
 	close(tube[1]);
 	free(txt);
+	*fd = tube[0];
+	return (0);
+}
+
+char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
+{
+	int		i;
+	char	err;
+
+	i = 0;
+	while ((end != -1 && i++ < end - start) ||  (end == -1 && tokens))
+	{
+		if (tokens->type == R_DINPUT)
+		{
+			err = put_var_env_heredoc(&tokens->fd, env, 0);
+			if (err)
+				return (err);
+		}
+		tokens = tokens->next;
+	}
 	return (0);
 }

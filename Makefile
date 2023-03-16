@@ -7,10 +7,10 @@ SRCLIST		=	main.c\
 				parser/parser_env_utils.c\
 				parser/parser_env_more.c\
 				parser/parser_env.c\
-				parser/put_var_env_heredoc.c\
 				parser/parser_clean.c\
 				parser/parser_clean_utils.c\
 				parser/parser_clean_utils_more.c\
+				parser/put_var_env_heredoc.c\
 				parser/list_utils.c\
 				parser/gather_txt.c\
 				parser/parser_get_utils.c\

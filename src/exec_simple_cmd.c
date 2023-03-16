@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 05:44:41 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:13:50 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -81,6 +81,7 @@ void	exec_simple_cmd(t_process *process, char **envp[], int need_fork, t_list **
 	args = NULL;
 	tokens = process->tokens.tokens;
 	set_on_cmd(&tokens, process->tokens.start);
+	redir = check_env_heredoc(tokens, process->tokens.end, process->tokens.start, *envp);
 	if (tokens->type == LEFT_PAR)
 		return (exec_subshell(process, envp, pipeline));
 	redir = check_redirection(tokens, process->tokens.start, process->tokens.end);
