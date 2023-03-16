@@ -6,12 +6,17 @@ static char	do_heredoc(t_parsing **tokens)
 	int		tube[2];
 	char	*txt;
 	char	*tmp;
+	unsigned long		size;
 
 	txt = ft_strdup("");
 	if (pipe(tube) || txt == NULL)
 		return (free(txt), 1);
 	(*tokens)->fd = tube[0];
 	*tokens = (*tokens)->next;
+	size = ft_strlen((*tokens)->content);
+	rm_quotes((*tokens)->content);
+	if (size != ft_strlen((*tokens)->content))
+		(*tokens)->prev->quoted = 1;
 	while (1)
 	{
 		line = readline(">");

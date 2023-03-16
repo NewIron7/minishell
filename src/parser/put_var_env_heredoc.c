@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 15:36:00 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:46:03 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -14,7 +14,7 @@
 static char	*get_heredoc(int fd)
 {
 	char	*heredoc;
-	char	buf[64];
+	char	buf[65];
 	int		rd;
 	char	*tmp;
 
@@ -62,6 +62,24 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 	*fd = tube[0];
 	return (0);
 }
+/*
+static char	is_there_quote(t_parsing *elem)
+{
+	int		i;
+	char	*str;
+
+	if (elem == NULL)
+		return (1);
+	str = elem->content;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
+}*/
 
 char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 {
@@ -71,7 +89,7 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 	i = 0;
 	while ((end != -1 && i++ < end - start) ||  (end == -1 && tokens))
 	{
-		if (tokens->type == R_DINPUT)//check quote end word
+		if (tokens->type == R_DINPUT && !tokens->quoted)
 		{
 			err = put_var_env_heredoc(&tokens->fd, env, 0);
 			if (err)

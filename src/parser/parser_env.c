@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/15 15:34:26 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:33:14 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -51,7 +51,7 @@ static char	check_current_quote(char *str, char *q, int *i, int *ls)
 	return (0);
 }
 
-static char	rm_quotes(char *str)
+char	rm_quotes(char *str)
 {
 	int		i;
 	int		ls;

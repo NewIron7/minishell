@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 15:17:49 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:42:09 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -56,10 +56,12 @@ typedef struct s_parsing
 	char				*content;
 	char				type;
 	int					fd;
+	char				quoted;
 }	t_parsing;
 
 char		parser(char *cmd, t_parsing **list_parsing);
 
+char		rm_quotes(char *str);
 char		check_env_heredoc(t_parsing *tokens, int end, int start, char **env);
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);

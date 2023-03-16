@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 18:04:17 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:18:34 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -56,7 +56,7 @@ void	main_loop(void)
 			signal(SIGINT, SIG_IGN);
 			code = parser(line, &list_parsing);
 			//print_list_parsing(list_parsing);
-			put_var_env(&list_parsing, envp, code);
+			//put_var_env(&list_parsing, envp, code);
 			free(line);
 			if (!code && ft_heredoc(list_parsing) == 0)
 			{
