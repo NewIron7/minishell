@@ -71,7 +71,7 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 	i = 0;
 	while ((end != -1 && i++ < end - start) ||  (end == -1 && tokens))
 	{
-		if (tokens->type == R_DINPUT)
+		if (tokens->type == R_DINPUT)//check quote end word
 		{
 			err = put_var_env_heredoc(&tokens->fd, env, 0);
 			if (err)
