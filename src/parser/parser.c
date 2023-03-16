@@ -11,6 +11,42 @@
 /* ************************************************************************** */
 #include "parser.h"
 
+static int is_there_nquote(char *cmd, char q)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == q)
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+static void	set_id_dbl(char *id_tab, char *cmd)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\'' || cmd[i] == '\"')
+		{
+			i++;
+			n = is_there_nquote(cmd + i, cmd[i - 1]);
+			while (n--)
+			{
+				id_tab[i] = ALPHA_NUM;
+				i++;
+			}
+		}
+		i++;
+	}
+}
+
 static char	get_list_parsing(char *cmd, char *id_tab, t_parsing **list_parsing)
 {
 	int	size;
@@ -73,6 +109,7 @@ char	parser(char *cmd, t_parsing **list_parsing)
 		return (1);
 	if (get_id_cmd(cmd, &id_tab))
 		return (free(cmd), 1);
+	set_id_dbl(id_tab, cmd);
 	if (get_list_parsing(cmd, id_tab, list_parsing))
 		return (free(cmd), free(id_tab), 1);
 	if (gather_txt(*list_parsing))
