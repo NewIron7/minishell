@@ -1,18 +1,4 @@
 #include "minishell.h"
-/*
-static int	get_nb_heredoc(t_parsing *tokens)
-{
-	int	nb;
-
-	nb = 0;
-	while (tokens)
-	{
-		if (tokens->type == R_DINPUT)
-			nb++;
-		tokens = tokens->next;
-	}
-	return (nb);
-}*/
 
 static char	do_heredoc(t_parsing **tokens)
 {
