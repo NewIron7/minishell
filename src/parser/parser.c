@@ -6,12 +6,12 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/15 16:00:53 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:04:56 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
-static int is_there_nquote(char *cmd, char q)
+static int	is_there_nquote(char *cmd, char q)
 {
 	int	i;
 

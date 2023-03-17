@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 17:46:03 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:04:30 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -52,7 +52,7 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 	if (txt == NULL)
 		return (1);
 	if (pipe(tube))
-		return(free(txt), 1);
+		return (free(txt), 1);
 	err = put_var_env_elem(content_env, code, 0, '\0');
 	if (err)
 		return (err);
@@ -62,24 +62,6 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 	*fd = tube[0];
 	return (0);
 }
-/*
-static char	is_there_quote(t_parsing *elem)
-{
-	int		i;
-	char	*str;
-
-	if (elem == NULL)
-		return (1);
-	str = elem->content;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
-}*/
 
 char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 {
@@ -87,7 +69,7 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 	char	err;
 
 	i = 0;
-	while ((end != -1 && i++ < end - start) ||  (end == -1 && tokens))
+	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
 	{
 		if (tokens->type == R_DINPUT && !tokens->quoted)
 		{

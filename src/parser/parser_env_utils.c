@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/14 18:02:37 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:59:34 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -18,7 +18,7 @@ char	am_i_in_dbl(char *str, char n)
 
 	dbl = 0;
 	i = 0;
-	while (str[i] && i <= n)
+	while (str[i] && i < (n - 1))
 	{
 		if (str[i] == '\"' && dbl == 0)
 			dbl = 1;
@@ -29,6 +29,7 @@ char	am_i_in_dbl(char *str, char n)
 	if (dbl == 0)
 		return (0);
 	dbl = 0;
+	i++;
 	while (str[i])
 	{
 		if (str[i] == '\"')

@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 20:28:16 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/15 20:29:09 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:48:46 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -14,11 +14,12 @@
 char	put_var_quote(char **content_env[], int code, int n)
 {
 	char	err;
-	char	in_d;
 	int		ls;
+	char	*str;
 
-	in_d = 0;
 	err = put_var_env_elem(content_env, code, n, '\'');
+	str = *content_env[1];
+	(void)str;
 	if (err)
 		return (err);
 	while ((*content_env[1])[n] && (*content_env[1])[n] != '\'')
