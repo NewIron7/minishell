@@ -6,11 +6,11 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:04:27 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/09 10:14:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:02:27 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "minishell.h"
 
 static void	free_strs(char **strs)
 {
@@ -27,13 +27,14 @@ static void	free_strs(char **strs)
 
 static char	get_path_env(char **env, char ***paths)
 {
-	int 	i;
+	int	i;
 
 	*paths = NULL;
 	i = 0;
 	while (env[i])
 	{
-		if (env[i][0] == 'P' && env[i][1] == 'A' && env[i][2] == 'T' && env[i][3] == 'H'
+		if (env[i][0] == 'P' && env[i][1] == 'A' && env[i][2] == 'T'
+			&& env[i][3] == 'H'
 			&& env[i][4] == '=')
 		{
 			*paths = ft_split(&env[i][5], ':');
@@ -66,13 +67,30 @@ static char	*create_complete_path(char *path, char *cmd)
 	return (c_path);
 }
 
+static char	check_access(char *path)
+{
+	struct stat	stat_info;
+
+	if (access(path, X_OK) == 0)
+	{
+		if (stat(path, &stat_info))
+		{
+			perror("minishell");
+			return (free(path), -1);
+		}
+		if ((stat_info.st_mode & S_IFMT) != S_IFDIR)
+			return (1);
+	}
+	free(path);
+	return (0);
+}
+
 char	*search_path(char *cmd, char **env)
 {
-	char	*path;
-	char	**paths;
-	char	err;
-	int		i;
-	struct stat	stat_info;
+	char		*path;
+	char		**paths;
+	char		err;
+	int			i;
 
 	err = get_path_env(env, &paths);
 	if (err)
@@ -83,17 +101,11 @@ char	*search_path(char *cmd, char **env)
 		path = create_complete_path(paths[i], cmd);
 		if (path == NULL)
 			return (free_strs(paths), NULL);
-		if (access(path, X_OK) == 0)
-		{
-			if (stat(path, &stat_info))
-			{
-				perror("minishell");
-				return (free(path), free_strs(paths), NULL);
-			}
-			if ((stat_info.st_mode & S_IFMT) != S_IFDIR)
-				return (free_strs(paths), path);
-		}
-		free(path);
+		err = check_access(path);
+		if (err == -1)
+			return (free_strs(paths), NULL);
+		else if (err == 1)
+			return (free_strs(paths), path);
 		i++;
 	}
 	free_strs(paths);
