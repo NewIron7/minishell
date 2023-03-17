@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 17:42:09 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:44:31 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -62,7 +62,8 @@ typedef struct s_parsing
 char		parser(char *cmd, t_parsing **list_parsing);
 
 char		rm_quotes(char *str);
-char		check_env_heredoc(t_parsing *tokens, int end, int start, char **env);
+char		check_env_heredoc(t_parsing *tokens,
+				int end, int start, char **env);
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);
@@ -78,13 +79,15 @@ char		is_redirect(t_parsing *token);
 char		is_cmd_arg(t_parsing *token);
 char		is_and_pipe_or(t_parsing *token);
 char		get_value_var(char *var, char **env, char **value, int code);
-int			insert_value_var(char **content, char *value, int *len_var, int *i);
-char		put_var_env_elem(char **content_env[], int code, int start, char end);
+int			insert_value_var(char **content, char *value,
+				int *len_var, int *i);
+char		put_var_env_elem(char **content_env[], int code,
+				int start, char end);
 char		am_i_in_dbl(char *str, char n);
 char		move_right_part(char *str);
-char    	put_var_quote(char **content_env[], int code, int n);
+char		put_var_quote(char **content_env[], int code, int n);
 char		check_var_env_txt(char **content_env[], char **var,
-	int *len_var, int i);
+				int *len_var, int i);
 
 char		put_var_env(t_parsing **list_parsing, char **env, int code);
 char		gather_txt(t_parsing *list_parsing);
@@ -95,16 +98,16 @@ char		syntax_error_near(char *str);
 
 char		get_space(char *id_tab, int *i, t_parsing **list_parsing);
 char		get_elem_quoted(char *cmd, char *id_tab, int *i,
-	t_parsing **list_parsing);
-int 		get_size_elem_type(char *id_tab, int *i, char id_1, char id_2);
-char		get_elem_txt(char *cmd, char *id_tab, int *i, 
-	t_parsing **list_parsing);
+				t_parsing **list_parsing);
+int			get_size_elem_type(char *id_tab, int *i, char id_1, char id_2);
+char		get_elem_txt(char *cmd, char *id_tab, int *i,
+				t_parsing **list_parsing);
 char		get_pipe(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_redirect(char *cmd, char *id_tab, int *i,
-	t_parsing **list_parsing);
+				t_parsing **list_parsing);
 char		get_var_env_txt(const char *txt, char **var);
-char    get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
-char    get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
+char		get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
+char		get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);
