@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:07:02 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 04:33:38 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:08:01 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	is_builtin(char *argv[])
 	return (0);
 }
 
-int	exec_builtin(char *argv[], char **envp[], t_process *process, t_list **pipeline)
+int	exec_builtin(char *argv[], char **envp[], t_process *process,
+		t_list **pipeline)
 {
 	if (process->infile != STDIN_FILENO)
 		close(process->infile);

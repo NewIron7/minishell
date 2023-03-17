@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/16 17:38:50 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:07:15 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,7 +37,8 @@ static int	check_redirection(t_parsing *tokens, int start, int end)
 	return (redirs);
 }
 
-static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens, int redirs)
+static char	set_fd_redirection(int *fd_in, int *fd_out, t_parsing *tokens,
+	int redirs)
 {
 	while (redirs--)
 	{
@@ -71,7 +72,8 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-void	exec_simple_cmd(t_process *process, char **envp[], int need_fork, t_list **pipeline)
+void	exec_simple_cmd(t_process *process, char **envp[], int need_fork,
+	t_list **pipeline)
 {
 	int			redir;
 	char		**args;
@@ -82,13 +84,16 @@ void	exec_simple_cmd(t_process *process, char **envp[], int need_fork, t_list **
 	tokens = process->tokens.tokens;
 	set_on_cmd(&tokens, process->tokens.start);
 	put_var_env(&tokens, *envp, 0);
-	redir = check_env_heredoc(tokens, process->tokens.end, process->tokens.start, *envp);
+	redir = check_env_heredoc(tokens, process->tokens.end,
+			process->tokens.start, *envp);
 	if (tokens->type == LEFT_PAR)
 		return (exec_subshell(process, envp, pipeline));
-	redir = check_redirection(tokens, process->tokens.start, process->tokens.end);
+	redir = check_redirection(tokens, process->tokens.start,
+			process->tokens.end);
 	if (redir)
 	{
-		if (set_fd_redirection(&process->infile, &process->outfile, tokens, redir))
+		if (set_fd_redirection(&process->infile, &process->outfile,
+				tokens, redir))
 			return ;
 	}
 	if (get_args(tokens, process->tokens.end, process->tokens.start, &args))
