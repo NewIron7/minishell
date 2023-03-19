@@ -38,30 +38,32 @@ void	main_loop(void)
 {
 	char		*line;
 	t_parsing	*list_parsing;
-	int			code;
-	char		**envp;
+	t_env		envp;
 	t_list		*pipeline;
+	char		err;
 
-	init_shell(&envp);
+	init_shell(&envp.env);
 	list_parsing = NULL;
-	code = 0;
+	envp.code = 0;
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			builtin_exit(NULL, envp, NULL, NULL);
+			builtin_exit(NULL, envp.env, NULL, NULL);
 		add_history(line);
 		if (*line)
 		{
 			signal(SIGINT, SIG_IGN);
-			code = parser(line, &list_parsing);
+			err = parser(line, &list_parsing);
+			if (err == 2)
+				envp.code = 2;
 			//print_list_parsing(list_parsing);
 			//put_var_env(&list_parsing, envp, code);
 			free(line);
-			if (!code && ft_heredoc(list_parsing) == 0)
+			if (!err && ft_heredoc(list_parsing) == 0)
 			{
 				eval_exec(subtokens_init(list_parsing, 0, 0, -1), &envp, &pipeline);
-				code = get_shell_code(pipeline);
+				envp.code = get_shell_code(pipeline);
 				free_pipeline(&pipeline);
 			}
 			ft_lstclear_parsing(list_parsing);

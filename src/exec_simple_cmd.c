@@ -72,7 +72,7 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-void	exec_simple_cmd(t_process *process, char **envp[], int need_fork,
+void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 	t_list **pipeline)
 {
 	int			redir;
@@ -83,11 +83,13 @@ void	exec_simple_cmd(t_process *process, char **envp[], int need_fork,
 	args = NULL;
 	tokens = process->tokens.tokens;
 	set_on_cmd(&tokens, process->tokens.start);
-	put_var_env(&tokens, *envp, 0);
+	put_var_env(&tokens, envp->env, envp->code);
 	redir = check_env_heredoc(tokens, process->tokens.end,
 			process->tokens.start, *envp);
+	if (redir)
+		return ;
 	if (tokens->type == LEFT_PAR)
-		return (exec_subshell(process, envp, pipeline));
+		return (exec_subshell(process, &envp->env, pipeline));
 	redir = check_redirection(tokens, process->tokens.start,
 			process->tokens.end);
 	if (redir)
@@ -109,16 +111,16 @@ void	exec_simple_cmd(t_process *process, char **envp[], int need_fork,
 		else if (!process->pid)
 		{
 			if (!builtin)
-				exec_cmd(args, *envp, process, pipeline);
+				exec_cmd(args, envp->env, process, pipeline);
 			else
 			{
-				redir = exec_builtin(args, envp, process, pipeline);
-				free_all(process->tokens.tokens, *envp, pipeline, args);
+				redir = exec_builtin(args, &envp->env, process, pipeline);
+				free_all(process->tokens.tokens, envp->env, pipeline, args);
 				exit(redir);
 			}
 		}
 	}
 	else
-		process->status = exec_builtin(args, envp, process, pipeline);
+		process->status = exec_builtin(args, &envp->env, process, pipeline);
 	free(args);
 }

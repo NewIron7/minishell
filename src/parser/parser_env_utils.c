@@ -85,6 +85,12 @@ char	check_var_env_txt(char **content_env[], char **var,
 
 	if (get_var_env_txt(&(*content_env[1])[i], var))
 		return (1);
+	if (*var == NULL && (*content_env[1])[i + 1] == '?')
+	{
+		*var = ft_strdup("?");
+		if (*var == NULL)
+			return (1);
+	}
 	if (*var)
 		*len_var = ft_strlen(*var);
 	err = verif_var(var, *content_env[1], i, len_var);

@@ -63,7 +63,7 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 	return (0);
 }
 
-char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
+char	check_env_heredoc(t_parsing *tokens, int end, int start, t_env env)
 {
 	int		i;
 	char	err;
@@ -73,7 +73,7 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, char **env)
 	{
 		if (tokens->type == R_DINPUT && !tokens->quoted)
 		{
-			err = put_var_env_heredoc(&tokens->fd, env, 0);
+			err = put_var_env_heredoc(&tokens->fd, env.env, env.code);
 			if (err)
 				return (err);
 		}

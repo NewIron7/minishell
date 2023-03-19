@@ -59,11 +59,17 @@ typedef struct s_parsing
 	char				quoted;
 }	t_parsing;
 
+typedef struct s_env
+{
+	char	**env;
+	int		code;
+}	t_env;
+
 char		parser(char *cmd, t_parsing **list_parsing);
 
 char		rm_quotes(char *str);
 char		check_env_heredoc(t_parsing *tokens,
-				int end, int start, char **env);
+				int end, int start, t_env env);
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);

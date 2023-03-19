@@ -35,7 +35,7 @@ int	pipeline_status(t_list *pipeline)
 	return (get_status(process->status));
 }
 
-void	exec_list(t_subtokens tokens, char **envp[], t_list **pipeline)
+void	exec_list(t_subtokens tokens, t_env *envp, t_list **pipeline)
 {
 	int			i;
 	t_parsing	*cpy;

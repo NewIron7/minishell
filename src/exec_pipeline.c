@@ -148,7 +148,7 @@ void	wait_pipeline(t_list **pipeline)
 	}
 }
 
-void	exec_pipeline(t_subtokens tokens, char **envp[], t_list **pipeline)
+void	exec_pipeline(t_subtokens tokens, t_env *envp, t_list **pipeline)
 {
 	t_list		*cpy;
 	t_process	*process;

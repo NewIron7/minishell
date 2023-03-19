@@ -15,10 +15,12 @@
 void	exec_subshell(t_process *process, char **envp[], t_list **pipeline)
 {
 	t_list	*sub_pipeline;
-	int		code;
 	int		i;
+	t_env	sub_env;
 	t_parsing	*cpy;
 
+	sub_env.env = *envp;
+	sub_env.code = 0;
 	process->pid = fork();
 	if (process->pid == -1)
 		return ;
@@ -36,12 +38,12 @@ void	exec_subshell(t_process *process, char **envp[], t_list **pipeline)
 			cpy = cpy->next;
 			i++;
 		}
-		eval_exec(subtokens_init(process->tokens.tokens, process->tokens.start + 1, 0, i - 1), envp, &sub_pipeline);
-		code = get_shell_code(sub_pipeline);
+		eval_exec(subtokens_init(process->tokens.tokens, process->tokens.start + 1, 0, i - 1), &sub_env, &sub_pipeline);
+		sub_env.code = get_shell_code(sub_pipeline);
 		ft_lstclear_parsing(process->tokens.tokens);
 		free_pipeline(&sub_pipeline);
 		free_pipeline(pipeline);
 		free_env(*envp);
-		exit(code);
+		exit(sub_env.code);
 	}
 }

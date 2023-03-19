@@ -59,13 +59,13 @@ int			exec_cmd(char *argv[], char *envp[],
 int			redirect_in(int fd);
 int			redirect_out(int fd);
 char		*search_path(char *cmd, char **env);
-void		eval_exec(t_subtokens tokens, char **envp[],
+void		eval_exec(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
-void		exec_list(t_subtokens tokens, char **envp[],
+void		exec_list(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
-void		exec_pipeline(t_subtokens tokens, char **envp[],
+void		exec_pipeline(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
-void		exec_simple_cmd(t_process *process, char **envp[],
+void		exec_simple_cmd(t_process *process, t_env *envp,
 				int need_fork, t_list **pipeline);
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
