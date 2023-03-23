@@ -115,7 +115,7 @@ char	parser(char *cmd, t_parsing **list_parsing)
 	if (gather_txt(*list_parsing))
 		return (free(cmd), free(id_tab), 1);
 	if (list_parsing_clean(*list_parsing))
-		return (2);
+		return (free(id_tab), free(cmd), 2);
 	set_cmd_arg(*list_parsing);
 	free(id_tab);
 	free(cmd);
