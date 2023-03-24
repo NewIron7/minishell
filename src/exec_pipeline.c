@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 04:45:38 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:44:07 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,6 @@ void	exec_pipeline(t_subtokens tokens, t_env *envp, t_list **pipeline)
 		}
 	}
 	wait_pipeline(pipeline);
+	envp->code = get_shell_code(*pipeline);
 	killed_printer(*pipeline);
 }

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 01:58:04 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:47:42 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	exec_subshell(t_process *process, char **envp[], t_list **pipeline)
 		}
 		free_pipeline(pipeline);
 		eval_exec(subtokens_init(sub_tokens.tokens, sub_tokens.start + 1, 0, i - 1), &sub_env, &sub_pipeline);
-		sub_env.code = get_shell_code(sub_pipeline);
 		ft_lstclear_parsing(sub_tokens.tokens);
 		free_pipeline(&sub_pipeline);
 		free_env(*envp);

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/16 17:18:34 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:44:53 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -63,7 +63,6 @@ void	main_loop(void)
 			if (!err && ft_heredoc(list_parsing) == 0)
 			{
 				eval_exec(subtokens_init(list_parsing, 0, 0, -1), &envp, &pipeline);
-				envp.code = get_shell_code(pipeline);
 				free_pipeline(&pipeline);
 			}
 			ft_lstclear_parsing(list_parsing);
