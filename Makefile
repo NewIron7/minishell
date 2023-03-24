@@ -32,6 +32,8 @@ SRCLIST		=	main.c\
 				set_fd_redirect.c\
 				exec_list.c\
 				exec_pipeline.c\
+				fill_pipeline.c\
+				pipeline_init_process.c\
 				exec_subshell.c\
 				eval_exec.c\
 				heredoc.c\

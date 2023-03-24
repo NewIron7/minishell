@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/24 12:47:14 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:11:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -48,7 +48,7 @@ void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 	while (++i < process->tokens.start)
 		tokens = tokens->next;
 	if (tokens->type == LEFT_PAR)
-		return (exec_subshell(process, &envp->env, pipeline));
+		return (exec_subshell(process, envp, pipeline));
 	if (!verif_simple_cmd(process, tokens, envp, &args))
 		return ;
 	builtin = is_builtin(args);

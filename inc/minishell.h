@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 12:45:48 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 16:42:41 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void		exec_list(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
 void		exec_pipeline(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
+void		fill_pipeline(t_subtokens tokens, t_list **pipeline);
+int			pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile, int outfile);
 void		exec_simple_cmd(t_process *process, t_env *envp,
 				int need_fork, t_list **pipeline);
 char		ft_heredoc(t_parsing *tokens);
@@ -81,7 +83,7 @@ int			pipeline_status(t_list *pipeline);
 t_list		**free_pipeline(t_list **pipeline);
 void		free_all(t_parsing *pars, char *envp[],
 				t_list **pipeline, char **args);
-void		exec_subshell(t_process *process, char **envp[],
+void		exec_subshell(t_process *process, t_env *envp,
 				t_list **pipeline);
 int			get_shell_code(t_list *pipeline);
 char		**exp_cmd_wild(char *str);
