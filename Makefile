@@ -28,7 +28,8 @@ SRCLIST		=	main.c\
 				exec_builtin.c\
 				exec_cmd.c\
 				exec_simple_cmd.c\
-				exec_simple_cmd_utils.c\
+				verif_simple_cmd.c\
+				set_fd_redirect.c\
 				exec_list.c\
 				exec_pipeline.c\
 				exec_subshell.c\

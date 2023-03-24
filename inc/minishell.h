@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/17 17:41:04 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:45:48 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ void		exec_simple_cmd(t_process *process, t_env *envp,
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
 char		is_builtin(char *argv[]);
-char		put_new_fd_redirec(t_parsing *tokens,
-				int *fd_out, int *fd_in);
-char		is_redirection(t_parsing *tokens);
+char		set_fd_redirect(int *fd_in, int *fd_out, t_parsing *tokens, int redirs);
+int			verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp, char ***args);
 t_subtokens	subtokens_init(t_parsing *tokens, int start,
 				int sep, int end);
 int			get_status(int status);
