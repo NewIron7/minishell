@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 06:52:10 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 01:58:04 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	exec_subshell(t_process *process, char **envp[], t_list **pipeline)
 	int		i;
 	t_env	sub_env;
 	t_parsing	*cpy;
+	t_subtokens	sub_tokens;
 
 	sub_env.env = *envp;
 	sub_env.code = 0;
 	process->pid = fork();
+	sub_tokens = process->tokens;
 	if (process->pid == -1)
 		return ;
 	else if (!process->pid)
@@ -38,11 +40,11 @@ void	exec_subshell(t_process *process, char **envp[], t_list **pipeline)
 			cpy = cpy->next;
 			i++;
 		}
-		eval_exec(subtokens_init(process->tokens.tokens, process->tokens.start + 1, 0, i - 1), &sub_env, &sub_pipeline);
-		sub_env.code = get_shell_code(sub_pipeline);
-		ft_lstclear_parsing(process->tokens.tokens);
-		free_pipeline(&sub_pipeline);
 		free_pipeline(pipeline);
+		eval_exec(subtokens_init(sub_tokens.tokens, sub_tokens.start + 1, 0, i - 1), &sub_env, &sub_pipeline);
+		sub_env.code = get_shell_code(sub_pipeline);
+		ft_lstclear_parsing(sub_tokens.tokens);
+		free_pipeline(&sub_pipeline);
 		free_env(*envp);
 		exit(sub_env.code);
 	}
