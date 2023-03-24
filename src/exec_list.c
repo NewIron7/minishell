@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 03:30:34 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:23:02 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ void	exec_list(t_subtokens tokens, t_env *envp, t_list **pipeline)
 	cpy = tokens.tokens;
 	while (++i < tokens.sep)
 		cpy = cpy->next;
-	if (!is_pipeline_sigint(*pipeline) && ((!pipeline_status(*pipeline) && cpy->type == AND) || (pipeline_status(*pipeline) && cpy->type == OR)))
-		return (eval_exec(subtokens_init(tokens.tokens, tokens.sep + 1, 0, tokens.end), envp, free_pipeline(pipeline)));
-	cpy = cpy->next;
-	i++;
 	while (!is_pipeline_sigint(*pipeline) && cpy && ((!pipeline_status(*pipeline) && cpy->type != AND) || (pipeline_status(*pipeline) && cpy->type != OR)))
 	{
 		if (cpy->type == LEFT_PAR)
