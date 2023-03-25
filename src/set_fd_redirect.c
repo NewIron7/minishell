@@ -6,32 +6,30 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:35:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 12:36:45 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/25 12:44:12 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	open_fd(int *fd, int default_fd, char *path, int flags)
-{
-	if (*fd != default_fd)
-		close(*fd);
-	return (open(path, flags));
-}
-
 static	int	open_fd_in(int *fd, char *path)
 {
-	*fd = open_fd(fd, STDIN_FILENO, path, O_RDONLY);
+	if (*fd != STDIN_FILENO)
+		close(*fd);
+	*fd = open(path, O_RDONLY);
+	if (*fd == -1)
+		return (0);
 	return (1);
 }
 
 static	int	open_fd_out(int *fd, char *path, int flag)
 {
-	int	flags;
-
-	flags = O_WRONLY | O_CREAT
-		| S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
-	*fd = open_fd(fd, STDOUT_FILENO, path, flags | flag);
+	if (*fd != STDOUT_FILENO)
+		close(*fd);
+	*fd = open(path, O_WRONLY | O_CREAT | flag,
+		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	if (*fd == -1)
+		return (0);
 	return (1);
 }
 
