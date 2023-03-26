@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 16:12:25 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:47:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	exec_pipeline(t_subtokens tokens, t_env *envp, t_list **pipeline)
 	{
 		process = cpy->content;
 		exec_simple_cmd(process, envp, need_fork, pipeline);
-		if (process->infile != STDIN_FILENO)
+		if (process->infile != STDIN_FILENO && process->infile != -1)
 			close(process->infile);
-		if (process->outfile != STDOUT_FILENO)
+		if (process->outfile != STDOUT_FILENO && process->outfile != -1)
 			close(process->outfile);
 		cpy = cpy->next;
 	}
