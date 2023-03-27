@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 19:35:13 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/28 19:36:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:12:52 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,5 @@ int	redirect_out(int fd)
 		perror("minishell");
 		return (0);
 	}
-	close(fd);
 	return (1);
 }

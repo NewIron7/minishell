@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/26 18:47:54 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 04:28:10 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,42 @@ static void	killed_printer(t_list *pipeline)
 	}
 }
 
-static void	wait_pipeline(t_list **pipeline)
+static void	close_pipeline(t_list *pipeline)
 {
-	t_list		*cpy;
 	t_process	*process;
 
-	cpy = *pipeline;
-	while (cpy)
+	while (pipeline)
 	{
-		process = cpy->content;
+		process = pipeline->content;
+		if (process->infile != STDIN_FILENO && process->infile != -1)
+		{
+			close(process->infile);
+			process->infile = STDIN_FILENO;
+		}
+		if (process->outfile != STDOUT_FILENO && process->outfile != -1)
+		{
+			close(process->outfile);
+			process->outfile = STDOUT_FILENO;
+		}
+		pipeline = pipeline->next;
+	}
+}
+
+static void	wait_pipeline(t_list *pipeline)
+{
+	t_process	*process;
+
+	close_pipeline(pipeline);
+	while (pipeline)
+	{
+		process = pipeline->content;
 		if (process->pid)
 		{
 			waitpid(process->pid, &process->status, 0);
 			if (WIFSIGNALED(process->status))
 				process->killed = 1;
 		}
-		cpy = cpy->next;
+		pipeline = pipeline->next;
 	}
 }
 
@@ -68,13 +88,9 @@ void	exec_pipeline(t_subtokens tokens, t_env *envp, t_list **pipeline)
 	{
 		process = cpy->content;
 		exec_simple_cmd(process, envp, need_fork, pipeline);
-		if (process->infile != STDIN_FILENO && process->infile != -1)
-			close(process->infile);
-		if (process->outfile != STDOUT_FILENO && process->outfile != -1)
-			close(process->outfile);
 		cpy = cpy->next;
 	}
-	wait_pipeline(pipeline);
+	wait_pipeline(*pipeline);
 	envp->code = get_shell_code(*pipeline);
 	killed_printer(*pipeline);
 }

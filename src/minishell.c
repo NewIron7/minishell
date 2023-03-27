@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 23:38:46 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 04:43:17 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -26,6 +26,8 @@ int	get_shell_code(t_list *pipeline)
 
 	pipeline = ft_lstlast(pipeline);
 	process = pipeline->content;
+	if (!process->pid || process->pid == -1)
+		return (process->status);
 	if (WIFEXITED(process->status))
 		return (WEXITSTATUS(process->status));
 	else if (WIFSIGNALED(process->status))

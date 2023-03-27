@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:35:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/26 17:47:55 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:55:32 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	open_fd_out(int *fd, char *path, int flag)
 	if (*fd != STDOUT_FILENO)
 		close(*fd);
 	*fd = open(path, O_WRONLY | O_CREAT | flag,
-		S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 }
 
 static char	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in)
