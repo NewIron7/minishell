@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 16:42:41 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:08:05 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_process
 	int			outfile;
 }	t_process;
 
+void		sig_handler(int sig);
 int			init_env(char **envp[]);
 void		free_env(char *envp[]);
 void		main_loop(void);
