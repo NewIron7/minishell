@@ -6,12 +6,12 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 04:43:17 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/27 17:08:10 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-static void	sig_handler(int sig)
+void	sig_handler(int sig)
 {
 	(void) sig;
 	printf("\n");
