@@ -27,7 +27,7 @@ int	exec_cmd(char *argv[], char *envp[], t_process *process, t_list **pipeline)
 	free_pipeline(pipeline);
 	path = *argv;
 	if (!ft_strchr(*argv, '/'))
-		path = search_path(*argv, envp);
+		path = search_path(*argv, envp, "PATH");
 	if (!path)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", *argv);
