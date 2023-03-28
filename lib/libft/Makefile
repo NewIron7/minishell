@@ -6,7 +6,7 @@
 #    By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/07 09:48:13 by ddelhalt          #+#    #+#              #
-#    Updated: 2023/01/22 07:53:44 by ddelhalt         ###   ########.fr        #
+#    Updated: 2023/03/28 20:00:57 by ddelhalt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ SRCS		=	ft_isalpha.c\
 				ft_basename.c\
 				ft_strcmp.c\
 				ft_abs.c\
+				ft_strstr.c\
 				ft_dynalloc.c
 
 OBJS		=	$(SRCS:%.c=%.o)

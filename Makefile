@@ -17,6 +17,8 @@ SRCLIST		=	main.c\
 				parser/space_split.c\
 				parser/expand_elem.c\
 				parser/expand_wildcard.c\
+				parser/get_wildcard_shards.c\
+				parser/clear_split.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/echo.c\

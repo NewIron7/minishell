@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 09:15:54 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/01/22 07:56:17 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 20:01:29 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int		ft_file_buffer_reload(t_file *file);
 char	*ft_basename(char *cmd);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_abs(int x);
+char	*ft_strstr(const char *big, const char *little);
 void	*ft_dynalloc(void *ptr, size_t nmemb, size_t add, size_t size);
 
 #endif

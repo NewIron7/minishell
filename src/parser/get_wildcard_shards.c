@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   space_split.c                                      :+:      :+:    :+:   */
+/*   get_wildcard_shards.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 17:00:33 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 20:11:14 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/03/28 19:49:30 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/03/28 20:10:48 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static int	count_split(char *str)
+static int	count_shards(char *str)
 {
 	int		count;
 	char	*next;
@@ -25,12 +25,11 @@ static int	count_split(char *str)
 			next = ft_strchr(str + 1, '"');
 		else if (*str == '\'')
 			next = ft_strchr(str + 1, '\'');
-		else if (ft_isspace(*str))
+		else if (*str == '*')
 		{
-			while (ft_isspace(*str + 1))
+			while (*str + 1 == '*')
 				str++;
-			if (*str + 1)
-				count++;
+			count++;
 		}
 		if (next)
 			str = next;
@@ -39,13 +38,13 @@ static int	count_split(char *str)
 	return (count);
 }
 
-static int	splitlen(char *str)
+static int	wildlen(char *str)
 {
-	char	*next;
 	int		len;
+	char	*next;
 
 	len = 0;
-	while (*str && !ft_isspace(*str))
+	while (*str && *str != '*')
 	{
 		next = NULL;
 		if (*str == '"')
@@ -63,40 +62,38 @@ static int	splitlen(char *str)
 	return (len);
 }
 
-static int	fill_split(char **str, int i, char ***split)
+static int	fill_shards(char **str, int i, char ***shards)
 {
 	int		strlen;
 
-	strlen = splitlen(*str);
-	(*split)[i] = ft_substr((*str), 0, strlen);
-	if (!(*split)[i])
+	strlen = wildlen(*str);
+	(*shards)[i] = ft_substr((*str), 0, strlen);
+	if (!(*shards)[i])
 	{
-		clear_split(split);
+		clear_split(shards);
 		return (0);
 	}
 	(*str) += strlen;
 	return (1);
 }
 
-int	space_split(char *str, char ***split)
+int	get_wildcard_shards(char *str, char ***shards)
 {
 	int	count;
 	int	i;
 
-	while (*str && ft_isspace(*str))
-		str++;
-	count = count_split(str);
+	count = count_shards(str);
 	if (!count)
 		return (1);
-	*split = ft_calloc(count + 2, sizeof(char *));
-	if (!*split)
+	*shards = ft_calloc(count + 2, sizeof(char *));
+	if (!shards)
 		return (0);
 	i = 0;
 	while (i <= count)
 	{
-		if (!fill_split(&str, i++, split))
+		if (!fill_shards(&str, i++, shards))
 			return (0);
-		while (ft_isspace(*str))
+		while (*str == '*')
 			str++;
 	}
 	return (1);
