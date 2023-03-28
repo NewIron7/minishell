@@ -6,14 +6,14 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:54:28 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 17:42:29 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:50:15 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
 char	syntax_error_near(char *str)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", str);
+	ft_printf_fd(2, "minishell: syntax error near unexpected token `%s'\n", str);
 	return (2);
 }
 
@@ -36,7 +36,7 @@ char	unvalid_token(t_parsing *tokens)
 	if (tokens && tokens->next)
 	{
 		if (tokens->prev == NULL)
-			return (1);		
+			return (1);
 		next = tokens->next->type;
 		if (next == AND || next == OR || next == PIPE)
 			return (1);

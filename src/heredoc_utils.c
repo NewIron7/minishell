@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 08:48:07 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 02:38:54 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/03/28 16:36:19 by hboissel          #+#    #+#             */
+/*   Updated: 2023/03/28 16:37:25 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(char **envp[])
+char	check_ctrl_d(char *line, char *end)
 {
-	if (isatty(STDIN_FILENO))
+	if (line == NULL)
 	{
-		if (!init_env(envp))
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
-		signal(SIGINT, &sig_handler);
-		signal(SIGQUIT, SIG_IGN);
+		ft_printf_fd(2, "minishell: warning: here-document at line 1 ");
+		ft_printf_fd(2, "delimited by end-of-file (wanted `%s')\n", end);
+		return (1);
 	}
-	else
-		exit(0);
+	return (0);
 }

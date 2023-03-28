@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 16:31:52 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:30:08 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,17 @@ void		exec_list(t_subtokens tokens, t_env *envp,
 void		exec_pipeline(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
 void		fill_pipeline(t_subtokens tokens, t_list **pipeline);
-int			pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile, int outfile);
+int			pipeline_init_process(t_subtokens tokens, t_list **pipeline,
+				int infile, int outfile);
 void		exec_simple_cmd(t_process *process, t_env *envp,
 				int need_fork, t_list **pipeline);
 char		ft_heredoc(t_parsing *tokens);
 int			ft_lstsize_parsing(t_parsing *tokens);
 char		is_builtin(char *argv[]);
-char		set_fd_redirect(int *fd_in, int *fd_out, t_parsing *tokens, int redirs);
-int			verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp, char ***args);
+char		set_fd_redirect(int *fd_in, int *fd_out, t_parsing *tokens,
+				int redirs);
+int			verif_simple_cmd(t_process *process, t_parsing *tokens,
+				t_env *envp, char ***args);
 t_subtokens	subtokens_init(t_parsing *tokens, int start,
 				int sep, int end);
 int			get_status(int status);
@@ -87,6 +90,10 @@ void		exec_subshell(t_process *process, t_env *envp,
 				t_list **pipeline);
 int			get_shell_code(t_list *pipeline);
 char		**exp_cmd_wild(char *str);
+int			fill_split(char **str, int i, char ***split);
+char		*check_cpy(char *cpy);
+int			count_split(char *str);
+char		check_ctrl_d(char *line, char *end);
 
 int			builtin_cd(char *const argv[]);
 int			builtin_echo(char *const argv[], int fd);
