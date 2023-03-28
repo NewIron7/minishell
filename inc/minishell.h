@@ -88,6 +88,9 @@ void		exec_subshell(t_process *process, t_env *envp,
 				t_list **pipeline);
 int			get_shell_code(t_list *pipeline);
 char		**exp_cmd_wild(char *str);
+int fill_split(char **str, int i, char ***split);
+char    *check_cpy(char *cpy);
+int count_split(char *str);
 
 int			builtin_cd(char *const argv[]);
 int			builtin_echo(char *const argv[], int fd);

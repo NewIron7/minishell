@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 22:18:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:24:34 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -83,18 +83,14 @@ char	put_var_env(t_parsing **list_parsing, char **env, int code)
 	while (elem && elem->type != AND && elem->type != OR
 		&& elem->type != RIGHT_PAR)
 	{
-		if (elem->type == LEFT_PAR)
-		{
-			while (elem->type != RIGHT_PAR)
-				elem = elem->next;
-		}
-		else if (elem->type == CMD || elem->type == ARG)
+		if (!skip_subshells(&elem)
+			&& (elem->type == CMD || elem->type == ARG))
 		{
 			content_env[1] = &elem->content;
 			err = put_var_quote(content_env, code, 0);
 			if (err)
 				return (err);
-			if(!expand_space(elem))
+			if (!expand_space(elem))
 				return (EXIT_FAILURE);
 			rm_quotes(elem->content);
 		}

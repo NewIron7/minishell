@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/17 16:59:34 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:29:39 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -79,7 +79,7 @@ static char	verif_var(char **var, char *content, int pos, int *len_var)
 }
 
 char	check_var_env_txt(char **content_env[], char **var,
-	int *len_var, int i)
+		int *len_var, int i)
 {
 	int	err;
 
@@ -98,5 +98,16 @@ char	check_var_env_txt(char **content_env[], char **var,
 		return (syntax_error_near(*content_env[1]), 2);
 	else if (err)
 		return (1);
+	return (0);
+}
+
+char	skip_subshells(t_parsing **elem)
+{
+	if ((*elem)->type == LEFT_PAR)
+	{
+		while ((*elem)->type != RIGHT_PAR)
+			*elem = (*elem)->next;
+		return (1);
+	}
 	return (0);
 }

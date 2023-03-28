@@ -15,6 +15,7 @@ SRCLIST		=	main.c\
 				parser/gather_txt.c\
 				parser/parser_get_utils.c\
 				parser/expand_space.c\
+				parser/expand_space_utils.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/echo.c\

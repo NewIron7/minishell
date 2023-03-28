@@ -115,6 +115,7 @@ char		get_var_env_txt(const char *txt, char **var);
 char		get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 int			expand_space(t_parsing *elem);
+char    skip_subshells(t_parsing **elem);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);
