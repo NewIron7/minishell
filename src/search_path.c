@@ -25,7 +25,7 @@ static void	free_strs(char **strs)
 	free(strs);
 }
 
-static char	get_path_env(char **env, char ***paths)
+static char	get_path_env(char **env, char ***paths, char *var)
 {
 	int	i;
 
@@ -33,11 +33,9 @@ static char	get_path_env(char **env, char ***paths)
 	i = 0;
 	while (env[i])
 	{
-		if (env[i][0] == 'P' && env[i][1] == 'A' && env[i][2] == 'T'
-			&& env[i][3] == 'H'
-			&& env[i][4] == '=')
+		if (ft_strnstr(env[i], var, ft_strlen(var)))
 		{
-			*paths = ft_split(&env[i][5], ':');
+			*paths = ft_split(&env[i][ft_strlen(var)], ':');
 			if (*paths == NULL)
 				return (1);
 			break ;
@@ -85,14 +83,14 @@ static char	check_access(char *path)
 	return (0);
 }
 
-char	*search_path(char *cmd, char **env)
+char	*search_path(char *cmd, char **env, char *var)
 {
 	char		*path;
 	char		**paths;
 	char		err;
 	int			i;
 
-	err = get_path_env(env, &paths);
+	err = get_path_env(env, &paths, var);
 	if (err)
 		return (NULL);
 	i = 0;

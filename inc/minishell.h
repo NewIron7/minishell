@@ -58,7 +58,7 @@ int			exec_cmd(char *argv[], char *envp[],
 				t_process *process, t_list **pipeline);
 int			redirect_in(int fd);
 int			redirect_out(int fd);
-char		*search_path(char *cmd, char **env);
+char		*search_path(char *cmd, char **env, char *var);
 void		eval_exec(t_subtokens tokens, t_env *envp,
 				t_list **pipeline);
 void		exec_list(t_subtokens tokens, t_env *envp,
