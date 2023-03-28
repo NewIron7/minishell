@@ -36,7 +36,7 @@ int	exec_cmd(char *argv[], char *envp[], t_process *process, t_list **pipeline)
 	}
 	execve(path, argv, envp);
 	ft_printf_fd(STDERR_FILENO, "minishell: ");
-	perror(path);
+	perror(*argv);
 	free_all(tokens, envp, NULL, argv);
 	exit(126);
 }

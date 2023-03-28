@@ -13,7 +13,7 @@
 
 char	syntax_error_near(char *str)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", str);
+	ft_printf_fd(2, "minishell: syntax error near unexpected token `%s'\n", str);
 	return (2);
 }
 

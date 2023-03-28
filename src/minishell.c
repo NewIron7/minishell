@@ -14,7 +14,7 @@
 void	sig_handler(int sig)
 {
 	(void) sig;
-	printf("\n");
+	ft_printf_fd(1, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();

@@ -21,7 +21,7 @@ void	init_shell(char **envp[])
 			perror("minishell");
 			exit(EXIT_FAILURE);
 		}
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else

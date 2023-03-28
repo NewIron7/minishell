@@ -16,8 +16,8 @@ char	check_ctrl_d(char *line, char *end)
 {
 	if (line == NULL)
 	{
-		printf("minishell: warning: here-document at line 1 ");
-		printf("delimited by end-of-file (wanted `%s')\n", end);
+		ft_printf_fd(2, "minishell: warning: here-document at line 1 ");
+		ft_printf_fd(2, "delimited by end-of-file (wanted `%s')\n", end);
 		return (1);
 	}
 	return (0);
