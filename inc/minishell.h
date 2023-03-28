@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 17:04:33 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:30:08 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <dirent.h>
 
 enum e_mode
 {

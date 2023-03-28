@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 17:04:54 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:30:51 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 
 # include <libft.h>
+
+# include <dirent.h>
 
 enum e_id_char
 {
@@ -114,7 +116,9 @@ char		get_redirect(char *cmd, char *id_tab, int *i,
 char		get_var_env_txt(const char *txt, char **var);
 char		get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
-int			expand_space(t_parsing *elem);
+int			expand_elem(t_parsing *elem, int (*splitter)(char *, char ***));
+int			space_split(char *str, char ***split);
+int			expand_wildcard(char *str, char ***split);
 char		skip_subshells(t_parsing **elem);
 
 //DEBUG
