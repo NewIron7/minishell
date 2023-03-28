@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 22:18:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:16:21 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -94,7 +94,9 @@ char	put_var_env(t_parsing **list_parsing, char **env, int code)
 			err = put_var_quote(content_env, code, 0);
 			if (err)
 				return (err);
-			if(!expand_space(elem))
+			if(!expand_elem(elem, &space_split))
+				return (EXIT_FAILURE);
+			if (!expand_elem(elem, &expand_wildcard))
 				return (EXIT_FAILURE);
 			rm_quotes(elem->content);
 		}

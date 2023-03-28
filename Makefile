@@ -14,7 +14,9 @@ SRCLIST		=	main.c\
 				parser/list_utils.c\
 				parser/gather_txt.c\
 				parser/parser_get_utils.c\
-				parser/expand_space.c\
+				parser/space_split.c\
+				parser/expand_elem.c\
+				parser/expand_wildcard.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/echo.c\
@@ -43,7 +45,6 @@ SRCLIST		=	main.c\
 				get_status.c\
 				init_shell.c\
 				free_utils.c\
-				wildcard_utils.c\
 				minishell.c
 				
 

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_space.c                                     :+:      :+:    :+:   */
+/*   space_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:00:33 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 22:33:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:46:23 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parser.h"
 
 static int	count_split(char *str)
 {
@@ -58,7 +58,7 @@ static int	fill_split(char **str, int i, char ***split)
 
 	strlen = 0;
 	cpy = *str;
-	while (!ft_isspace(*cpy))
+	while (*cpy && !ft_isspace(*cpy))
 	{
 		next = NULL;
 		if (*cpy == '"')
@@ -83,7 +83,7 @@ static int	fill_split(char **str, int i, char ***split)
 	return (1);
 }
 
-static int	space_split(char *str, char ***split)
+int	space_split(char *str, char ***split)
 {
 	int	count;
 	int	i;
@@ -106,46 +106,3 @@ static int	space_split(char *str, char ***split)
 	}
 	return (1);
 }
-
-int	expand_space(t_parsing *elem)
-{
-	char		**split;
-	t_parsing	*next;
-	t_parsing	*new;
-	int			i;
-
-	split = NULL;
-	if (!space_split(elem->content, &split))
-		return (0);
-	if (!split)
-		return (1);
-	i = 0;
-	next = elem->next;
-	while (split[i])
-	{
-		if (i)
-		{
-			new = ft_lstnew_parsing(split[i], ARG);
-			if (!new)
-			{
-				while (split[i])
-					free(split[i]);
-				free(split);
-				return (0);
-			}
-			new->prev = elem;
-			elem->next = new;
-		}
-		else
-			new = elem;
-		new->content = split[i];
-		elem = new;
-		i++;
-	}
-	new->next = next;
-	if (next)
-		next->prev = new;
-	free(split);
-	return (1);
-}
-	
