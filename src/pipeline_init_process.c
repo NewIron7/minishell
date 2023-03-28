@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:43:13 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 17:26:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:48:56 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static t_process	*create_process(t_subtokens tokens, int infile)
 	return (process);
 }
 
-int	pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile, int outfile)
+int	pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile,
+	int outfile)
 {
 	t_process	*process;
 	t_list		*lst;

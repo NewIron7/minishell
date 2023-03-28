@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:12:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/24 16:42:59 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:47:46 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,16 @@ void	fill_pipeline(t_subtokens tokens, t_list **pipeline)
 	{
 		if (cpy->type == PIPE)
 		{
-			fd = pipeline_init_process(subtokens_init(tokens.tokens, tokens.start, 0, i), pipeline, fd, STDOUT_FILENO);
+			fd = pipeline_init_process(subtokens_init(tokens.tokens,
+						tokens.start, 0, i), pipeline, fd, STDOUT_FILENO);
 			if (fd < 0)
 				return (fill_pipeline_err(pipeline));
-			i++;
 			cpy = cpy->next;
-			tokens.start = i;
+			tokens.start = ++i;
 		}
 		goto_next_pipe(&cpy, &i, tokens.end);
 	}
-	if (pipeline_init_process(subtokens_init(tokens.tokens, tokens.start, 0, tokens.end), pipeline, fd, 0) < 0)
+	if (pipeline_init_process(subtokens_init(tokens.tokens, tokens.start,
+				0, tokens.end), pipeline, fd, 0) < 0)
 		return (fill_pipeline_err(pipeline));
 }

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:48:48 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 19:36:47 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:02:30 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,8 @@ char	**exp_cmd_wild(char *str)
 		if (is_matching(str, shards, entry->d_name))
 		{
 			if (!add_match(entry->d_name, &matches, &size))
-			{
-				free_split(shards);
-				free_split(matches);
-				perror("minishell");
-				return (NULL);
-			}
+				return (free_split(shards), free_split(matches),
+					perror("minishell"), NULL);
 		}
 		entry = readdir(dir);
 	}

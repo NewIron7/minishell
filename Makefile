@@ -39,6 +39,7 @@ SRCLIST		=	main.c\
 				exec_subshell.c\
 				eval_exec.c\
 				heredoc.c\
+				heredoc_utils.c\
 				ft_lstsize_parsing.c\
 				subtokens_init.c\
 				get_status.c\

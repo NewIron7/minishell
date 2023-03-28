@@ -6,25 +6,22 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 17:16:47 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:36:02 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 static int	g_fd = -1;
 
-void	sig_handler_heredoc(int sig)
+static void	sig_handler_heredoc(int sig)
 {
 	(void)sig;
-	//printf("\n");
-	//rl_on_new_line();
 	rl_replace_line("", 1);
 	g_fd = dup(0);
 	close(0);
-	//rl_redisplay();
 }
 
-static char	init_heredoc(t_parsing **tokens, char **txt, int tube[2])
+char	init_heredoc(t_parsing **tokens, char **txt, int tube[2])
 {
 	unsigned long	size;
 
@@ -41,17 +38,6 @@ static char	init_heredoc(t_parsing **tokens, char **txt, int tube[2])
 	return (0);
 }
 
-static char	check_ctrl_d(char *line, char *end)
-{
-	if (line == NULL)
-	{
-		printf("minishell: warning: here-document at line 1 ");
-		printf("delimited by end-of-file (wanted `%s')\n", end);
-		return (1);
-	}
-	return (0);
-}
-
 static char	get_the_line(t_parsing **tokens, char **txt, int tube[2])
 {
 	char	*line;
@@ -65,7 +51,7 @@ static char	get_the_line(t_parsing **tokens, char **txt, int tube[2])
 		return (free(*txt), close(tube[0]), close(tube[1]), -2);
 	}
 	if (check_ctrl_d(line, (*tokens)->content)
-			|| ft_strcmp(line, (*tokens)->content) == 0)
+		|| ft_strcmp(line, (*tokens)->content) == 0)
 		return (free(line), 1);
 	tmp = ft_strjoin(*txt, line);
 	free(*txt);

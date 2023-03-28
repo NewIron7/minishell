@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 22:19:50 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:04:54 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -115,7 +115,7 @@ char		get_var_env_txt(const char *txt, char **var);
 char		get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 int			expand_space(t_parsing *elem);
-char    skip_subshells(t_parsing **elem);
+char		skip_subshells(t_parsing **elem);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);

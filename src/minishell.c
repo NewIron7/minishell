@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 17:08:10 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:48:20 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -36,7 +36,8 @@ int	get_shell_code(t_list *pipeline)
 		return (EXIT_FAILURE);
 }
 
-static t_env	process_line(char *line, t_parsing **parsing, t_list **pipeline, t_env envp)
+static t_env	process_line(char *line, t_parsing **parsing,
+	t_list **pipeline, t_env envp)
 {
 	char	err;
 

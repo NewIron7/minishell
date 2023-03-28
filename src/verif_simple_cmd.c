@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:42:48 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 16:02:17 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:59:05 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static char	get_args(t_parsing *tokens, int end, int start, char ***args)
 	return (0);
 }
 
-int	verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp, char ***args)
+int	verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp,
+	char ***args)
 {
 	int			redir;
 

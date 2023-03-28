@@ -6,12 +6,13 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/27 04:41:26 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:00:07 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-static	void	fork_exec_cmd(char **args, char **envp, t_process *process, t_list **pipeline)
+static	void	fork_exec_cmd(char **args, char **envp, t_process *process,
+	t_list **pipeline)
 {
 	process->pid = fork();
 	if (process->pid)
@@ -20,7 +21,8 @@ static	void	fork_exec_cmd(char **args, char **envp, t_process *process, t_list *
 		exec_cmd(args, envp, process, pipeline);
 }
 
-static	void	fork_exec_builtin(char **args, char ***envp, t_process *process, t_list **pipeline)
+static	void	fork_exec_builtin(char **args, char ***envp, t_process *process,
+	t_list **pipeline)
 {
 	int	ret;
 
