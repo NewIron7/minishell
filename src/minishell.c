@@ -6,10 +6,12 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 16:48:20 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:49:56 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+extern int	g_fd;
 
 void	sig_handler(int sig)
 {
@@ -18,6 +20,7 @@ void	sig_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
+	g_fd = -2;
 }
 
 int	get_shell_code(t_list *pipeline)
@@ -56,6 +59,15 @@ static t_env	process_line(char *line, t_parsing **parsing,
 	return (envp);
 }
 
+void	check_ctrl_c(int *code)
+{
+	if (g_fd == -2)
+	{
+		*code = 130;
+		g_fd = -1;
+	}
+}
+
 void	main_loop(void)
 {
 	char		*line;
@@ -72,6 +84,7 @@ void	main_loop(void)
 		if (!line)
 			builtin_exit(NULL, envp.env, NULL, NULL);
 		add_history(line);
+		check_ctrl_c(&envp.code);
 		if (*line)
 			envp = process_line(line, &list_parsing, &pipeline, envp);
 		else

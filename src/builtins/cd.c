@@ -6,12 +6,12 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:18:17 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 19:28:42 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:43:22 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static char	exec_cd(char *path)
 {
 	if (chdir(path))
@@ -111,9 +111,9 @@ static void	do_cd(char	*path, char **env)
 		path = clean_path(cpath);
 	else
 		path = clean_path(path);
-}
+}*/
 
-int	builtin_cd(char *const argv[], char **env)
+int	builtin_cd(char *const argv[])
 {
 	if (*++argv)
 	{
