@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:49:30 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 20:10:48 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/29 10:38:44 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	get_wildcard_shards(char *str, char ***shards)
 	{
 		if (!fill_shards(&str, i++, shards))
 			return (0);
+		rm_quotes((*shards)[i - 1]);
 		while (*str == '*')
 			str++;
 	}

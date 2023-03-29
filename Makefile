@@ -19,6 +19,7 @@ SRCLIST		=	main.c\
 				parser/expand_wildcard.c\
 				parser/get_wildcard_shards.c\
 				parser/clear_split.c\
+				parser/rm_quotes.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/echo.c\
