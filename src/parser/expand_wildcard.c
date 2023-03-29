@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:48:48 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 10:34:54 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:10:12 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	is_matching(char **shards, char *file)
 	int	i;
 
 	i = 0;
+	if (*file == '.' && **shards != '.')
+		return (0);
 	if (**shards)
 	{
 		if (ft_strncmp(*shards, file, ft_strlen(*shards)))
