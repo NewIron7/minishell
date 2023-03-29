@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 17:01:08 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:41:07 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static int	subshell_init(t_process *process, t_subtokens *tokens,
 {
 	int	i;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	*tokens = process->tokens;
 	*cpy = tokens->tokens;
 	i = -1;
@@ -39,15 +37,25 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	int			new_end;
 	t_parsing	*cpy;
 	t_subtokens	tokens;
+	int			redir_in;
+	int			redir_out;
 
 	process->pid = fork();
 	if (process->pid == -1)
 		return ;
 	else if (!process->pid)
 	{
+		redir_in = dup2(process->infile, STDIN_FILENO);
+		redir_out = dup2(process->outfile, STDOUT_FILENO);
 		new_end = subshell_init(process, &tokens, &cpy, pipeline);
-		eval_exec(subtokens_init(tokens.tokens, tokens.start + 1, 0,
-				new_end - 1), envp, pipeline);
+		if (redir_in != -1 && redir_out != -1)
+			eval_exec(subtokens_init(tokens.tokens, tokens.start + 1, 0,
+					new_end - 1), envp, pipeline);
+		else
+		{
+			perror("minishell");
+			envp->code = EXIT_FAILURE;
+		}
 		ft_lstclear_parsing(tokens.tokens);
 		free_pipeline(pipeline);
 		free_env(envp->env);

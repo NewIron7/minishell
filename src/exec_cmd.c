@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 05:03:53 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:31:56 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	exec_cmd(char *argv[], char *envp[], t_process *process, t_list **pipeline)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
 	tokens = process->tokens.tokens;
 	if (process->infile != STDIN_FILENO)
 		redirect_in(process->infile);
