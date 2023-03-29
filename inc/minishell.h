@@ -95,7 +95,7 @@ char		*check_cpy(char *cpy);
 int			count_split(char *str);
 char		check_ctrl_d(char *line, char *end);
 
-int			builtin_cd(char *const argv[]);
+int			builtin_cd(char *const argv[], char **env[]);
 int			builtin_echo(char *const argv[], int fd);
 int			builtin_env(char *const envp[], int fd);
 int			builtin_export(char *const argv[], char **envp[]);
