@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:08:22 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 18:04:14 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:37:10 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	add_pwd(char **path, char **env)
 
 	pwd = get_pwd(env);
 	if (pwd == NULL)
-		return (exec_cd(*path), 2);
+		return (exec_cd(*path, 0), 2);
 	if (pwd[ft_strlen(pwd) - 1] != '/')
 	{
 		npath = ft_strjoin(pwd, "/");

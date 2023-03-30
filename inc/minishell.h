@@ -96,7 +96,7 @@ int			count_split(char *str);
 char		check_ctrl_d(char *line, char *end);
 int			size_dir(char *path);
 char		*get_pwd(char **env);
-char		exec_cd(char *path);
+char		exec_cd(char *path, char cdpath);
 char		rm_current_dir(char **path, int *i, int size);
 char		rm_prev_dir(char **path, int *i);
 char		clean_path(char **path);
