@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/30 14:04:37 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:09:51 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 		eval_exec(subtokens_init(tokens.tokens, tokens.start + 1, 0,
 				new_end - 1), envp, pipeline);
 		ft_lstclear_parsing(tokens.tokens);
-		status = get_exit_status(pipeline);
+		status = get_exit_status(*pipeline);
 		free_pipeline(pipeline);
 		free_env(envp->env);
 		exit(status);
