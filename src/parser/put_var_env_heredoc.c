@@ -55,7 +55,7 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 		return (free(txt), 1);
 	err = put_var_env_elem(content_env, code, 0, '\0');
 	if (err)
-		return (err);
+		return (free(txt), err);
 	write(tube[1], txt, ft_strlen(txt));
 	close(tube[1]);
 	free(txt);

@@ -72,7 +72,8 @@ int	verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp,
 	if (redir && set_fd_redirect(&process->infile, &process->outfile,
 			tokens, redir))
 		return (0);
-	put_var_env(&tokens, envp->env, envp->code);
+	if (put_var_env(&tokens, envp->env, envp->code))
+		return (0);
 	if (get_args(tokens, process->tokens.end, process->tokens.start, args))
 		return (0);
 	if (**args == NULL)

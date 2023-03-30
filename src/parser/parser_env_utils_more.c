@@ -69,7 +69,7 @@ int	insert_value_var(char **content, char *value, int *len_var, int *i)
 	return (0);
 }
 
-static char	is_char_var_env(char c)
+char	is_char_var_env(char c)
 {
 	if (ft_isalnum(c) || c == '_' || c == '{')
 		return (1);

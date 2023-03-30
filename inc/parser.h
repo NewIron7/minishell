@@ -103,6 +103,7 @@ char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);
 char		second_quote(char *id_tab, int *i);
 char		syntax_error_near(char *str);
+char		is_char_var_env(char c);
 
 char		get_space(char *id_tab, int *i, t_parsing **list_parsing);
 char		get_elem_quoted(char *cmd, char *id_tab, int *i,
