@@ -6,21 +6,26 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 15:31:56 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:24:37 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_parsing	*init_cmd(t_parsing *tokens)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
+	return (tokens);
+}
 
 int	exec_cmd(char *argv[], char *envp[], t_process *process, t_list **pipeline)
 {
 	char		*path;
 	t_parsing	*tokens;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGPIPE, SIG_DFL);
-	tokens = process->tokens.tokens;
+	tokens = init_cmd(process->tokens.tokens);
 	if (process->infile != STDIN_FILENO)
 		redirect_in(process->infile);
 	if (process->outfile != STDOUT_FILENO)
