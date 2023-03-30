@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 18:30:08 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:10:20 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ int			fill_split(char **str, int i, char ***split);
 char		*check_cpy(char *cpy);
 int			count_split(char *str);
 char		check_ctrl_d(char *line, char *end);
+int			size_dir(char *path);
+char		*get_pwd(char **env);
+char		exec_cd(char *path);
+char		rm_current_dir(char **path, int *i, int size);
+char		rm_prev_dir(char **path, int *i);
+char		clean_path(char **path);
+char		add_pwd(char **path, char **env);
+char		do_change_env_pwd(char **env[], char *oldpwd, char *newpwd);
+char		do_change_env(char **env[]);
 
 int			builtin_cd(char *const argv[], char **env[]);
 int			builtin_echo(char *const argv[], int fd);
