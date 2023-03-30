@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:03:16 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 18:34:46 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:48:38 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static char	do_search_path(char **path, char **env)
 		{
 			free(*path);
 			*path = cpath;
+			return (1);
 		}
-		return (1);
 	}
 	return (0);
 }
