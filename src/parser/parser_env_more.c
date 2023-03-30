@@ -55,7 +55,7 @@ char	put_var_env_elem(char **content_env[], int code, int start, char end)
 		{
 			len_value = check_var_env_txt(content_env, &var, &len_var, i);
 			if (len_value)
-				return (len_value);
+				return (free(var), len_value);
 			if (var)
 			{
 				if (get_value_var(var, content_env[0], &value, code))

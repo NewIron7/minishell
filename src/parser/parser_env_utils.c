@@ -41,10 +41,10 @@ char	am_i_in_dbl(char *str, char n)
 
 static char	check_verif_var(char **var, char *content, int pos, int *i)
 {
-	while ((*var)[*i] && (*var)[*i] != '{')
+	while ((*var)[*i] && is_char_var_env((*var)[*i]))
 		(*i)++;
-	if (**var == '{' && ((*var)[*i] == '{'
-		|| content[pos + 1 + *i] != '}'))
+	if (**var == '{' && !is_char_var_env((*var)[*i])
+		&& content[pos + 1 + *i] != '}')
 		return (syntax_error_near(*var), 2);
 	return (0);
 }
@@ -95,7 +95,7 @@ char	check_var_env_txt(char **content_env[], char **var,
 		*len_var = ft_strlen(*var);
 	err = verif_var(var, *content_env[1], i, len_var);
 	if (err == 2)
-		return (syntax_error_near(*content_env[1]), 2);
+		return (2);
 	else if (err)
 		return (1);
 	return (0);
