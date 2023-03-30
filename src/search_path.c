@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:04:27 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/29 16:56:11 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:25:36 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ char	*search_path(char *cmd, char **env, char *var)
 	char		err;
 	int			i;
 
-	err = get_path_env(env, &paths, var);
-	if (err)
+	if (get_path_env(env, &paths, var))
 		return (NULL);
 	i = 0;
 	while (paths[i])
