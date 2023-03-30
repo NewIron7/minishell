@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 17:10:30 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:38:25 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -53,8 +53,7 @@ static char	get_the_line(t_parsing **tokens, char **txt, int tube[2])
 		g_fd = -2;
 		return (free(*txt), close(tube[0]), close(tube[1]), -2);
 	}
-	if (check_ctrl_d(line, (*tokens)->content)
-		|| ft_strcmp(line, (*tokens)->content) == 0)
+	if (check_ctrl_d(line, (*tokens)->content))
 		return (free(line), 1);
 	tmp = ft_strjoin(*txt, line);
 	free(*txt);

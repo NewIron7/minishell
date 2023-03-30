@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:36:19 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 16:37:25 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:37:28 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@ char	check_ctrl_d(char *line, char *end)
 		ft_printf_fd(2, "delimited by end-of-file (wanted `%s')\n", end);
 		return (1);
 	}
+	else if (!ft_strcmp(line, end))
+		return (1);
 	return (0);
 }
