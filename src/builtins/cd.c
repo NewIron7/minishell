@@ -1,4 +1,5 @@
 /* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
@@ -6,7 +7,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:18:17 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 19:34:13 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:08:55 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +16,7 @@
 static char	exec_cd(char *path)
 {
 	printf("curpath:%s\n", path);
-	if (chdir(path))
+	if (*path && chdir(path))
 		return (free(path), 1);
 	return (0);
 }
@@ -25,6 +26,9 @@ static char	rm_current_dir(char **path, int *i, int size)
 	int	x;
 	char	*npath;
 
+	printf("currentdir rm:%s, i=%d, siz:%d\n", *path, *i, size);
+	if (*i > 0 && (*path)[*i - 1] != '/')
+		return ((*i)++, 0);
 	x = *i;
 	(*path)[x] = '\0';
 	x += size;
@@ -48,18 +52,24 @@ static int	size_dir(char *path)
 	return (size);
 }
 
+
+
 static char	rm_prev_dir(char **path, int *i)
 {
 	int	x;
 	int	size;
 
 	if (*i == 0 || (*path)[*i - 1] != '/')
-		return (0);
+		return ((*i)++, 0);
+	if (*i == 1 && (*path)[0] == '/')
+		return ((*i)++, 0);
 	x = *i - 2;
-	printf("x=%d\n", x);
-	while ((*path)[x] && (*path)[x] != '/')
+	printf("path = %s| x=%d\n", &(*path)[x], x);
+	while (x >= 0 && (*path)[x] != '/')
 		x--;
 	x++;
+	if (x == 0 && (*path)[0] == '/')
+		return ((*i)++, 0);
 	size = size_dir(&(*path)[x]);
 	if (rm_current_dir(path, &x, size))
 		return (1);
@@ -77,16 +87,17 @@ static char	clean_path(char **path)
 	i = 0;
 	while ((*path)[i])
 	{
-		if (ft_strnstr(&(*path)[i], "./", 2))
-		{
-			if (rm_current_dir(path, &i, size_dir(&(*path)[i])))
-				return (1);
-		}
-		else if (ft_strnstr(&(*path)[i], "../", 3)
+		printf("Current:%s, i=%d\n", &(*path)[i], i);
+		if (ft_strnstr(&(*path)[i], "../", 3)
 			|| (ft_strnstr(&(*path)[i], "..", 2) && (*path)[i + 1]
 				&& !(*path)[i + 2]))
 		{
 			if (rm_prev_dir(path, &i))
+				return (1);
+		}
+		else if (ft_strnstr(&(*path)[i], "./", 2))
+		{
+			if (rm_current_dir(path, &i, size_dir(&(*path)[i])))
 				return (1);
 		}
 		else
@@ -125,7 +136,6 @@ static char	add_pwd(char **path, char **env)
 		pwd = npath;
 	}
 	npath = ft_strjoin(pwd, *path);
-	free(pwd);
 	free(*path);
 	if (npath == NULL)
 		return (1);
@@ -198,6 +208,7 @@ static char	do_cd(char	*path, char **env[])
 	}
 	if (clean_path(&path))
 		return (1);
+	printf("After clean: %s\n", path);
 	if (exec_cd(path))
 		return (1);
 	free(path);

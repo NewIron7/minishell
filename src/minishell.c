@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 14:49:56 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:37:32 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -76,6 +76,7 @@ void	main_loop(void)
 	t_list		*pipeline;
 
 	init_shell(&envp.env);
+	signal(SIGQUIT, SIG_DFL);
 	list_parsing = NULL;
 	envp.code = 0;
 	while (1)
