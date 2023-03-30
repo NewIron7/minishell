@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:04:06 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 17:06:04 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:44:04 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,18 @@ char	*get_pwd(char **env)
 	while (env[i])
 	{
 		if (ft_strnstr(env[i], "PWD=", 4))
-			return (&env[i][4]);
+			return (ft_strdup(&env[i][4]));
 		i++;
 	}
 	return (NULL);
 }
 
-char	exec_cd(char *path)
+char	exec_cd(char *path, char cdpath)
 {
 	if (*path && chdir(path))
 		return (free(path), 1);
+	if (cdpath)
+		ft_printf_fd(2, "%s\n", path);
 	return (0);
 }
 

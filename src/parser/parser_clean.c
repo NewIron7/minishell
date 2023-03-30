@@ -6,10 +6,20 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:26:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 15:51:01 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 19:53:14 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
+
+static char	check_par_around(int current, t_parsing *list_parsing)
+{
+	if (list_parsing)
+	{
+		if (list_parsing->type == current)
+			return (1);
+	}
+	return (0);
+}
 
 static char	check_parsing_par(int current, t_parsing *list_parsing)
 {
@@ -17,13 +27,17 @@ static char	check_parsing_par(int current, t_parsing *list_parsing)
 
 	next = list_parsing->next;
 	if (current == RIGHT_PAR
-		&& !((is_redirect(next) || is_and_pipe_or(next) || !next)
-			&& is_cmd_arg(list_parsing->prev)))
+		&& !((is_redirect(next) || is_and_pipe_or(next) || !next
+				|| check_par_around(current, list_parsing->next))
+			&& (is_cmd_arg(list_parsing->prev)
+				|| check_par_around(current, list_parsing->prev))))
 		return (syntax_error_near(list_parsing->content));
 	if (current == LEFT_PAR
-		&& !((is_cmd_arg(next) || is_redirect(next))
+		&& !((is_cmd_arg(next) || is_redirect(next)
+				|| check_par_around(current, list_parsing->next))
 			&& (is_and_pipe_or(list_parsing->prev)
-				|| !list_parsing->prev)))
+				|| !list_parsing->prev
+				|| check_par_around(current, list_parsing->prev))))
 		return (syntax_error_near(list_parsing->content));
 	return (0);
 }
