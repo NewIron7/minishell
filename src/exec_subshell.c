@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 15:41:07 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:30:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ static int	subshell_init(t_process *process, t_subtokens *tokens,
 	return (i);
 }
 
+static int	get_exit_status(t_list *pipeline)
+{
+	t_process	*process;
+
+	while (pipeline)
+	{
+		process = pipeline->content;
+		if (process->killed && get_status(process->status) == SIGINT)
+			return (process->status);
+		pipeline = pipeline->next;
+	}
+	return (process->status);
+}
+
 void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 {
 	int			new_end;
@@ -39,6 +53,7 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	t_subtokens	tokens;
 	int			redir_in;
 	int			redir_out;
+	int			status;
 
 	process->pid = fork();
 	if (process->pid == -1)
@@ -57,8 +72,9 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 			envp->code = EXIT_FAILURE;
 		}
 		ft_lstclear_parsing(tokens.tokens);
+		status = get_exit_status(*pipeline);
 		free_pipeline(pipeline);
 		free_env(envp->env);
-		exit(envp->code);
+		exit(status);
 	}
 }

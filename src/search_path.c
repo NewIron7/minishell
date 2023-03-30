@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:04:27 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/17 18:02:27 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:56:11 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	get_path_env(char **env, char ***paths, char *var)
 	{
 		if (ft_strnstr(env[i], var, ft_strlen(var)))
 		{
-			*paths = ft_split(&env[i][ft_strlen(var)], ':');
+			*paths = ft_split(&env[i][ft_strlen(var) + 1], ':');
 			if (*paths == NULL)
 				return (1);
 			break ;
@@ -65,7 +65,7 @@ static char	*create_complete_path(char *path, char *cmd)
 	return (c_path);
 }
 
-static char	check_access(char *path)
+static char	check_access(char *path, char dir)
 {
 	struct stat	stat_info;
 
@@ -76,7 +76,9 @@ static char	check_access(char *path)
 			perror("minishell");
 			return (free(path), -1);
 		}
-		if ((stat_info.st_mode & S_IFMT) != S_IFDIR)
+		if (!dir && (stat_info.st_mode & S_IFMT) != S_IFDIR)
+			return (1);
+		else if (dir && (stat_info.st_mode & S_IFMT) == S_IFDIR)
 			return (1);
 	}
 	free(path);
@@ -99,7 +101,10 @@ char	*search_path(char *cmd, char **env, char *var)
 		path = create_complete_path(paths[i], cmd);
 		if (path == NULL)
 			return (free_strs(paths), NULL);
-		err = check_access(path);
+		if (ft_strnstr(var, "CDPATH", 6))
+			err = check_access(path, 1);
+		else
+			err = check_access(path, 0);
 		if (err == -1)
 			return (free_strs(paths), NULL);
 		else if (err == 1)

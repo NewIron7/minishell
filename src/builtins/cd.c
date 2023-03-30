@@ -6,55 +6,34 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:18:17 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 14:43:22 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:34:13 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 static char	exec_cd(char *path)
 {
+	printf("curpath:%s\n", path);
 	if (chdir(path))
-		return (perror("minishell: cd"), 1);
+		return (free(path), 1);
 	return (0);
 }
 
-static char	*rm_prev_dir(char *path, int *i)
-{
-	char	*npath;
-	int		x;
-
-	x = *i - 2;
-	if (path[i - 1] != '/')
-		return (path);
-	while (x >= 0 && path[x] != '/')
-		x--;
-	if (x < 0)
-		path[0] = '\0';
-	else
-		path[x] = '\0';
-	if (ft_strnstr(&path[x + 1], "root/", 5) || ft_strnstr(&path[x + 1], "../", 3))
-		return (path[x] = '/', path);
-	cpath = ft_strjoin(path, &path[i]);
-	if (cpath == NULL)
-		return (1);
-	return (cpath);
-}
-
-static char	*rm_current_dir(char *path, int *i, int size)
+static char	rm_current_dir(char **path, int *i, int size)
 {
 	int	x;
 	char	*npath;
 
 	x = *i;
-	*i += size;
-	path[x] = 0;
+	(*path)[x] = '\0';
 	x += size;
-	npath = ft_strjoin(path, &path[x]);
+	npath = ft_strjoin(*path, &(*path)[x]);
+	free(*path);
 	if (npath == NULL)
 		return (1);
-	free(path);
-	return (npath);
+	*path = npath;
+	return (0);
 }
 
 static int	size_dir(char *path)
@@ -69,60 +48,177 @@ static int	size_dir(char *path)
 	return (size);
 }
 
-static char	*clean_path(char *path)
+static char	rm_prev_dir(char **path, int *i)
 {
-	int		i;
-	char	*err;
+	int	x;
+	int	size;
 
-	i = 0;
-	while (path[i])
-	{
-		if (ft_strnstr(path, "/..", 3))
-		{
-			err = rm_prev_dir(path, &(++i));
-			if (err == NULL)
-				return (free(path), 1);
-			err = rm_current_dir(err, &i, size_dir(&path[i]));
-			if (err == NULL)
-				return (free(path), 1);
-			free(path);
-			path = err;
-		}
-		else if (ft_strnstr(path, "./", 2))
-		{
-			err = rm_current_dir(err, &i, size_dir(&path[i]));
-			if (err == NULL)
-				return (free(path), 1);
-			free(path);
-			path = err;
-		}
-		i++;
-	}
-	return (path)
+	if (*i == 0 || (*path)[*i - 1] != '/')
+		return (0);
+	x = *i - 2;
+	printf("x=%d\n", x);
+	while ((*path)[x] && (*path)[x] != '/')
+		x--;
+	x++;
+	size = size_dir(&(*path)[x]);
+	if (rm_current_dir(path, &x, size))
+		return (1);
+	size = size_dir(&(*path)[x]);
+	if (rm_current_dir(path, &x, size))
+		return (1);
+	*i = x;
+	return (0);
 }
 
-static void	do_cd(char	*path, char **env)
+static char	clean_path(char **path)
+{
+	int		i;
+
+	i = 0;
+	while ((*path)[i])
+	{
+		if (ft_strnstr(&(*path)[i], "./", 2))
+		{
+			if (rm_current_dir(path, &i, size_dir(&(*path)[i])))
+				return (1);
+		}
+		else if (ft_strnstr(&(*path)[i], "../", 3)
+			|| (ft_strnstr(&(*path)[i], "..", 2) && (*path)[i + 1]
+				&& !(*path)[i + 2]))
+		{
+			if (rm_prev_dir(path, &i))
+				return (1);
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
+static char *get_pwd(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strnstr(env[i], "PWD=", 4))
+			return (&env[i][4]);
+		i++;
+	}
+	return (NULL);
+}
+
+static char	add_pwd(char **path, char **env)
+{
+	char	*pwd;
+	char	*npath;
+
+	pwd = get_pwd(env);
+	if (pwd == NULL)
+		return (exec_cd(*path), 2);
+	if (pwd[ft_strlen(pwd) - 1] != '/')
+	{
+		npath = ft_strjoin(pwd, "/");
+		if (npath == NULL)
+			return (free(*path), 1);
+		pwd = npath;
+	}
+	npath = ft_strjoin(pwd, *path);
+	free(pwd);
+	free(*path);
+	if (npath == NULL)
+		return (1);
+	*path = npath;
+	return (0);
+}
+
+static char	do_change_env_pwd(char **env[], char *oldpwd, char *newpwd)
+{
+	char	*argv[3];
+	int		err;
+
+	argv[0] = "export";
+	argv[2] = NULL;
+	if (oldpwd)
+		argv[1] = ft_strjoin("OLDPWD=", oldpwd);
+	else
+		argv[1] = ft_strjoin("PWD=", newpwd);
+	if (argv[1] == NULL)
+		return (free(newpwd), 1);
+	err = builtin_export(argv, env);
+	free(argv[1]);
+	free(newpwd);
+	return (err);
+}
+
+static char	do_change_env(char **env[])
+{
+	char	*pwd;
+
+	pwd = get_pwd(*env);
+	if (pwd != NULL)
+	{
+		if (do_change_env_pwd(env, pwd, NULL))
+			return (1);
+	}
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+		return (1);
+	if (do_change_env_pwd(env, NULL, pwd))
+		return (1);
+	return (0);
+}
+
+static char	do_cd(char	*path, char **env[])
 {
 	char	*cpath;
+	char	err;
 
 	if (path[0] != '/' && path[0] != '.')
-		cpath = search_path(path, env, "CDPATH");
-	if (cpath)
-		path = clean_path(cpath);
-	else
-		path = clean_path(path);
-}*/
+	{
+		cpath = search_path(path, *env, "CDPATH");
+		if (cpath != NULL)
+		{
+			free(path);
+			path = cpath;
+		}
+	}
+	else if (path[0] == '.')
+	{
+		err = add_pwd(&path, *env);
+		if (err == 1)
+			return (1);
+		else if (err == 2)
+		{
+			if (do_change_env(env))
+				return (1);
+			return (0);
+		}
+	}
+	if (clean_path(&path))
+		return (1);
+	if (exec_cd(path))
+		return (1);
+	free(path);
+	if (do_change_env(env))
+		return (1);
+	return (0);
+}
 
-int	builtin_cd(char *const argv[])
+int	builtin_cd(char *const argv[], char **env[])
 {
+	char	*path;
+
 	if (*++argv)
 	{
 		if (*(argv + 1))
 			ft_printf_fd(2, "minishell: cd: too many arguments\n");
-		else if (chdir(*argv))
+		else
 		{
-			perror("minishell: cd");
-			return (1);
+			path = ft_strdup(*argv);
+			if (path == NULL || do_cd(path, env))
+				return (perror("minishell: cd"), 1);
 		}
 	}
 	return (0);

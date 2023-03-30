@@ -37,7 +37,7 @@ int	exec_builtin(char *argv[], char **envp[], t_process *process,
 	if (!strcmp(*argv, "echo"))
 		return (builtin_echo(argv, process->outfile));
 	else if (!strcmp(*argv, "cd"))
-		return (builtin_cd(argv));
+		return (builtin_cd(argv, envp));
 	else if (!strcmp(*argv, "pwd"))
 		return (builtin_pwd());
 	else if (!strcmp(*argv, "export"))
