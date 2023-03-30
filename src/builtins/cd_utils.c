@@ -32,7 +32,7 @@ char	*get_pwd(char **env)
 	while (env[i])
 	{
 		if (ft_strnstr(env[i], "PWD=", 4))
-			return (&env[i][4]);
+			return (ft_strdup(&env[i][4]));
 		i++;
 	}
 	return (NULL);

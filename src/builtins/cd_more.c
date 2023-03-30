@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:08:22 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 18:37:10 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 19:23:47 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,20 @@ char	add_pwd(char **path, char **env)
 	char	*pwd;
 	char	*npath;
 
+	npath = NULL;
 	pwd = get_pwd(env);
 	if (pwd == NULL)
 		return (exec_cd(*path, 0), 2);
 	if (pwd[ft_strlen(pwd) - 1] != '/')
 	{
 		npath = ft_strjoin(pwd, "/");
+		free(pwd);
 		if (npath == NULL)
-			return (free(*path), 1);
+			return (free(*path), free(pwd), 1);
 		pwd = npath;
 	}
 	npath = ft_strjoin(pwd, *path);
+	free(pwd);
 	free(*path);
 	if (npath == NULL)
 		return (1);
@@ -96,10 +99,11 @@ char	do_change_env_pwd(char **env[], char *oldpwd, char *newpwd)
 	else
 		argv[1] = ft_strjoin("PWD=", newpwd);
 	if (argv[1] == NULL)
-		return (free(newpwd), 1);
+		return (free(newpwd), free(oldpwd), 1);
 	err = builtin_export(argv, env);
 	free(argv[1]);
 	free(newpwd);
+	free(oldpwd);
 	return (err);
 }
 
