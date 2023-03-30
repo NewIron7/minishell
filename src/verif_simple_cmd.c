@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:42:48 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 16:59:05 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 18:17:49 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp,
 		return (0);
 	redir = check_redirection(tokens, process->tokens.start,
 			process->tokens.end);
+	put_var_env(&tokens, envp->env, envp->code);
 	if (redir && set_fd_redirect(&process->infile, &process->outfile,
 			tokens, redir))
 		return (0);
-	put_var_env(&tokens, envp->env, envp->code);
 	if (get_args(tokens, process->tokens.end, process->tokens.start, args))
 		return (0);
 	if (**args == NULL)
