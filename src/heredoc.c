@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 14:18:28 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:32:57 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -45,7 +45,7 @@ static char	get_the_line(t_parsing **tokens, char **txt, int tube[2])
 	char	*line;
 	char	*tmp;
 
-	line = readline(">");
+	line = readline("> ");
 	if (g_fd != -1)
 	{
 		dup2(g_fd, 0);
