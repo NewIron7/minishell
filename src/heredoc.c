@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/29 14:52:22 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:18:28 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -16,6 +16,8 @@ int	g_fd = -1;
 static void	sig_handler_heredoc(int sig)
 {
 	(void)sig;
+	ft_printf_fd(1, "\n");
+	rl_on_new_line();
 	rl_replace_line("", 1);
 	g_fd = dup(0);
 	close(0);
