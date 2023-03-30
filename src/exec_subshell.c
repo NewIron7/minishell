@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/30 15:30:54 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:21:43 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,22 @@ static int	subshell_init(t_process *process, t_subtokens *tokens,
 	return (i);
 }
 
-static int	get_exit_status(t_list *pipeline)
+static int	get_exit_status(t_list **pipeline)
 {
 	t_process	*process;
+	t_list		*cpy;
 
-	while (pipeline)
+	if (!pipeline)
+		return (EXIT_FAILURE);
+	cpy = *pipeline;
+	while (cpy)
 	{
-		process = pipeline->content;
-		if (process->killed && get_status(process->status) == SIGINT)
+		process = cpy->content;
+		if (process->killed)
 			return (process->status);
-		pipeline = pipeline->next;
+		cpy = cpy->next;
 	}
+	free_pipeline(pipeline);
 	return (process->status);
 }
 
@@ -53,7 +58,6 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	t_subtokens	tokens;
 	int			redir_in;
 	int			redir_out;
-	int			status;
 
 	process->pid = fork();
 	if (process->pid == -1)
@@ -67,14 +71,9 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 			eval_exec(subtokens_init(tokens.tokens, tokens.start + 1, 0,
 					new_end - 1), envp, pipeline);
 		else
-		{
 			perror("minishell");
-			envp->code = EXIT_FAILURE;
-		}
 		ft_lstclear_parsing(tokens.tokens);
-		status = get_exit_status(*pipeline);
-		free_pipeline(pipeline);
 		free_env(envp->env);
-		exit(status);
+		exit(get_exit_status(pipeline));
 	}
 }
