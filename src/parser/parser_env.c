@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/29 11:01:49 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:15:17 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -40,8 +40,13 @@ char	put_var_env(t_parsing **list_parsing, char **env, int code)
 			err = put_var_quote(content_env, code, 0);
 			if (err)
 				return (err);
-			if (!expand_elems(elem, &next))
-				return (EXIT_FAILURE);
+			if (elem->prev && is_redirect(elem->prev))
+			{
+				if (!expand_elems(elem, &next))
+					return (EXIT_FAILURE);
+			}
+			else
+				next = elem->next;
 		}
 		else
 			next = elem->next;

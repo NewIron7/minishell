@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 15:11:35 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:58:37 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -37,16 +37,6 @@ static	void	fork_exec_builtin(char **args, t_env *envp, t_process *process,
 	}
 }
 
-static void	free_args(char **args)
-{
-	int	i;
-
-	i = -1;
-	while (args[++i])
-		free(args[i]);
-	free(args);
-}
-
 void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 	t_list **pipeline)
 {
@@ -63,7 +53,6 @@ void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 		return (exec_subshell(process, envp, pipeline));
 	if (!verif_simple_cmd(process, tokens, envp, &args))
 	{
-		free_args(args);
 		process->status = EXIT_FAILURE;
 		return ;
 	}
