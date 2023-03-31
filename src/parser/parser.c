@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 14:54:14 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:20:46 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -43,7 +43,6 @@ static void	set_id_dbl(char *id_tab, char *cmd)
 				id_tab[i] = ALPHA_NUM;
 				i++;
 			}
-			continue ;
 		}
 		i++;
 	}
