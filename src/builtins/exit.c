@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:21:28 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/14 04:39:19 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:10:43 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	is_num(char *str)
 		str++;
 	if (*str == '+' || *str == '-')
 		str++;
+	if (!ft_isdigit(*str))
+		return (0);
 	while (ft_isdigit(*str))
 		str++;
 	while (ft_isspace(*str))
