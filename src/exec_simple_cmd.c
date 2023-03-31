@@ -37,6 +37,16 @@ static	void	fork_exec_builtin(char **args, t_env *envp, t_process *process,
 	}
 }
 
+static void	free_args(char **args)
+{
+	int	i;
+
+	i = -1;
+	while (args[++i])
+		free(args[i]);
+	free(args);
+}
+
 void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 	t_list **pipeline)
 {
@@ -53,6 +63,7 @@ void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 		return (exec_subshell(process, envp, pipeline));
 	if (!verif_simple_cmd(process, tokens, envp, &args))
 	{
+		free_args(args);
 		process->status = EXIT_FAILURE;
 		return ;
 	}
