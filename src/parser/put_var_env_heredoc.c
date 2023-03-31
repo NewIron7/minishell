@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 12:56:28 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:44:16 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -67,12 +67,12 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, t_env env)
 {
 	int		i;
 	char	err;
-
+ 
 	i = 0;
 	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
 	{
 		if (tokens->type == LEFT_PAR)
-			goto_par_end(&tokens);
+			i += goto_par_end(&tokens);
 		else if (tokens->type == R_DINPUT && !tokens->quoted)
 		{
 			err = put_var_env_heredoc(&tokens->fd, env.env, env.code);

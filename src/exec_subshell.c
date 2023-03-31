@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 14:30:33 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:43:34 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 
 	int	redirs;
 
-		if (check_env_heredoc(process->tokens.tokens, process->tokens.end, process->tokens.start, *envp))
-			return ;
+	if (check_env_heredoc(process->tokens.tokens, process->tokens.end, process->tokens.start, *envp))
+		return ;
 	redirs = check_redirection(process->tokens.tokens, process->tokens.start, process->tokens.end);
 	if (redirs && set_fd_redirect(&process->infile, &process->outfile, process->tokens.tokens, redirs))
 		return ;
