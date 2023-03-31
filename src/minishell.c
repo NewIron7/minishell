@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/30 19:51:48 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:00:02 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -43,12 +43,26 @@ static t_env	process_line(char *line, t_parsing **parsing,
 	t_list **pipeline, t_env envp)
 {
 	char	err;
+	char	*tmp;
 
+	tmp = ft_strtrim(line, " \f\n\r\t\v");
+	free(line);
+	if (!tmp)
+	{
+		perror("minishell");
+		envp.code = 1;
+		return (envp);
+	}
+	line = tmp;
+	if (!*line)
+	{
+		free(line);
+		return (envp);
+	}
 	signal(SIGINT, SIG_IGN);
 	err = parser(line, parsing);
 	if (err == 2)
 		envp.code = 2;
-	//print_list_parsing(*parsing);
 	free(line);
 	if (!err && ft_heredoc(*parsing) == 0)
 	{
