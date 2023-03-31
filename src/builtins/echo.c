@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:19:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 17:42:32 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:57:24 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,22 @@ int	builtin_echo(char *const argv[], int fd)
 				return (1);
 			}
 			if (*++argv)
-				ft_printf_fd(fd, "%c", ' ');
+			{
+				if (write(fd, " ", 1) < 0)
+				{
+					perror("echo: write error");
+					return (1);
+				}
+			}
 		}
 	}
 	if (newline)
-		ft_printf_fd(fd, "%c", '\n');
+	{
+		if (write(fd, "\n", 1) < 0)
+		{
+			perror("echo: write error");
+			return (1);
+		}
+	}
 	return (0);
 }
