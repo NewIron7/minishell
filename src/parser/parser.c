@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:52:00 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 09:05:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:54:14 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -37,11 +37,13 @@ static void	set_id_dbl(char *id_tab, char *cmd)
 		{
 			i++;
 			n = is_there_nquote(cmd + i, cmd[i - 1]);
-			while (n--)
+			n += i;
+			while (i < n)
 			{
 				id_tab[i] = ALPHA_NUM;
 				i++;
 			}
+			continue ;
 		}
 		i++;
 	}
