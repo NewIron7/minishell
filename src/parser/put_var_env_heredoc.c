@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 16:44:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 18:34:32 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -67,7 +67,7 @@ char	check_env_heredoc(t_parsing *tokens, int end, int start, t_env env)
 {
 	int		i;
 	char	err;
- 
+
 	i = 0;
 	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
 	{
