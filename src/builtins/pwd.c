@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:23:31 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 15:48:11 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:54:02 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	builtin_pwd(int fd)
 	}
 	else
 	{
-		if (write(fd, curpath, ft_strlen(curpath)) < 0)
+		if (write(fd, curpath, ft_strlen(curpath)) < 0 || write(fd, "\n", 1) < 0)
 		{
 			perror("pwd: write error");
 			free(curpath);
