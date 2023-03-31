@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/30 18:10:20 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:05:10 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ int			builtin_pwd(void);
 int			builtin_unset(char *const argv[], char *envp[]);
 int			builtin_exit(char *argv[], char *envp[], t_parsing *pars,
 				t_list **pipeline);
+int			check_redirection(t_parsing *tokens, int start, int end);
 
 #endif

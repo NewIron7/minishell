@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:12:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 16:47:46 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:56:39 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,7 @@ static void	goto_next_pipe(t_parsing **tokens, int *i, int end)
 		if ((*tokens)->type == PIPE)
 			return ;
 		else if ((*tokens)->type == LEFT_PAR)
-		{
-			while ((*tokens)->type != RIGHT_PAR)
-			{
-				*tokens = (*tokens)->next;
-				(*i)++;
-			}
-		}
+			*i += goto_par_end(tokens);
 		*tokens = (*tokens)->next;
 		(*i)++;
 	}

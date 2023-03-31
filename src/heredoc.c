@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 17:38:25 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:23:37 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -27,7 +27,6 @@ char	init_heredoc(t_parsing **tokens, char **txt, int tube[2])
 {
 	unsigned long	size;
 
-	signal(SIGINT, &sig_handler_heredoc);
 	*txt = ft_strdup("");
 	if (pipe(tube) || *txt == NULL)
 		return (free(*txt), 1);
@@ -97,8 +96,14 @@ char	ft_heredoc(t_parsing *tokens)
 	{
 		if (tokens->type == R_DINPUT)
 		{
+			signal(SIGINT, &sig_handler_heredoc);
 			if (do_heredoc(&tokens))
+			{
+				signal(SIGINT, SIG_IGN);
 				return (1);
+			}
+			signal(SIGINT, SIG_IGN);
+
 		}
 		tokens = tokens->next;
 	}

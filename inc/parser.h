@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 20:08:26 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:47:13 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -123,6 +123,7 @@ int			expand_wildcard(char *str, char ***split);
 char		skip_subshells(t_parsing **elem);
 int			get_wildcard_shards(char *str, char ***shards);
 void		clear_split(char ***split);
+int			goto_par_end(t_parsing **parsing);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);

@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 16:29:39 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:58:39 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -105,8 +105,7 @@ char	skip_subshells(t_parsing **elem)
 {
 	if ((*elem)->type == LEFT_PAR)
 	{
-		while ((*elem)->type != RIGHT_PAR)
-			*elem = (*elem)->next;
+		goto_par_end(elem);
 		return (1);
 	}
 	return (0);

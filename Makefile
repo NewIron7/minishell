@@ -20,6 +20,7 @@ SRCLIST		=	main.c\
 				parser/get_wildcard_shards.c\
 				parser/clear_split.c\
 				parser/rm_quotes.c\
+				parser/goto_par_end.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/cd_utils.c\
@@ -51,6 +52,7 @@ SRCLIST		=	main.c\
 				get_status.c\
 				init_shell.c\
 				free_utils.c\
+				check_redirection.c\
 				minishell.c
 				
 

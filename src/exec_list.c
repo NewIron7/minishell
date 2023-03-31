@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 10:22:30 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:49:24 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,7 @@ void	exec_list(t_subtokens tokens, t_env *envp, t_list **pipeline)
 	while (cpy && exec_list_if(*pipeline, cpy))
 	{
 		if (cpy->type == LEFT_PAR)
-		{
-			while (cpy->type != RIGHT_PAR)
-			{
-				cpy = cpy->next;
-				i++;
-			}
-		}
+			i += goto_par_end(&cpy);
 		cpy = cpy->next;
 		i++;
 	}
