@@ -91,7 +91,7 @@ int			insert_value_var(char **content, char *value,
 				int *len_var, int *i);
 char		put_var_env_elem(char **content_env[], int code,
 				int start, char end);
-char		am_i_in_dbl(char *str, char n);
+char		am_i_in_dbl(char *str, int n);
 char		move_right_part(char *str);
 char		put_var_quote(char **content_env[], int code, int n);
 char		check_var_env_txt(char **content_env[], char **var,

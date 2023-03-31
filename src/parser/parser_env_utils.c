@@ -6,35 +6,40 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 10:58:39 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:26:09 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
-
-char	am_i_in_dbl(char *str, char n)
+//export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 && echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H"
+char	am_i_in_dbl(char *str, int n)
 {
 	int		i;
-	char	dbl;
+	char	*next;
+	char	*second;
 
-	dbl = 0;
+	second = NULL;
+	next = str;
 	i = 0;
-	while (str[i] && i < (n - 1))
+	while (*next)
 	{
-		if (str[i] == '\"' && dbl == 0)
-			dbl = 1;
-		else if (str[i] == '\"' && dbl)
-			dbl = 0;
-		i++;
-	}
-	if (dbl == 0)
-		return (0);
-	dbl = 0;
-	i++;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			return (1);
-		i++;
+		if (*next == '\'')
+		{
+			second = ft_strstr(++next, "\'");
+			if (second && &str[n] < second && &str[n] > next)
+				return (0);
+			else if (second)
+				next = second + 1;
+		}
+		else if (*next == '\"')
+		{
+			second = ft_strstr(++next, "\"");
+			if (second && &str[n] < second && &str[n] > next)
+				return (1);
+			else if (second)
+				next = second + 1;
+		}
+		else
+			next++;
 	}
 	return (0);
 }
