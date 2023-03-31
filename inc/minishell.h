@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 15:07:35 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:40:11 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int			builtin_cd(char *const argv[], char **env[]);
 int			builtin_echo(char *const argv[], int fd);
 int			builtin_env(char *const envp[], int fd);
 int			builtin_export(char *const argv[], char **envp[]);
-int			builtin_pwd(void);
+int			builtin_pwd(int fd);
 int			builtin_unset(char *const argv[], char *envp[]);
 int			builtin_exit(char *argv[], t_env envp, t_parsing *pars,
 				t_list **pipeline);

@@ -6,13 +6,13 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 22:23:31 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/02/13 22:33:41 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:48:11 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_pwd(void)
+int	builtin_pwd(int fd)
 {
 	char	*curpath;
 
@@ -23,7 +23,14 @@ int	builtin_pwd(void)
 		return (EXIT_FAILURE);
 	}
 	else
-		ft_printf("%s\n", curpath);
+	{
+		if (write(fd, curpath, ft_strlen(curpath)) < 0)
+		{
+			perror("pwd: write error");
+			free(curpath);
+			return (1);
+		}
+	}
 	free(curpath);
 	return (0);
 }

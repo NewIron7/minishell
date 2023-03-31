@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:07:02 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 15:08:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:38:06 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	exec_builtin(char *argv[], t_env *envp, t_process *process,
 	else if (!strcmp(*argv, "cd"))
 		return (builtin_cd(argv, &envp->env));
 	else if (!strcmp(*argv, "pwd"))
-		return (builtin_pwd());
+		return (builtin_pwd(process->outfile));
 	else if (!strcmp(*argv, "export"))
 		return (builtin_export(argv, &envp->env));
 	else if (!strcmp(*argv, "unset"))
