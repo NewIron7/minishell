@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 16:53:39 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:22:30 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ int	pipeline_status(t_list *pipeline)
 
 static char	exec_list_if(t_list *pipeline, t_parsing *cpy)
 {
-	if (!is_pipeline_sigint(pipeline) && cpy
-		&& ((!pipeline_status(pipeline) && cpy->type != AND)
-			|| (pipeline_status(pipeline) && cpy->type != OR)))
+	if ((!pipeline_status(pipeline) && cpy->type != AND)
+		|| (pipeline_status(pipeline) && cpy->type != OR))
 		return (1);
 	return (0);
 }
@@ -55,7 +54,9 @@ void	exec_list(t_subtokens tokens, t_env *envp, t_list **pipeline)
 	cpy = tokens.tokens;
 	while (++i < tokens.sep)
 		cpy = cpy->next;
-	while (exec_list_if(*pipeline, cpy))
+	if (is_pipeline_sigint(*pipeline))
+		return ;
+	while (cpy && exec_list_if(*pipeline, cpy))
 	{
 		if (cpy->type == LEFT_PAR)
 		{

@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/30 17:21:43 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:50:44 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,6 @@ static int	subshell_init(t_process *process, t_subtokens *tokens,
 	return (i);
 }
 
-static int	get_exit_status(t_list **pipeline)
-{
-	t_process	*process;
-	t_list		*cpy;
-
-	if (!pipeline)
-		return (EXIT_FAILURE);
-	cpy = *pipeline;
-	while (cpy)
-	{
-		process = cpy->content;
-		if (process->killed)
-			return (process->status);
-		cpy = cpy->next;
-	}
-	free_pipeline(pipeline);
-	return (process->status);
-}
-
 void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 {
 	int			new_end;
@@ -72,8 +53,10 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 					new_end - 1), envp, pipeline);
 		else
 			perror("minishell");
+		envp->code = get_shell_code(*pipeline);
+		free_pipeline(pipeline);
 		ft_lstclear_parsing(tokens.tokens);
 		free_env(envp->env);
-		exit(get_exit_status(pipeline));
+		exit(envp->code);
 	}
 }

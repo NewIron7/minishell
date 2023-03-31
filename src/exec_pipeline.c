@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 04:28:10 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:05:19 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,13 @@ static void	killed_printer(t_list *pipeline)
 	t_process	*process;
 
 	if (is_pipeline_sigint(pipeline))
-		ft_printf_fd(2, "\n");
+		ft_printf("\n");
 	else
 	{
 		pipeline = ft_lstlast(pipeline);
 		process = pipeline->content;
-		if (process->killed && get_status(process->status) == SIGQUIT)
-			ft_printf_fd(2, "Quit (core dumped)\n");
-		else if (process->killed && get_status(process->status) == SIGTERM)
-			ft_printf_fd(2, "Terminated\n");
-		else if (process->killed)
-			ft_printf_fd(2, "\n");
+		if (process->killed)
+			ft_printf("\n");
 	}
 }
 
