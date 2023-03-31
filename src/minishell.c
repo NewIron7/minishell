@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 14:54:26 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:15:44 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -97,7 +97,10 @@ void	main_loop(void)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			builtin_exit(NULL, envp.env, NULL, NULL);
+		{
+			ft_printf("exit\n");
+			builtin_exit(NULL, envp, NULL, NULL);
+		}
 		add_history(line);
 		check_ctrl_c(&envp.code);
 		if (*line)

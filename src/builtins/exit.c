@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:21:28 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 09:10:43 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:59:39 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ static int	is_num(char *str)
 		return (1);
 }
 
-int	builtin_exit(char *argv[], char *envp[], t_parsing *pars, t_list **pipeline)
+int	builtin_exit(char *argv[], t_env envp, t_parsing *pars, t_list **pipeline)
 {
 	unsigned int	status;
 
-	ft_printf("exit\n");
 	if (!argv || !argv[1])
-		status = 0;
+		status = envp.code;
 	else if (!is_num(argv[1]))
 	{
 		ft_printf_fd(STDERR_FILENO,
@@ -54,6 +53,6 @@ int	builtin_exit(char *argv[], char *envp[], t_parsing *pars, t_list **pipeline)
 		else
 			status = (unsigned char) ft_atoi(argv[1]);
 	}
-	free_all(pars, envp, pipeline, argv);
+	free_all(pars, envp.env, pipeline, argv);
 	exit(status);
 }

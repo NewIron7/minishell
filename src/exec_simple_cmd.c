@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 18:49:34 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/28 17:00:07 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:11:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -21,7 +21,7 @@ static	void	fork_exec_cmd(char **args, char **envp, t_process *process,
 		exec_cmd(args, envp, process, pipeline);
 }
 
-static	void	fork_exec_builtin(char **args, char ***envp, t_process *process,
+static	void	fork_exec_builtin(char **args, t_env *envp, t_process *process,
 	t_list **pipeline)
 {
 	int	ret;
@@ -32,7 +32,7 @@ static	void	fork_exec_builtin(char **args, char ***envp, t_process *process,
 	else
 	{
 		ret = exec_builtin(args, envp, process, pipeline);
-		free_all(process->tokens.tokens, *envp, pipeline, args);
+		free_all(process->tokens.tokens, envp->env, pipeline, args);
 		exit(ret);
 	}
 }
@@ -60,8 +60,8 @@ void	exec_simple_cmd(t_process *process, t_env *envp, int need_fork,
 	if (!builtin)
 		fork_exec_cmd(args, envp->env, process, pipeline);
 	else if (need_fork)
-		fork_exec_builtin(args, &envp->env, process, pipeline);
+		fork_exec_builtin(args, envp, process, pipeline);
 	else
-		process->status = exec_builtin(args, &envp->env, process, pipeline);
+		process->status = exec_builtin(args, envp, process, pipeline);
 	free(args);
 }

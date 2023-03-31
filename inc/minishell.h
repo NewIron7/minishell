@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 12:05:10 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:07:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		sig_handler(int sig);
 int			init_env(char **envp[]);
 void		free_env(char *envp[]);
 void		main_loop(void);
-int			exec_builtin(char *cmd[], char **envp[],
+int			exec_builtin(char *cmd[], t_env *envp,
 				t_process *process, t_list **pipeline);
 int			exec_cmd(char *argv[], char *envp[],
 				t_process *process, t_list **pipeline);
@@ -103,6 +103,7 @@ char		clean_path(char **path);
 char		add_pwd(char **path, char **env);
 char		do_change_env_pwd(char **env[], char *oldpwd, char *newpwd);
 char		do_change_env(char **env[]);
+int			check_redirection(t_parsing *tokens, int start, int end);
 
 int			builtin_cd(char *const argv[], char **env[]);
 int			builtin_echo(char *const argv[], int fd);
@@ -110,8 +111,7 @@ int			builtin_env(char *const envp[], int fd);
 int			builtin_export(char *const argv[], char **envp[]);
 int			builtin_pwd(void);
 int			builtin_unset(char *const argv[], char *envp[]);
-int			builtin_exit(char *argv[], char *envp[], t_parsing *pars,
+int			builtin_exit(char *argv[], t_env envp, t_parsing *pars,
 				t_list **pipeline);
-int			check_redirection(t_parsing *tokens, int start, int end);
 
 #endif
