@@ -6,20 +6,18 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 16:26:09 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/01 10:29:43 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
-//export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 && echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H"
+
 char	am_i_in_dbl(char *str, int n)
 {
-	int		i;
 	char	*next;
 	char	*second;
 
 	second = NULL;
 	next = str;
-	i = 0;
 	while (*next)
 	{
 		if (*next == '\'')
