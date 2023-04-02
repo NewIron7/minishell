@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:04:06 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 18:44:04 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/02 16:30:30 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	exec_cd(char *path, char cdpath)
 		return (free(path), 1);
 	if (cdpath)
 		ft_printf_fd(2, "%s\n", path);
+	free(path);
 	return (0);
 }
 
