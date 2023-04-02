@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 20:28:16 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 15:18:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:52:48 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -65,6 +65,25 @@ char	put_var_env_elem(char **content_env[], int code, int start, char end)
 			}
 		}
 		i++;
+	}
+	return (0);
+}
+
+char	check_quote(char **next, const char *str, int n, char *quote)
+{
+	char	*second;
+
+	second = NULL;
+	if (**next == *quote)
+	{
+		second = ft_strstr(++(*next), quote);
+		if (second && &str[n] < second && &str[n] > *next)
+			return (1);
+		else if (second)
+		{
+			*next = second + 1;
+			return (2);
+		}
 	}
 	return (0);
 }

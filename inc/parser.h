@@ -96,6 +96,7 @@ char		move_right_part(char *str);
 char		put_var_quote(char **content_env[], int code, int n);
 char		check_var_env_txt(char **content_env[], char **var,
 				int *len_var, int i);
+char		check_quote(char **next, const char *str, int n, char *quote);
 
 char		put_var_env(t_parsing **list_parsing, char **env, int code);
 char		gather_txt(t_parsing *list_parsing);

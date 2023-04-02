@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:56:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/01 10:29:43 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/02 10:51:24 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -14,30 +14,28 @@
 char	am_i_in_dbl(char *str, int n)
 {
 	char	*next;
-	char	*second;
+	char	q;
 
-	second = NULL;
 	next = str;
 	while (*next)
 	{
-		if (*next == '\'')
+		q = check_quote(&next, str, n, "\'");
+		if (q)
 		{
-			second = ft_strstr(++next, "\'");
-			if (second && &str[n] < second && &str[n] > next)
+			if (q == 1)
 				return (0);
-			else if (second)
-				next = second + 1;
-		}
-		else if (*next == '\"')
-		{
-			second = ft_strstr(++next, "\"");
-			if (second && &str[n] < second && &str[n] > next)
-				return (1);
-			else if (second)
-				next = second + 1;
 		}
 		else
-			next++;
+		{
+			q = check_quote(&next, str, n, "\"");
+			if (q)
+			{
+				if (q == 1)
+					return (1);
+			}
+			else
+				next++;
+		}
 	}
 	return (0);
 }
@@ -47,7 +45,7 @@ static char	check_verif_var(char **var, char *content, int pos, int *i)
 	while ((*var)[*i] && is_char_var_env((*var)[*i]))
 		(*i)++;
 	if (**var == '{' && !is_char_var_env((*var)[*i])
-		&& content[pos + 1 + *i] != '}')
+			&& content[pos + 1 + *i] != '}')
 		return (syntax_error_near(*var), 2);
 	return (0);
 }
