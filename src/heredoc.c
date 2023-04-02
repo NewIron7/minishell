@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:05:47 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 14:23:37 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:14:26 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -103,7 +103,6 @@ char	ft_heredoc(t_parsing *tokens)
 				return (1);
 			}
 			signal(SIGINT, SIG_IGN);
-
 		}
 		tokens = tokens->next;
 	}
