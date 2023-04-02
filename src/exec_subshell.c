@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 16:43:34 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:28:41 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,30 @@ static int	redirect_subshell(t_process *process)
 	return (1);
 }
 
+static void	end_subshell(t_list **pipeline, t_subtokens tokens, t_env *envp)
+{
+	envp->code = get_shell_code(*pipeline);
+	free_pipeline(pipeline);
+	ft_lstclear_parsing(tokens.tokens);
+	free_env(envp->env);
+	exit(envp->code);
+}
+
+static char	prep_for_subshell(t_process *process, t_env *envp)
+{
+	int	redirs;
+
+	if (check_env_heredoc(process->tokens.tokens, process->tokens.end,
+			process->tokens.start, *envp))
+		return (1);
+	redirs = check_redirection(process->tokens.tokens, process->tokens.start,
+			process->tokens.end);
+	if (redirs && set_fd_redirect(&process->infile, &process->outfile,
+			process->tokens.tokens, redirs))
+		return (1);
+	return (0);
+}
+
 void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 {
 	int			new_end;
@@ -51,12 +75,7 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	t_subtokens	tokens;
 	int			redir;
 
-	int	redirs;
-
-	if (check_env_heredoc(process->tokens.tokens, process->tokens.end, process->tokens.start, *envp))
-		return ;
-	redirs = check_redirection(process->tokens.tokens, process->tokens.start, process->tokens.end);
-	if (redirs && set_fd_redirect(&process->infile, &process->outfile, process->tokens.tokens, redirs))
+	if (prep_for_subshell(process, envp))
 		return ;
 	process->pid = fork();
 	if (process->pid == -1)
@@ -70,10 +89,6 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 					new_end - 1), envp, pipeline);
 		else
 			perror("minishell");
-		envp->code = get_shell_code(*pipeline);
-		free_pipeline(pipeline);
-		ft_lstclear_parsing(tokens.tokens);
-		free_env(envp->env);
-		exit(envp->code);
+		end_subshell(pipeline, tokens, envp);
 	}
 }
