@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 18:25:59 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:12:11 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -48,23 +48,15 @@ static t_env	process_line(char *line, t_parsing **parsing,
 	tmp = ft_strtrim(line, " \f\n\r\t\v");
 	free(line);
 	if (!tmp)
-	{
-		perror("minishell");
-		envp.code = 1;
-		return (envp);
-	}
+		return (perror("minishell"), envp.code = 1, envp);
 	line = tmp;
 	if (!*line)
-	{
-		free(line);
-		return (envp);
-	}
+		return (free(line), envp);
 	signal(SIGINT, SIG_IGN);
 	err = parser(line, parsing);
 	if (err == 2)
 		envp.code = 2;
 	free(line);
-//	print_list_parsing(*parsing);
 	if (!err && ft_heredoc(*parsing) == 0)
 	{
 		eval_exec(subtokens_init(*parsing, 0, 0, -1), &envp, pipeline);
