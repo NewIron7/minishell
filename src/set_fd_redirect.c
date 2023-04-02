@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:35:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/27 02:55:32 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:48:06 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ char	set_fd_redirect(int *fd_in, int *fd_out, t_parsing *tokens, int redirs)
 			tokens = tokens->next;
 		tokens = tokens->next;
 		if (*fd_out == -1 || *fd_in == -1)
+		{
+			if (*tokens->content == '\0')
+				return (ft_printf_fd(2, "minishell: ambiguous redirect\n"), 1);
 			return (perror(tokens->content), 1);
+		}
 		tokens = tokens->next;
 	}
 	return (0);
