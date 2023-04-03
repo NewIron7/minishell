@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/03 07:42:58 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:43:34 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -19,6 +19,28 @@ char	expand_elems(t_parsing *elem, t_parsing **next)
 	if (!expand_elem(elem, &expand_wildcard))
 		return (0);
 	return (1);
+}
+
+static char	expand_var(t_expand split[], t_env envp)
+{
+	int		i;
+	char	**content_env[];
+	char	err;
+
+	content_env[0] = envp.env;
+	i = 0;
+	while (split[i])
+	{
+		if (split[i].type == DFL || split[i].type == DBL)
+		{
+			content_env[1] = &split[i].str;
+			err = put_var_env_elem(content_env, envp.code, 0, '\0');
+			if (err)
+				return (err);
+		}
+		i++;
+	}
+	return (0);
 }
 
 static int	expand_redirect(t_parsing *elem, t_env envp)
