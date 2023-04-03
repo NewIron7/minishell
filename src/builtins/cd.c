@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:03:16 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/30 18:48:38 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/02 16:30:14 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static char	end_do_cd(char *path, char **env[], char cdpath)
 		return (1);
 	if (exec_cd(path, cdpath))
 		return (1);
-	free(path);
 	if (do_change_env(env))
 		return (1);
 	return (0);
