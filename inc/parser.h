@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/03 16:32:45 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 00:41:38 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -144,6 +144,7 @@ int			get_wildcard_shards(char *str, char ***shards);
 void		clear_split(char ***split);
 t_parsing	*goto_par_end(t_parsing *parsing);
 int			split_quotes(t_expand *split[], char *content);
+int			split_fields(t_expand split[], t_list **blocks);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);
