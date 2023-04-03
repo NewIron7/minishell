@@ -1,0 +1,142 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_fields.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 16:45:46 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/04/03 20:05:42 by ddelhalt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parser.h"
+
+static void	trim_fields(t_expand split[])
+{
+	int	len;
+
+	if (split->type == DFL)
+	{
+		len = 0;
+		while (ft_strchr(" \t\n", split->str[len]))
+			len++;
+		if (len)
+			ft_memmove(split->str, split->str + len, ft_strlen(split->str + len) + 1);
+	}
+	while ((split + 1)->str)
+		split++;
+	if (split->type == DFL)
+	{
+		len = ft_strlen(split->str);
+		while (len > 0 && ft_strchr(" \t\n", split->str[len - 1]))
+			len--;
+		split->str[len] = '\0';
+	}
+}
+
+static t_list	*init_blocks(t_expand split[])
+{
+	t_list	*blocks
+
+	blocks = ft_lstnew(&blocks, split);
+	if (!blocks)
+		return (NULL);
+	return (blocks);
+}
+
+static t_list	*fill_new_elem(char *str, int start, int len)
+{
+	TODO;
+}
+
+static int	new_block(char *new_str, t_list *blocks, int index)
+{
+	t_expand	*split;
+	t_list		*new_elem;
+	int			len;
+
+	split = block->content;
+	len = 0;
+	while (split[index + len + 1].str)
+		len++;
+	if (new_str)
+		len++;
+	new_elem = fill_new_elem(new_str, split + index, len);
+	if (!new_elem)
+		return (0);
+	ft_lstadd_back(&blocks, new_elem);
+	split[index + 1] = NULL;
+	return (1);
+}
+
+static int	fonction_hugo(t_list *blocks, int index, int strindex, char *str)
+{
+	t_expand	*split;
+	char		*new_str;
+	int			i;
+	int			err;
+
+	split = blocks->content;
+	str[strindex] = '\0';
+	while (str[++strindex])
+	{
+		if (!ft_strchr(" \n\t", str[strindex]));
+			break ;
+	}
+	if (!str[strindex])
+		err = new_block(NULL, blocks, index);
+	else
+	{
+		new_str = ft_substr(str, strindex, ft_strlen(str + strindex));
+		if (!new_str)
+			ERROR_HANDLING;
+		err = new_block(new_str, blocks, index);
+	}
+	return (err);
+}
+
+static int	expand_blocks(t_list *blocks)
+{
+	t_expand	*split;
+
+	while (blocks->next)
+		blocks = blocks->next;
+	split = blocks->content;
+
+	i = 0;
+	while (split[i].str)
+	{
+		if (split[i].type == DFL)
+		{
+			j = 0;
+			while (split[i].str[j])
+			{
+			if (ft_strchr(" \n\t", split[i].str[j]))
+			{
+				if (!fonction_hugo(blocks, i, j, split[i].str))
+					ERROR_HANDLING;
+			}
+			j++;
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	split_fields(t_expand split[], t_list **blocks)
+{
+	int	added;
+
+	trim_fields(split);
+	*blocks = init_blocks(split);
+	if (!*blocks)
+		return (0);
+	added = expand_blocks(blocks);
+	while (added > 0)
+		added = expand_blocks(blocks);
+	if (added < 0)
+		ERROR_HANDLING;
+	return (1);
+}
