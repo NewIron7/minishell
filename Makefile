@@ -21,6 +21,7 @@ SRCLIST		=	main.c\
 				parser/clear_split.c\
 				parser/rm_quotes.c\
 				parser/goto_par_end.c\
+				parser/split_quotes.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/cd_utils.c\

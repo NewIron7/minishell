@@ -6,54 +6,16 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 06:20:22 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 07:44:15 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 16:41:42 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static int	get_quotes_nb(char *content)
-{
-	int		nb;
-	int		is_dfl;
-	char	*next;
-
-	is_dfl = 1;
-	nb = 0;
-	if (*content != '"' && *content != '\'')
-		nb = 1;
-	while (*content)
-	{
-		next = NULL;
-		if (*content == '"')
-			next = ft_strchr(content + 1, '"');
-		else if (*content == '\'')
-			next = ft_strchr(content + 1, '\'');
-		if (!next && !is_dfl)
-		{
-			nb++;
-			is_dfl = 1;
-		}
-		if (next)
-		{
-			nb++;
-			is_dfl = 0;
-			content = next;
-		}
-		content++;
-	}
-}
-
-static int	get_quote_len(char *content, int start, int type)
+static int	get_quotes_len(char *content, int start, int type)
 {
 	int	len;
 
-	if (content[i] == '"' && ft_strchr(content + i + 1, '"'))
-		type = DBL;
-	else if (content[i] == '\'' && ft_strchr(content + i + 1, '\''))
-		type = SPL;
-	else if (content[i])
-		type = DFL;
 	len = 0;
 	while (content[start + len])
 	{
@@ -63,32 +25,103 @@ static int	get_quote_len(char *content, int start, int type)
 			return (len);
 		else if (type == DFL
 			&& ((content[start + len] == '"' || ft_strchr(content + start + len + 1, '"'))
-			|| (content[start + len] == '\'' || ft_strchr(content + start + len + 1, '\'')))
+			|| (content[start + len] == '\'' || ft_strchr(content + start + len + 1, '\''))))
 			return (len);
 		len++;
 	}
 	return (len);
 }
 
-static int	fill_quotes_nb(t_expand split[], char *content)
+static int	get_quotes_nb(char *content)
 {
 	int	i;
-	int	start;
+	int	nb;
+	int	type;
 
-	start = 0;
+	if (!content[0])
+		return (1);
+	nb = 0;
 	i = 0;
 	while (content[i])
 	{
+		nb++;
+		if (content[i] == '"' && ft_strchr(content + i + 1, '"'))
+			type = DBL;
+		else if (content[i] == '\'' && ft_strchr(content + i + 1, '\''))
+			type = SPL;
+		else
+			type = DFL;
+		if (type == DBL || type == SPL)
+			i++;
+		i += get_quotes_len(content, i, type);
+		if (type == DBL || type == SPL)
+			i++;
+	}
+	return (nb);
+}
+
+static int	fill_quotes_err(t_expand split[])
+{
+	int	i;
+
+	i = 0;
+	while (split[i].str)
+		free(split[i++].str);
+	free(split);
+	return (1);
+}
+
+static int	fill_quotes_nb(t_expand split[], char *content)
+{
+	int	i;
+	int	len;
+	int	nb;
+	int	type;
+
+	if (!content[0])
+	{
+		split[0].str = ft_strdup("");
+		split[0].type = DFL;
+		if (!split[0].str)
+			return (0);
+		else
+			return (1);
+	}
+	nb = 0;
+	i = 0;
+	while (content[i])
+	{
+		if (content[i] == '"' && ft_strchr(content + i + 1, '"'))
+			type = DBL;
+		else if (content[i] == '\'' && ft_strchr(content + i + 1, '\''))
+			type = SPL;
+		else
+			type = DFL;
+		if (type == DBL || type == SPL)
+			i++;
+		len = get_quotes_len(content, i, type);
+		split[nb].str = ft_substr(content, i, len);
+		split[nb].type = type;
+		if (type == DBL || type == SPL)
+			i++;
+		if (!split[nb].str)
+			return (fill_quotes_err(split));
+		nb++;
+		i += len;
+	}
+	return (1);
+}
 
 int	split_quotes(t_expand *split[], char *content)
 {
 	int	nb;
 
-	len = get_quotes_nb(content);
-	*split = malloc(sizeof(t_expand) * (len + 1));
+	nb = get_quotes_nb(content);
+	*split = malloc(sizeof(t_expand) * (nb + 1));
 	if (!*split)
 		return (0);
 	if (!fill_quotes_nb(*split, content))
 		return (0);
-	(*split)[len].str = NULL;
+	(*split)[nb].str = NULL;
 	return (1);
+}
