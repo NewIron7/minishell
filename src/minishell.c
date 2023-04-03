@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 09:55:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/02 11:12:11 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 04:05:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -45,25 +45,23 @@ static t_env	process_line(char *line, t_parsing **parsing,
 	char	err;
 	char	*tmp;
 
-	tmp = ft_strtrim(line, " \f\n\r\t\v");
+	tmp = ft_strtrim(line, " \n\t");
 	free(line);
 	if (!tmp)
 		return (perror("minishell"), envp.code = 1, envp);
 	line = tmp;
 	if (!*line)
 		return (free(line), envp);
-	signal(SIGINT, SIG_IGN);
 	err = parser(line, parsing);
 	if (err == 2)
 		envp.code = 2;
 	free(line);
 	if (!err && ft_heredoc(*parsing) == 0)
 	{
-		eval_exec(subtokens_init(*parsing, 0, 0, -1), &envp, pipeline);
+		eval_exec(parsing, set_portion(*parsing, NULL), &envp, pipeline);
 		free_pipeline(pipeline);
 	}
 	ft_lstclear_parsing(*parsing);
-	signal(SIGINT, &sig_handler);
 	return (envp);
 }
 
@@ -89,6 +87,7 @@ void	main_loop(void)
 	while (1)
 	{
 		line = readline("minishell$ ");
+		signal(SIGINT, SIG_IGN);
 		if (!line)
 		{
 			ft_printf("exit\n");
@@ -100,5 +99,6 @@ void	main_loop(void)
 			envp = process_line(line, &list_parsing, &pipeline, envp);
 		else
 			free(line);
+		signal(SIGINT, &sig_handler);
 	}
 }

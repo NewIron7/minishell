@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:07:02 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 15:38:06 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 03:23:11 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int	exec_builtin(char *argv[], t_env *envp, t_process *process,
 		return (builtin_unset(argv, envp->env));
 	else if (!strcmp(*argv, "env"))
 		return (builtin_env(envp->env, process->outfile));
-	return (builtin_exit(argv, *envp, process->tokens.tokens, pipeline));
+	return (builtin_exit(argv, *envp, *process->parsing, pipeline));
 }

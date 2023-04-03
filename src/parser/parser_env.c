@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/02 11:01:20 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 07:42:58 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -21,46 +21,73 @@ char	expand_elems(t_parsing *elem, t_parsing **next)
 	return (1);
 }
 
-static char	call_to_expand_elems(t_parsing *elem, t_parsing **next)
+static int	expand_redirect(t_parsing *elem, t_env envp)
 {
-	if (!elem->prev || !is_redirect(elem->prev))
-	{
-		if (!expand_elems(elem, next))
-			return (1);
-	}
-	else
-	{
-		rm_quotes(elem->content);
-		*next = elem->next;
-	}
+	/*
+	t_expand	*split;
+	char		*content;
+
+	if (!split_quotes(&split, elem->content))
+		return (EXIT_FAILURE);
+	if (!expand_var(&split, envp))
+		return (EXIT_FAILURE);
+	if (!expand_wildcards(&split))
+		return (EXIT_FAILURE);
+	if (!replace_content(&split, elem))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+	*/
+	(void) elem;
+	(void) envp;
+	ft_printf_fd(2, "TODO : Expanding redirection : %s (in src/parser/parser_env.c)\n", elem->content);
 	return (0);
 }
 
-char	put_var_env(t_parsing **list_parsing, char **env, int code)
+static int	expand_argument(t_parsing *elem, t_env envp)
 {
-	t_parsing	*elem;
+	/*
+	t_expand	*split;
+	char		*content;
+
+	if (!split_quotes(&split, elem->content))
+		return (EXIT_FAILURE);
+	if (!expand_var(&split, envp))
+		return (EXIT_FAILURE);
+	if (!split_fields(&split))
+		return (EXIT_FAILURE);
+	if (!expand_wildcards(&split))
+		return (EXIT_FAILURE);
+	if (!replace_content(&split, elem))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+	*/
+	(void) elem;
+	(void) envp;
+	ft_printf_fd(2, "TODO : Expanding argument : %s (in src/parser/parser_env.c)\n", elem->content);
+	return (0);
+}
+
+char	put_var_env(t_portion chunck, t_env envp)
+{
 	t_parsing	*next;
 	int			err;
-	char		**content_env[2];
 
-	content_env[0] = env;
-	elem = *list_parsing;
-	while (elem && elem->type != AND && elem->type != OR
-		&& elem->type != RIGHT_PAR && elem->type != PIPE)
+	err = 0;
+	while (chunck.start != chunck.end)
 	{
-		if (!skip_subshells(&elem)
-			&& (elem->type == CMD || elem->type == ARG))
+		next = chunck.start->next;
+		if (chunck.start->type == LEFT_PAR)
 		{
-			content_env[1] = &elem->content;
-			err = put_var_quote(content_env, code, 0);
-			if (err)
-				return (err);
-			if (call_to_expand_elems(elem, &next))
-				return (EXIT_FAILURE);
+			chunck.start = goto_par_end(chunck.start);
+			next = chunck.start->next;
 		}
-		else
-			next = elem->next;
-		elem = next;
+		else if (chunck.start->prev && is_redirect(chunck.start->prev))
+			err = expand_redirect(chunck.start, envp);
+		else if (chunck.start->type == CMD || chunck.start->type == ARG)
+			err = expand_argument(chunck.start, envp);
+		if (err)
+			return (err);
+		chunck.start = next;
 	}
 	return (0);
 }

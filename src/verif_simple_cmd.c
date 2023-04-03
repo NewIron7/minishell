@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:42:48 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 17:01:27 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 03:32:54 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,54 @@ static	char	is_redirection(t_parsing *tokens)
 	return (0);
 }
 
-static char	get_args(t_parsing *tokens, int end, int start, char ***args)
+static int	args_len(t_portion chunck)
+{
+	int	len;
+
+	len = 0;
+	while (chunck.start != chunck.end)
+	{
+		if (!(is_redirection(chunck.start) || is_redirection(chunck.start->prev)))
+			len++;
+		chunck.start = chunck.start->next;
+	}
+	return (len);
+}
+
+static char	get_args(t_portion chunck, char ***args)
 {
 	int	i;
-	int	j;
+	int	len;
 
-	*args = malloc(sizeof(**args) * (ft_lstsize_parsing(tokens) + 1));
+	len = args_len(chunck);
+	*args = malloc(sizeof(char **) * (len + 1));
 	if (*args == NULL)
 		return (1);
 	i = 0;
-	j = 0;
-	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
+	while (chunck.start != chunck.end)
 	{
-		if (!(is_redirection(tokens) || is_redirection(tokens->prev)))
-			(*args)[j++] = tokens->content;
-		tokens = tokens->next;
+		if (!(is_redirection(chunck.start) || is_redirection(chunck.start->prev)))
+			(*args)[i++] = chunck.start->content;
+		chunck.start = chunck.start->next;
 	}
-	(*args)[j] = NULL;
+	(*args)[i] = NULL;
 	return (0);
 }
 
-int	verif_simple_cmd(t_process *process, t_parsing *tokens, t_env *envp,
-	char ***args)
+int	verif_simple_cmd(t_process *process, t_env *envp, char ***args)
 {
 	int			redir;
 
 	*args = NULL;
-	if (check_env_heredoc(tokens, process->tokens.end,
-			process->tokens.start, *envp))
+	if (check_env_heredoc(process->chunck, *envp))
 		return (0);
-	if (put_var_env(&tokens, envp->env, envp->code))
+	if (put_var_env(process->chunck, *envp))
 		return (0);
-	redir = check_redirection(tokens, process->tokens.start,
-			process->tokens.end);
+	redir = check_redirection(process->chunck);
 	if (redir && set_fd_redirect(&process->infile, &process->outfile,
-			tokens, redir))
+			process->chunck.start, redir))
 		return (0);
-	if (get_args(tokens, process->tokens.end, process->tokens.start, args))
+	if (get_args(process->chunck, args))
 		return (0);
 	if (**args == NULL)
 	{

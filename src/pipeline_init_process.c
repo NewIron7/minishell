@@ -6,20 +6,24 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:43:13 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/28 16:48:56 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 04:00:33 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_process	*create_process(t_subtokens tokens, int infile)
+static t_process	*create_process(t_portion chunck, int infile, int to_fork)
 {
 	t_process	*process;
 
 	process = malloc(sizeof(t_process));
 	if (!process)
 		return (NULL);
-	process->tokens = tokens;
+	process->chunck = chunck;
+	if (to_fork)
+		process->to_fork = 1;
+	else
+		process->to_fork = 0;
 	process->pid = 0;
 	process->killed = 0;
 	process->status = 0;
@@ -28,14 +32,14 @@ static t_process	*create_process(t_subtokens tokens, int infile)
 	return (process);
 }
 
-int	pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile,
+int	pipeline_init_process(t_portion chunck, t_list **pipeline, int infile,
 	int outfile)
 {
 	t_process	*process;
 	t_list		*lst;
 	int			pipe_fd[2];
 
-	process = create_process(tokens, infile);
+	process = create_process(chunck, infile, outfile || pipeline);
 	if (!process)
 		return (-1);
 	pipe_fd[0] = STDIN_FILENO;
@@ -51,6 +55,8 @@ int	pipeline_init_process(t_subtokens tokens, t_list **pipeline, int infile,
 	lst = ft_lstnew(process);
 	if (!lst)
 	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		free(process);
 		return (-1);
 	}

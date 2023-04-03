@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:35:11 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/02 11:48:06 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 03:36:29 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,36 @@ static void	open_fd_out(int *fd, char *path, int flag)
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 }
 
-static char	put_new_fd_redirec(t_parsing *tokens, int *fd_out, int *fd_in)
+static void	put_new_fd_redirec(t_parsing *elem, int *fd_in, int *fd_out)
 {
-	if (tokens->type == R_INPUT)
-		open_fd_in(fd_in, tokens->next->content);
-	else if (tokens->type == R_OUTPUT)
-		open_fd_out(fd_out, tokens->next->content, O_TRUNC);
-	else if (tokens->type == R_DOUTPUT)
-		open_fd_out(fd_out, tokens->next->content, O_APPEND);
-	else if (tokens->type == R_DINPUT)
+	if (elem->type == R_INPUT)
+		open_fd_in(fd_in, elem->next->content);
+	else if (elem->type == R_OUTPUT)
+		open_fd_out(fd_out, elem->next->content, O_TRUNC);
+	else if (elem->type == R_DOUTPUT)
+		open_fd_out(fd_out, elem->next->content, O_APPEND);
+	else if (elem->type == R_DINPUT)
 	{
 		if (*fd_in != STDIN_FILENO)
 			close(*fd_in);
-		*fd_in = tokens->fd;
+		*fd_in = elem->fd;
 	}
-	else
-		return (0);
-	return (1);
 }
 
-char	set_fd_redirect(int *fd_in, int *fd_out, t_parsing *tokens, int redirs)
+char	set_fd_redirect(int *fd_in, int *fd_out, t_parsing *elem, int redirs)
 {
 	while (redirs--)
 	{
-		while (!put_new_fd_redirec(tokens, fd_out, fd_in))
-			tokens = tokens->next;
-		tokens = tokens->next;
+		while (!is_redirect(elem))
+			elem = elem->next;
+		put_new_fd_redirec(elem, fd_in, fd_out);
+		elem = elem->next;
 		if (*fd_out == -1 || *fd_in == -1)
 		{
-			if (*tokens->content == '\0')
-				return (ft_printf_fd(2, "minishell: ambiguous redirect\n"), 1);
-			return (perror(tokens->content), 1);
+			ft_printf_fd(2, "minishell: ");
+			return (perror(elem->content), 1);
 		}
-		tokens = tokens->next;
+		elem = elem->next;
 	}
 	return (0);
 }

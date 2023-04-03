@@ -6,27 +6,25 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:04:39 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 16:42:15 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:08:21 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_redirection(t_parsing *tokens, int start, int end)
+int	check_redirection(t_portion chunck)
 {
-	int	i;
 	int	redirs;
 
-	i = -1;
 	redirs = 0;
-	while ((end != -1 && ++i < end - start) || (end == -1 && tokens))
+	while (chunck.start != chunck.end)
 	{
-		if (tokens->type == LEFT_PAR)
-			i += goto_par_end(&tokens);
-		else if (tokens->type == R_INPUT || tokens->type == R_OUTPUT
-			|| tokens->type == R_DINPUT || tokens->type == R_DOUTPUT)
+		if (chunck.start->type == LEFT_PAR)
+			chunck.start = goto_par_end(chunck.start);
+		else if (chunck.start->type == R_INPUT || chunck.start->type == R_OUTPUT
+			|| chunck.start->type == R_DINPUT || chunck.start->type == R_DOUTPUT)
 			redirs++;
-		tokens = tokens->next;
+		chunck.start = chunck.start->next;
 	}
 	return (redirs);
 }

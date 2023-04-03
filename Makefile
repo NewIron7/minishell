@@ -48,11 +48,11 @@ SRCLIST		=	main.c\
 				heredoc.c\
 				heredoc_utils.c\
 				ft_lstsize_parsing.c\
-				subtokens_init.c\
 				get_status.c\
 				init_shell.c\
 				free_utils.c\
 				check_redirection.c\
+				set_portion.c\
 				minishell.c
 				
 

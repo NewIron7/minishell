@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 10:05:19 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 03:52:16 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,22 @@ static void	wait_pipeline(t_list *pipeline)
 	}
 }
 
-void	exec_pipeline(t_subtokens tokens, t_env *envp, t_list **pipeline)
+void	exec_pipeline(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipeline)
 {
 	t_list		*cpy;
 	t_process	*process;
-	int			need_fork;
 
-	fill_pipeline(tokens, pipeline);
+	fill_pipeline(parsing, chunck, pipeline);
 	if (!*pipeline)
 	{
 		perror("minishell");
 		return ;
 	}
 	cpy = *pipeline;
-	need_fork = (cpy->next != 0);
 	while (cpy)
 	{
 		process = cpy->content;
-		exec_simple_cmd(process, envp, need_fork, pipeline);
+		exec_simple_cmd(process, envp, pipeline);
 		cpy = cpy->next;
 	}
 	wait_pipeline(*pipeline);

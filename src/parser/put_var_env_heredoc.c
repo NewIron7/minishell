@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:37:52 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 18:34:32 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 03:19:50 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -63,23 +63,21 @@ static char	put_var_env_heredoc(int *fd, char **env, int code)
 	return (0);
 }
 
-char	check_env_heredoc(t_parsing *tokens, int end, int start, t_env env)
+char	check_env_heredoc(t_portion chunck, t_env env)
 {
-	int		i;
 	char	err;
 
-	i = 0;
-	while ((end != -1 && i++ < end - start) || (end == -1 && tokens))
+	while (chunck.start != chunck.end)
 	{
-		if (tokens->type == LEFT_PAR)
-			i += goto_par_end(&tokens);
-		else if (tokens->type == R_DINPUT && !tokens->quoted)
+		if (chunck.start->type == LEFT_PAR)
+			chunck.start = goto_par_end(chunck.start);
+		else if (chunck.start->type == R_DINPUT && !chunck.start->quoted)
 		{
-			err = put_var_env_heredoc(&tokens->fd, env.env, env.code);
+			err = put_var_env_heredoc(&chunck.start->fd, env.env, env.code);
 			if (err)
 				return (err);
 		}
-		tokens = tokens->next;
+		chunck.start = chunck.start->next;
 	}
 	return (0);
 }

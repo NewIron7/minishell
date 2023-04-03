@@ -6,29 +6,21 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/02 11:28:41 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/03 04:04:16 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	subshell_init(t_process *process, t_subtokens *tokens,
-	t_parsing **cpy, t_list **pipeline)
+static t_parsing	*subshell_init(t_portion chunck, t_list **pipeline)
 {
-	int	i;
-	int	new_end;
+	t_parsing	*new_end;
 
-	*tokens = process->tokens;
-	*cpy = tokens->tokens;
-	i = -1;
-	while (++i < tokens->start)
-		*cpy = (*cpy)->next;
-	while (*cpy && (i < tokens->end || tokens->end == -1))
+	while (chunck.start != chunck.end)
 	{
-		if ((*cpy)->type == RIGHT_PAR)
-			new_end = i + 1;
-		*cpy = (*cpy)->next;
-		i++;
+		if (chunck.start->type == RIGHT_PAR)
+			new_end = chunck.start;
+		chunck.start = chunck.start->next;
 	}
 	free_pipeline(pipeline);
 	*pipeline = NULL;
@@ -44,11 +36,11 @@ static int	redirect_subshell(t_process *process)
 	return (1);
 }
 
-static void	end_subshell(t_list **pipeline, t_subtokens tokens, t_env *envp)
+static void	end_subshell(t_list **pipeline, t_parsing *parsing, t_env *envp)
 {
 	envp->code = get_shell_code(*pipeline);
+	ft_lstclear_parsing(parsing);
 	free_pipeline(pipeline);
-	ft_lstclear_parsing(tokens.tokens);
 	free_env(envp->env);
 	exit(envp->code);
 }
@@ -57,22 +49,20 @@ static char	prep_for_subshell(t_process *process, t_env *envp)
 {
 	int	redirs;
 
-	if (check_env_heredoc(process->tokens.tokens, process->tokens.end,
-			process->tokens.start, *envp))
+	if (check_env_heredoc(process->chunck, *envp))
 		return (1);
-	redirs = check_redirection(process->tokens.tokens, process->tokens.start,
-			process->tokens.end);
+	if (put_var_env(process->chunck, *envp))
+		return (1);
+	redirs = check_redirection(process->chunck);
 	if (redirs && set_fd_redirect(&process->infile, &process->outfile,
-			process->tokens.tokens, redirs))
+			process->chunck.start, redirs))
 		return (1);
 	return (0);
 }
 
 void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 {
-	int			new_end;
-	t_parsing	*cpy;
-	t_subtokens	tokens;
+	t_parsing	*new_end;
 	int			redir;
 
 	if (prep_for_subshell(process, envp))
@@ -83,12 +73,11 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	else if (!process->pid)
 	{
 		redir = redirect_subshell(process);
-		new_end = subshell_init(process, &tokens, &cpy, pipeline);
+		new_end = subshell_init(process->chunck, pipeline);
 		if (redir)
-			eval_exec(subtokens_init(tokens.tokens, tokens.start + 1, 0,
-					new_end - 1), envp, pipeline);
+			eval_exec(process->parsing, set_portion(process->chunck.start->next, new_end), envp, pipeline);
 		else
 			perror("minishell");
-		end_subshell(pipeline, tokens, envp);
+		end_subshell(pipeline, *process->parsing, envp);
 	}
 }

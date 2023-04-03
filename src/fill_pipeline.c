@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:12:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/31 10:56:39 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 04:17:51 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,44 +36,53 @@ static void	fill_pipeline_err(t_list **pipeline)
 	*pipeline = NULL;
 }
 
-static void	goto_next_pipe(t_parsing **tokens, int *i, int end)
+static t_parsing	*goto_next_pipe(t_parsing *elem, t_parsing *end)
 {
-	while (*tokens && (*i < end || end == -1))
+	while (elem != end)
 	{
-		if ((*tokens)->type == PIPE)
-			return ;
-		else if ((*tokens)->type == LEFT_PAR)
-			*i += goto_par_end(tokens);
-		*tokens = (*tokens)->next;
-		(*i)++;
+		if (elem->type == PIPE)
+			return (elem);
+		else if (elem->type == LEFT_PAR)
+			elem = goto_par_end(elem);
+		elem = elem->next;
+	}
+	return (elem);
+}
+
+static void	fill_pipeline_parsing(t_parsing **parsing, t_list *pipeline)
+{
+	t_process	*process;
+
+	while (pipeline)
+	{
+		process = pipeline->content;
+		process->parsing = parsing;
+		pipeline = pipeline->next;
 	}
 }
 
-void	fill_pipeline(t_subtokens tokens, t_list **pipeline)
+void	fill_pipeline(t_parsing **parsing, t_portion chunck, t_list **pipeline)
 {
-	int			i;
 	t_parsing	*cpy;
+	t_parsing	*start;
 	int			fd;
 
-	i = -1;
-	cpy = tokens.tokens;
+	cpy = chunck.start;
+	start = chunck.start;
 	fd = STDIN_FILENO;
-	while (++i < tokens.start)
-		cpy = cpy->next;
-	while (cpy && (i < tokens.end || tokens.end == -1))
+	while (cpy != chunck.end)
 	{
 		if (cpy->type == PIPE)
 		{
-			fd = pipeline_init_process(subtokens_init(tokens.tokens,
-						tokens.start, 0, i), pipeline, fd, STDOUT_FILENO);
+			fd = pipeline_init_process(set_portion(start, cpy), pipeline, fd, 1);
 			if (fd < 0)
 				return (fill_pipeline_err(pipeline));
 			cpy = cpy->next;
-			tokens.start = ++i;
+			start = cpy;
 		}
-		goto_next_pipe(&cpy, &i, tokens.end);
+		cpy = goto_next_pipe(cpy, chunck.end);
 	}
-	if (pipeline_init_process(subtokens_init(tokens.tokens, tokens.start,
-				0, tokens.end), pipeline, fd, 0) < 0)
+	if (pipeline_init_process(set_portion(start, cpy), pipeline, fd, 0) < 0)
 		return (fill_pipeline_err(pipeline));
+	fill_pipeline_parsing(parsing, *pipeline);
 }

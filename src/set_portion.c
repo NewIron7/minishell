@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subtokens_init.c                                   :+:      :+:    :+:   */
+/*   set_portion.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 13:04:58 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/08 13:34:38 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/04/03 03:45:27 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/04/03 03:46:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_subtokens	subtokens_init(t_parsing *tokens, int start, int sep, int end)
+t_portion	set_portion(t_parsing *start, t_parsing *end)
 {
-	t_subtokens	subtokens;
+	t_portion	chunck;
 
-	subtokens.tokens = tokens;
-	subtokens.start = start;
-	subtokens.sep = sep;
-	subtokens.end = end;
-	return (subtokens);
+	chunck.start = start;
+	chunck.end = end;
+	return (chunck);
 }

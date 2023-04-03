@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/03/31 10:47:13 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/03 06:19:22 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -51,6 +51,13 @@ enum e_id_elem
 	RIGHT_PAR
 };
 
+enum e_quote_type
+{
+	DFL,
+	SPL,
+	DBL
+};
+
 typedef struct s_parsing
 {
 	struct s_parsing	*next;
@@ -67,11 +74,22 @@ typedef struct s_env
 	int		code;
 }	t_env;
 
+typedef struct s_portion
+{
+	t_parsing	*start;
+	t_parsing	*end;
+}	t_portion;
+
+typedef struct s_expand
+{
+	char	*str;
+	int		type;
+}	t_expand;
+
 char		parser(char *cmd, t_parsing **list_parsing);
 
 char		rm_quotes(char *str);
-char		check_env_heredoc(t_parsing *tokens,
-				int end, int start, t_env env);
+char		check_env_heredoc(t_portion chunck, t_env env);
 void		ft_lstadd_back_parsing(t_parsing **lst, t_parsing *new);
 t_parsing	*ft_lstlast_parsing(t_parsing *lst);
 t_parsing	*ft_lstnew_parsing(char *content, char type);
@@ -98,7 +116,7 @@ char		check_var_env_txt(char **content_env[], char **var,
 				int *len_var, int i);
 char		check_quote(char **next, const char *str, int n, char *quote);
 
-char		put_var_env(t_parsing **list_parsing, char **env, int code);
+char		put_var_env(t_portion chunck, t_env envp);
 char		gather_txt(t_parsing *list_parsing);
 char		identify_type_char(char c);
 char		get_id_cmd(char *cmd, char **id_tab);
@@ -124,7 +142,7 @@ int			expand_wildcard(char *str, char ***split);
 char		skip_subshells(t_parsing **elem);
 int			get_wildcard_shards(char *str, char ***shards);
 void		clear_split(char ***split);
-int			goto_par_end(t_parsing **parsing);
+t_parsing	*goto_par_end(t_parsing *parsing);
 
 //DEBUG
 void		print_list_parsing(t_parsing *list_parsing);
