@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 16:11:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:15:10 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -61,13 +61,15 @@ static int	expand_argument(t_parsing *elem, t_env envp)
 		return (EXIT_FAILURE);	
 	ft_printf_fd(2, "After expand_var\n");
 	print_split(split);
+	ft_printf_fd(2, "Before split fields\n");
 	if (!split_fields(split, &block))
 		return (EXIT_FAILURE);
+	ft_printf_fd(2, "After split fields\n");
 //	if (!expand_wildcards(block))
 //		return (EXIT_FAILURE);
 	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
-
+	ft_printf_fd(2, "After replace_content\n");
 	return (EXIT_SUCCESS);
 }
 
