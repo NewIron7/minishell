@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_wildcard.c                                  :+:      :+:    :+:   */
+/*   expand_wildcards.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:48:48 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/03/29 11:10:12 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:05:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,34 @@ static int	exp_from_shards(char **shards, char ***split)
 	return (1);
 }
 
-int	expand_wildcard(char *str, char ***split)
+static int	expand_wildcard(t_expand content[], char ***newargs)
 {
 	char	**shards;
 
 	shards = NULL;
-	if (!get_wildcard_shards(str, &shards))
+	if (!get_wildcard_shards(content, &shards))
 		return (0);
 	if (!shards)
-	{
-		rm_quotes(str);
 		return (1);
-	}
-	if (!exp_from_shards(shards, split))
+	if (!exp_from_shards(shards, newargs))
 	{
 		clear_split(&shards);
 		return (0);
 	}
 	clear_split(&shards);
+	return (1);
+}
+
+int	expand_wildcards(t_list	*blocks)
+{
+	char	**newargs;
+
+	while (blocks)
+	{
+		if (!expand_wildcard(blocks->content, &newargs))
+			return (0);
+		if (put_args_wildcard_block(blocks, newargs))
+			return (0);
+	}
 	return (1);
 }

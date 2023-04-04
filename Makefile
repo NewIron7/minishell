@@ -16,7 +16,7 @@ SRCLIST		=	main.c\
 				parser/parser_get_utils.c\
 				parser/space_split.c\
 				parser/expand_elem.c\
-				parser/expand_wildcard.c\
+				parser/expand_wildcards.c\
 				parser/get_wildcard_shards.c\
 				parser/put_args_wildcard_block.c\
 				parser/clear_split.c\

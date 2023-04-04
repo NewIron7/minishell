@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 16:11:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:29:29 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -67,7 +67,6 @@ static int	expand_argument(t_parsing *elem, t_env envp)
 //		return (EXIT_FAILURE);
 	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
-
 	return (EXIT_SUCCESS);
 }
 
