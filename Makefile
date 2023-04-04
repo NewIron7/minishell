@@ -23,6 +23,8 @@ SRCLIST		=	main.c\
 				parser/goto_par_end.c\
 				parser/split_quotes.c\
 				parser/split_fields.c\
+				parser/replace_content.c\
+				parser/expand_var.c\
 				search_path.c\
 				builtins/cd.c\
 				builtins/cd_utils.c\
