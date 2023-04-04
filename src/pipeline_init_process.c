@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:43:13 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 04:00:33 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:08:50 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	pipeline_init_process(t_portion chunck, t_list **pipeline, int infile,
 	t_list		*lst;
 	int			pipe_fd[2];
 
-	process = create_process(chunck, infile, outfile || pipeline);
+	process = create_process(chunck, infile, outfile || *pipeline);
 	if (!process)
 		return (-1);
 	pipe_fd[0] = STDIN_FILENO;
