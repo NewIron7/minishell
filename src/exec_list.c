@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/02 19:00:29 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:31:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	exec_list(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipe
 	eval_exec(parsing, set_portion(chunck.start, cpy), envp, pipeline);
 	if (is_pipeline_sigint(*pipeline))
 		return ;
-	cpy = cpy->next;
 	while (cpy != chunck.end && exec_list_if(*pipeline, cpy))
 	{
 		if (cpy->type == LEFT_PAR)
@@ -63,5 +62,5 @@ void	exec_list(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipe
 		cpy = cpy->next;
 	}
 	if (cpy)
-		return (eval_exec(parsing, set_portion(cpy, chunck.end), envp, free_pipeline(pipeline)));
+		return (eval_exec(parsing, set_portion(cpy->next, chunck.end), envp, free_pipeline(pipeline)));
 }
