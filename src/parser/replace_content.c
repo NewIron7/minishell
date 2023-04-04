@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:50:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 13:52:58 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:07:21 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,20 @@ static char	create_elem_replace_content(t_expand split[], t_parsing **elem)
 	return (0);
 }
 
-char	replace_content(t_expand *split[], t_parsing *elem)
+char	replace_content(t_list *block, t_parsing *elem)
 {
-	int			i;
+	t_expand	*split;
 
-	if (replace_content_elem(split[1], elem))
+	split = block->content;
+	if (replace_content_elem(split, elem))
 		return (1);
-	i = 1;
-	while (split[i])
+	block = block->next;
+	while (block)
 	{
-		if (create_elem_replace_content(split[i], &elem))
+		split = block->content;
+		if (create_elem_replace_content(split, &elem))
 			return (1);
-		i++;
+		block = block->next;
 	}
 	return (0);
 }

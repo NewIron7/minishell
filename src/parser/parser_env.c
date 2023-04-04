@@ -6,20 +6,10 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 14:40:44 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:11:21 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
-
-char	expand_elems(t_parsing *elem, t_parsing **next)
-{
-	if (!expand_elem(elem, &space_split))
-		return (0);
-	*next = elem->next;
-	if (!expand_elem(elem, &expand_wildcard))
-		return (0);
-	return (1);
-}
 
 static int	expand_redirect(t_parsing *elem, t_env envp)
 {
@@ -42,7 +32,7 @@ static int	expand_redirect(t_parsing *elem, t_env envp)
 	//ft_printf_fd(2, "TODO : Expanding redirection : %s (in src/parser/parser_env.c)\n", elem->content);
 	return (0);
 }
-/*
+
 static void	print_split(t_expand split[])
 {
 	int	i;
@@ -55,33 +45,30 @@ static void	print_split(t_expand split[])
 		ft_printf_fd(2, "[%s] - %s\n", type[split[i].type], split[i].str);
 		i++;
 	}
-}*/
+}
 
 static int	expand_argument(t_parsing *elem, t_env envp)
 {
 	t_expand	*split;
-	//char		*content;
+	t_list		*block;
 
-	(void)elem;
-	(void)envp;
-	(void)split;
-	//ft_printf_fd(2, "TODO : Expanding argument : %s (in src/parser/parser_env.c)\n", elem->content);
-	/*
+	ft_printf_fd(2, "TODO : Expanding argument : %s (in src/parser/parser_env.c)\n", elem->content);
 	if (!split_quotes(&split, elem->content))
 		return (EXIT_FAILURE);
 	ft_printf_fd(2, "---elem->content:%s\n", elem->content);
 	print_split(split);
-	if (!expand_var(split, envp))
+	if (expand_var(split, envp))
+		return (EXIT_FAILURE);	
+	ft_printf_fd(2, "After expand_var\n");
+	print_split(split);
+	if (!split_fields(split, &block))
 		return (EXIT_FAILURE);
-	//if (!split_fields(&split))
-	//	return (EXIT_FAILURE);
-	//if (!expand_wildcards(&split))
-	//	return (EXIT_FAILURE);
-	if (!replace_content(&split, elem))
+//	if (!expand_wildcards(block))
+//		return (EXIT_FAILURE);
+	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
-		*/
+
 	return (EXIT_SUCCESS);
-	return (0);
 }
 
 char	put_var_env(t_portion chunck, t_env envp)

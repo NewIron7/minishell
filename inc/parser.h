@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:53:24 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 13:55:24 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:10:44 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PARSER_H
@@ -138,14 +138,14 @@ char		get_and(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 char		get_par(char *cmd, char *id_tab, int *i, t_parsing **list_parsing);
 int			expand_elem(t_parsing *elem, int (*splitter)(char *, char ***));
 int			space_split(char *str, char ***split);
-int			expand_wildcard(char *str, char ***split);
+int			expand_wildcards(t_list *block);
 char		skip_subshells(t_parsing **elem);
 int			get_wildcard_shards(char *str, char ***shards);
 void		clear_split(char ***split);
 t_parsing	*goto_par_end(t_parsing *parsing);
 int			split_quotes(t_expand *split[], char *content);
 int			split_fields(t_expand split[], t_list **blocks);
-char		replace_content(t_expand *split[], t_parsing *elem);
+char		replace_content(t_list *block, t_parsing *elem);
 char		expand_var(t_expand split[], t_env envp);
 
 //DEBUG
