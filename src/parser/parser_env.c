@@ -6,17 +6,13 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 19:26:57 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:36:11 by hboissel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
 static int	expand_redirect(t_parsing *elem, t_env envp)
 {
-	(void) elem;
-	(void) envp;
-	return (0);
-	/*
 	t_expand	*split;
 	t_list		*block;
 
@@ -24,14 +20,13 @@ static int	expand_redirect(t_parsing *elem, t_env envp)
 		return (EXIT_FAILURE);
 	if (expand_var(split, envp))
 		return (EXIT_FAILURE);	
-	if (!split_fields(split, &block))
+	if (create_block(&block, split))
 		return (EXIT_FAILURE);
 	//if (!expand_wildcards(block))
 		//return (EXIT_FAILURE);
 	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-	*/
 }
 
 static int	expand_argument(t_parsing *elem, t_env envp)
