@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:45:46 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 18:16:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:06:13 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static int	fonction_hugo(t_list *blocks, int index, int strindex, char *str)
 		err = new_block(NULL, blocks, index);
 	else
 	{
-		new_str = ft_substr(str, strindex, ft_strlen(str + strindex));
+		new_str = ft_substr(str + strindex, 0, ft_strlen(str + strindex));
 		if (!new_str)
 			return (0);
 		err = new_block(new_str, blocks, index);
@@ -135,10 +135,7 @@ static int	expand_blocks(t_list *blocks)
 			while (split[i].str[j])
 			{
 				if (ft_strchr(" \n\t", split[i].str[j]))
-				{
-					if (!fonction_hugo(blocks, i, j, split[i].str))
-						return (-1);
-				}
+					return (fonction_hugo(blocks, i, j, split[i].str));
 				j++;
 			}
 		}

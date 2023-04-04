@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:50:57 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 16:07:21 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:20:08 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	create_elem_replace_content(t_expand split[], t_parsing **elem)
 	(*elem)->next = nelem;
 	nelem->prev = (*elem);
 	nelem->next = tmp;
-	*elem = tmp;
+	*elem = nelem;
 	return (0);
 }
 

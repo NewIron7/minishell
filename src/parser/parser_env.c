@@ -6,45 +6,32 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 18:07:18 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:26:57 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
 
 static int	expand_redirect(t_parsing *elem, t_env envp)
 {
+	(void) elem;
+	(void) envp;
+	return (0);
 	/*
 	t_expand	*split;
-	char		*content;
+	t_list		*block;
 
 	if (!split_quotes(&split, elem->content))
 		return (EXIT_FAILURE);
-	if (!expand_var(&split, envp))
+	if (expand_var(split, envp))
+		return (EXIT_FAILURE);	
+	if (!split_fields(split, &block))
 		return (EXIT_FAILURE);
-	if (!expand_wildcards(&split))
-		return (EXIT_FAILURE);
-	if (!replace_content(&split, elem))
+	//if (!expand_wildcards(block))
+		//return (EXIT_FAILURE);
+	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 	*/
-	(void) elem;
-	(void) envp;
-	//ft_printf_fd(2, "TODO : Expanding redirection : %s (in src/parser/parser_env.c)\n", elem->content);
-	return (0);
-}
-
-static void	print_split(t_expand split[])
-{
-	int	i;
-	char	*type[3] = {"DFL", "SPL", "DBL"};
-
-	i = 0;
-	ft_printf_fd(2, "***split***\n");
-	while (split[i].str)
-	{
-		ft_printf_fd(2, "[%s] - %s\n", type[split[i].type], split[i].str);
-		i++;
-	}
 }
 
 static int	expand_argument(t_parsing *elem, t_env envp)
@@ -52,24 +39,16 @@ static int	expand_argument(t_parsing *elem, t_env envp)
 	t_expand	*split;
 	t_list		*block;
 
-	ft_printf_fd(2, "TODO : Expanding argument : %s (in src/parser/parser_env.c)\n", elem->content);
 	if (!split_quotes(&split, elem->content))
 		return (EXIT_FAILURE);
-	ft_printf_fd(2, "---elem->content:%s\n", elem->content);
-	print_split(split);
 	if (expand_var(split, envp))
 		return (EXIT_FAILURE);	
-	ft_printf_fd(2, "After expand_var\n");
-	print_split(split);
-	ft_printf_fd(2, "Before split fields\n");
 	if (!split_fields(split, &block))
 		return (EXIT_FAILURE);
-	ft_printf_fd(2, "After split fields\n");
-//	if (!expand_wildcards(block))
-//		return (EXIT_FAILURE);
+	//if (!expand_wildcards(block))
+		//return (EXIT_FAILURE);
 	if (replace_content(block, elem))
 		return (EXIT_FAILURE);
-	ft_printf_fd(2, "After replace_content\n");
 	return (EXIT_SUCCESS);
 }
 
