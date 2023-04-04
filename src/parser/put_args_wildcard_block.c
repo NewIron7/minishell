@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:12:21 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 15:34:57 by hboissel         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:44:09 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	put_args_wildcard_block(t_list *block, char *newargs[])
 	int		i;
 
 	if (newargs == NULL || *newargs == NULL)
-		return (1);
+		return (0);
 	if (modif_block(block, newargs[0]))
 		return (1);
 	i = 1;

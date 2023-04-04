@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:48:48 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 18:05:35 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:34:55 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static int	expand_wildcard(t_expand content[], char ***newargs)
 	char	**shards;
 
 	shards = NULL;
+	*newargs = NULL;
 	if (!get_wildcard_shards(content, &shards))
 		return (0);
 	if (!shards)
@@ -129,13 +130,16 @@ static int	expand_wildcard(t_expand content[], char ***newargs)
 int	expand_wildcards(t_list	*blocks)
 {
 	char	**newargs;
+	t_list	*next;
 
 	while (blocks)
 	{
+		next = blocks->next;
 		if (!expand_wildcard(blocks->content, &newargs))
 			return (0);
 		if (put_args_wildcard_block(blocks, newargs))
 			return (0);
+		blocks = next;
 	}
 	return (1);
 }

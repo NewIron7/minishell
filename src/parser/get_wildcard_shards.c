@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:49:30 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 18:01:53 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:34:30 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	fill_shard_get_end(int	*i, int *j, t_expand content[])
 		}
 		(*i)++;
 	}
+	(*i)--;
 }
 
 static char *fill_join(char **split, int len)
@@ -139,8 +140,9 @@ static int	fill_shards(t_expand content[], char *shards[])
 					*shards = fill_shard(starti, startj, content);
 					while (content[i].str[j] == '*')
 						j++;
+					j--;
 					starti = i;
-					startj = j;
+					startj = j + 1;
 					shards++;
 				}
 				j++;
@@ -148,6 +150,7 @@ static int	fill_shards(t_expand content[], char *shards[])
 		}
 		i++;
 	}
+	*shards = fill_shard(starti, startj, content);
 	return (1);
 }
 
