@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:45:46 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 13:47:00 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:16:16 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,13 +137,15 @@ static int	expand_blocks(t_list *blocks)
 				if (ft_strchr(" \n\t", split[i].str[j]))
 				{
 					if (!fonction_hugo(blocks, i, j, split[i].str))
-						return (0);
+						return (-1);
 				}
 				j++;
 			}
 		}
 		i++;
 	}
+	if (!split[i].str)
+		return (0);
 	return (1);
 }
 
