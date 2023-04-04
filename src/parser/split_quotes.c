@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 06:20:22 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 16:41:42 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:51:15 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	get_quotes_len(char *content, int start, int type)
 		else if (type == SPL && content[start + len] == '\'')
 			return (len);
 		else if (type == DFL
-			&& ((content[start + len] == '"' || ft_strchr(content + start + len + 1, '"'))
-			|| (content[start + len] == '\'' || ft_strchr(content + start + len + 1, '\''))))
+			&& ((content[start + len] == '"' && ft_strchr(content + start + len + 1, '"'))
+			|| (content[start + len] == '\'' && ft_strchr(content + start + len + 1, '\''))))
 			return (len);
 		len++;
 	}
