@@ -18,6 +18,7 @@ SRCLIST		=	main.c\
 				parser/expand_elem.c\
 				parser/expand_wildcard.c\
 				parser/get_wildcard_shards.c\
+				parser/put_args_wildcard_block.c\
 				parser/clear_split.c\
 				parser/rm_quotes.c\
 				parser/goto_par_end.c\
