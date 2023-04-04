@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 05:23:00 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 04:04:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:24:09 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	prep_for_subshell(t_process *process, t_env *envp)
 void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 {
 	t_parsing	*new_end;
+	t_parsing	*new_start;
+	t_parsing	**parsing;
 	int			redir;
 
 	if (prep_for_subshell(process, envp))
@@ -73,11 +75,13 @@ void	exec_subshell(t_process *process, t_env *envp, t_list **pipeline)
 	else if (!process->pid)
 	{
 		redir = redirect_subshell(process);
+		parsing = process->parsing;
+		new_start = process->chunck.start->next;
 		new_end = subshell_init(process->chunck, pipeline);
 		if (redir)
-			eval_exec(process->parsing, set_portion(process->chunck.start->next, new_end), envp, pipeline);
+			eval_exec(parsing, set_portion(new_start, new_end), envp, pipeline);
 		else
 			perror("minishell");
-		end_subshell(pipeline, *process->parsing, envp);
+		end_subshell(pipeline, *parsing, envp);
 	}
 }
