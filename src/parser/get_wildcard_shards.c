@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:49:30 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 20:34:30 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 20:47:44 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ static char *fill_join(char **split, int len)
 		j += strlen;
 	}
 	str[j] = '\0';
+	i = 0;
+	while (i < len)
+		free(split[i++]);
+	free(split);
 	return (str);
 }
 
