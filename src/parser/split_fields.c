@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:45:46 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 00:54:38 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/04 13:47:00 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ static t_list	*fill_new_elem(char *str, t_expand *split, int len)
 	t_expand	*content;
 	int			i;
 
-	content = malloc(sizeof(t_expand) * len + 1);
+	content = malloc(sizeof(t_expand) * (len + 1));
+	if (!content)
+		return (NULL);
 	i = 0;
 	if (str)
 	{
-		content = malloc(sizeof(t_expand));
-		if (!content)
-			return (NULL);
 		content[0].str = str;
 		content[0].type = DFL;
 		i = 1;
@@ -69,6 +68,8 @@ static t_list	*fill_new_elem(char *str, t_expand *split, int len)
 	}
 	content[i].str = NULL;
 	new_elem = ft_lstnew(content);
+	if (!new_elem)
+		free(content);
 	return (new_elem);
 }
 
