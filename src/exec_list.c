@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/05 08:59:30 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 15:24:35 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	exec_list(t_parsing **parsing, t_portion chunck,
 			cpy = goto_par_end(cpy);
 		cpy = cpy->next;
 	}
-	if (cpy)
+	if (cpy != chunck.end)
 		return (eval_exec(parsing, set_portion(cpy->next, chunck.end),
 				envp, free_pipeline(pipeline)));
 }
