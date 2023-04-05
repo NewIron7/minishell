@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 14:21:01 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/05 14:21:39 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 15:11:01 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	trim_fields(t_expand split[])
 	if (split->type == DFL)
 	{
 		len = 0;
-		while (ft_strchr(" \t\n", split->str[len]))
+		while (split->str[len] && ft_strchr(" \t\n", split->str[len]))
 			len++;
 		if (len)
 			ft_memmove(split->str, split->str + len,
