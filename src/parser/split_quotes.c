@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 06:20:22 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/05 11:50:55 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:57:13 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ static int	fill_quotes_err(t_expand split[])
 static int	fill_quote_split(t_expand *quote, char *content, int start)
 {
 	int	len;
+	int	i;
 
+	i = 0;
 	quote->type = get_quote_type(content, start);
 	if (quote->type == DBL || quote->type == SPL)
-		start++;
-	len = get_quotes_len(content, start, quote->type);
-	quote->str = ft_substr(content, start, len);
+		i++;
+	len = get_quotes_len(content, start + i, quote->type);
+	quote->str = ft_substr(content, start + i, len);
 	if (quote->type == DBL || quote->type == SPL)
-		start++;
-	return (start + len);
+		i++;
+	return (i + len);
 }
 
 static int	fill_quotes_split(t_expand split[], char *content)
