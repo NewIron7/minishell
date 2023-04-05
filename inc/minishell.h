@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:14:25 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 03:53:08 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:23:00 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void		exec_list(t_parsing **parsing, t_portion chunck, t_env *envp,
 				t_list **pipeline);
 void		exec_pipeline(t_parsing **parsing, t_portion chunck, t_env *envp,
 				t_list **pipeline);
-void		fill_pipeline(t_parsing **parsing, t_portion chunck, t_list **pipeline);
+void		fill_pipeline(t_parsing **parsing,
+				t_portion chunck, t_list **pipeline);
 int			pipeline_init_process(t_portion chunck, t_list **pipeline,
 				int infile, int outfile);
 void		exec_simple_cmd(t_process *process, t_env *envp, t_list **pipeline);

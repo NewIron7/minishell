@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_wildcards.c                                 :+:      :+:    :+:   */
+/*   get_wildcard_shards_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/14 14:48:48 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/05 09:57:53 by ddelhalt         ###   ########.fr       */
+/*   Created: 2023/04/05 14:13:23 by ddelhalt          #+#    #+#             */
+/*   Updated: 2023/04/05 14:13:48 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	expand_wildcards(t_list	*blocks)
+void	fill_shard_get_end(int *i, int *j, t_expand content[])
 {
-	char	**newargs;
-	t_list	*next;
+	int	starti;
 
-	while (blocks)
+	starti = *i;
+	while (content[*i].str)
 	{
-		next = blocks->next;
-		if (!expand_wildcard(blocks->content, &newargs))
-			return (0);
-		if (put_args_wildcard_block(blocks, newargs))
-			return (0);
-		free(newargs);
-		blocks = next;
+		if (content[*i].type == DFL)
+		{
+			if (*i != starti)
+				*j = 0;
+			while (content[*i].str[*j])
+			{
+				if (content[*i].str[*j] == '*')
+					return ;
+				(*j)++;
+			}
+		}
+		(*i)++;
 	}
-	return (1);
 }

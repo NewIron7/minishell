@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:04:39 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 01:08:21 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:44:27 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int	check_redirection(t_portion chunck)
 	{
 		if (chunck.start->type == LEFT_PAR)
 			chunck.start = goto_par_end(chunck.start);
-		else if (chunck.start->type == R_INPUT || chunck.start->type == R_OUTPUT
-			|| chunck.start->type == R_DINPUT || chunck.start->type == R_DOUTPUT)
+		else if (chunck.start->type == R_INPUT
+			|| chunck.start->type == R_OUTPUT
+			|| chunck.start->type == R_DINPUT
+			|| chunck.start->type == R_DOUTPUT)
 			redirs++;
 		chunck.start = chunck.start->next;
 	}

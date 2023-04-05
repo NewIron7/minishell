@@ -6,44 +6,11 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:45:46 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 19:06:13 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:20:46 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static void	trim_fields(t_expand split[])
-{
-	int	len;
-
-	if (split->type == DFL)
-	{
-		len = 0;
-		while (ft_strchr(" \t\n", split->str[len]))
-			len++;
-		if (len)
-			ft_memmove(split->str, split->str + len, ft_strlen(split->str + len) + 1);
-	}
-	while ((split + 1)->str)
-		split++;
-	if (split->type == DFL)
-	{
-		len = ft_strlen(split->str);
-		while (len > 0 && ft_strchr(" \t\n", split->str[len - 1]))
-			len--;
-		split->str[len] = '\0';
-	}
-}
-
-static t_list	*init_blocks(t_expand split[])
-{
-	t_list	*blocks;
-
-	blocks = ft_lstnew(split);
-	if (!blocks)
-		return (NULL);
-	return (blocks);
-}
 
 static t_list	*fill_new_elem(char *str, t_expand *split, int len)
 {
@@ -125,7 +92,6 @@ static int	expand_blocks(t_list *blocks)
 	while (blocks->next)
 		blocks = blocks->next;
 	split = blocks->content;
-
 	i = 0;
 	while (split[i].str)
 	{

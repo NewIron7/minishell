@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:38:04 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 03:52:16 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:47:45 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static void	wait_pipeline(t_list *pipeline)
 	}
 }
 
-void	exec_pipeline(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipeline)
+void	exec_pipeline(t_parsing **parsing, t_portion chunck,
+	t_env *envp, t_list **pipeline)
 {
 	t_list		*cpy;
 	t_process	*process;

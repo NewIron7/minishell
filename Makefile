@@ -17,13 +17,17 @@ SRCLIST		=	main.c\
 				parser/space_split.c\
 				parser/expand_elem.c\
 				parser/expand_wildcards.c\
+				parser/expand_wildcard.c\
 				parser/get_wildcard_shards.c\
+				parser/get_wildcard_shards_utils.c\
 				parser/put_args_wildcard_block.c\
 				parser/clear_split.c\
 				parser/rm_quotes.c\
 				parser/goto_par_end.c\
 				parser/split_quotes.c\
+				parser/split_quotes_utils.c\
 				parser/split_fields.c\
+				parser/split_fields_utils.c\
 				parser/replace_content.c\
 				parser/expand_var.c\
 				parser/create_block.c\

@@ -6,13 +6,13 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:12:21 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 20:37:15 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:15:01 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static char		free_block_content(t_list *block)
+static char	free_block_content(t_list *block)
 {
 	t_expand	*split;
 	int			i;

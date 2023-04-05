@@ -6,7 +6,7 @@
 /*   By: hboissel <hboissel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:42:48 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/03 03:32:54 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:43:58 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	args_len(t_portion chunck)
 	len = 0;
 	while (chunck.start != chunck.end)
 	{
-		if (!(is_redirection(chunck.start) || is_redirection(chunck.start->prev)))
+		if (!(is_redirection(chunck.start)
+				|| is_redirection(chunck.start->prev)))
 			len++;
 		chunck.start = chunck.start->next;
 	}
@@ -47,7 +48,8 @@ static char	get_args(t_portion chunck, char ***args)
 	i = 0;
 	while (chunck.start != chunck.end)
 	{
-		if (!(is_redirection(chunck.start) || is_redirection(chunck.start->prev)))
+		if (!(is_redirection(chunck.start)
+				|| is_redirection(chunck.start->prev)))
 			(*args)[i++] = chunck.start->content;
 		chunck.start = chunck.start->next;
 	}

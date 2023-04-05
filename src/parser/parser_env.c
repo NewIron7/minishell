@@ -6,7 +6,7 @@
 /*   By: hboissel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 18:50:56 by hboissel          #+#    #+#             */
-/*   Updated: 2023/04/04 20:36:48 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:33:39 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "parser.h"
@@ -19,11 +19,11 @@ static int	expand_redirect(t_parsing *elem, t_env envp)
 	if (!split_quotes(&split, elem->content))
 		return (EXIT_FAILURE);
 	if (expand_var(split, envp))
-		return (free_split(split), EXIT_FAILURE);	
+		return (free_split(split), EXIT_FAILURE);
 	if (create_block(&block, split))
 		return (EXIT_FAILURE);
-	//if (!expand_wildcards(block))
-		//return (EXIT_FAILURE);
+	if (!expand_wildcards(block))
+		return (EXIT_FAILURE);
 	if (replace_content(block, elem))
 		return (free_block(block), EXIT_FAILURE);
 	free_block(block);
@@ -38,7 +38,7 @@ static int	expand_argument(t_parsing *elem, t_env envp)
 	if (!split_quotes(&split, elem->content))
 		return (EXIT_FAILURE);
 	if (expand_var(split, envp))
-		return (free_split(split), EXIT_FAILURE);	
+		return (free_split(split), EXIT_FAILURE);
 	if (!split_fields(split, &block))
 		return (EXIT_FAILURE);
 	if (!expand_wildcards(block))

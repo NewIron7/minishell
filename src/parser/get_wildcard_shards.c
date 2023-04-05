@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:49:30 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 20:47:44 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:13:15 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,7 @@ static int	count_shards(t_expand *block)
 	return (count);
 }
 
-static void	fill_shard_get_end(int	*i, int *j, t_expand content[])
-{
-	int	starti;
-
-	starti = *i;
-	while (content[*i].str)
-	{
-		if (content[*i].type == DFL)
-		{
-			if (*i != starti)
-				*j = 0;
-			while (content[*i].str[*j])
-			{
-				if (content[*i].str[*j] == '*')
-					return ;
-				(*j)++;
-			}
-		}
-		(*i)++;
-	}
-	(*i)--;
-}
-
-static char *fill_join(char **split, int len)
+static char	*fill_join(char **split, int len)
 {
 	int		i;
 	int		j;
@@ -87,9 +64,8 @@ static char *fill_join(char **split, int len)
 		j += strlen;
 	}
 	str[j] = '\0';
-	i = 0;
-	while (i < len)
-		free(split[i++]);
+	while (len)
+		free(split[--len]);
 	free(split);
 	return (str);
 }
@@ -104,6 +80,8 @@ static char	*fill_shard(int starti, int startj, t_expand content[])
 	endi = starti;
 	endj = startj;
 	fill_shard_get_end(&endi, &endj, content);
+	if (!content[endi].str)
+		endi--;
 	split = malloc(sizeof(char *) * (endi - starti + 1));
 	if (!split)
 		return (NULL);
@@ -111,12 +89,9 @@ static char	*fill_shard(int starti, int startj, t_expand content[])
 		split[0] = ft_strdup(content[starti].str + startj);
 	else
 		split[0] = ft_substr(content[starti].str, startj, endj - startj);
-	i = 1;
-	while (starti + i < endi)
-	{
+	i = 0;
+	while (starti + ++i < endi)
 		split[i] = ft_strdup(content[starti + i].str);
-		i++;
-	}
 	if (starti + i <= endi)
 		split[i] = ft_substr(content[starti + i].str, 0, endj);
 	return (fill_join(split, endi - starti + 1));
@@ -130,31 +105,20 @@ static int	fill_shards(t_expand content[], char *shards[])
 	int	startj;
 
 	i = 0;
-	starti = 0;
-	startj = 0;
+	j = 0;
 	while (content[i].str)
 	{
-		if (content[i].type == DFL)
+		starti = i;
+		startj = j;
+		fill_shard_get_end(&i, &j, content);
+		if (content[i].str)
 		{
-			j = 0;
-			while (content[i].str[j])
-			{
-				if (content[i].str[j] == '*')
-				{
-					*shards = fill_shard(starti, startj, content);
-					while (content[i].str[j] == '*')
-						j++;
-					j--;
-					starti = i;
-					startj = j + 1;
-					shards++;
-				}
+			while (content[i].str[j] == '*')
 				j++;
-			}
 		}
-		i++;
+		*shards = fill_shard(starti, startj, content);
+		shards++;
 	}
-	*shards = fill_shard(starti, startj, content);
 	return (1);
 }
 

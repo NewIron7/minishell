@@ -6,15 +6,16 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:43:13 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 15:08:50 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 09:10:53 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_process	*create_process(t_portion chunck, int infile, int to_fork)
+static t_list	*create_process(t_portion chunck, int infile, int to_fork)
 {
 	t_process	*process;
+	t_list		*lst;
 
 	process = malloc(sizeof(t_process));
 	if (!process)
@@ -29,7 +30,10 @@ static t_process	*create_process(t_portion chunck, int infile, int to_fork)
 	process->status = 0;
 	process->infile = infile;
 	process->outfile = STDOUT_FILENO;
-	return (process);
+	lst = ft_lstnew(process);
+	if (!lst)
+		free(process);
+	return (lst);
 }
 
 int	pipeline_init_process(t_portion chunck, t_list **pipeline, int infile,
@@ -39,26 +43,19 @@ int	pipeline_init_process(t_portion chunck, t_list **pipeline, int infile,
 	t_list		*lst;
 	int			pipe_fd[2];
 
-	process = create_process(chunck, infile, outfile || *pipeline);
-	if (!process)
+	lst = create_process(chunck, infile, outfile || *pipeline);
+	if (!lst)
 		return (-1);
+	process = lst->content;
 	pipe_fd[0] = STDIN_FILENO;
 	if (outfile)
 	{
 		if (pipe(pipe_fd) == -1)
 		{
-			free(process);
+			ft_lstdelone(lst, &free);
 			return (-1);
 		}
 		process->outfile = pipe_fd[1];
-	}
-	lst = ft_lstnew(process);
-	if (!lst)
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		free(process);
-		return (-1);
 	}
 	ft_lstadd_back(pipeline, lst);
 	return (pipe_fd[0]);

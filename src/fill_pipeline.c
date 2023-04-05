@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 16:12:32 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/03 04:17:51 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 09:11:34 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	fill_pipeline(t_parsing **parsing, t_portion chunck, t_list **pipeline)
 	{
 		if (cpy->type == PIPE)
 		{
-			fd = pipeline_init_process(set_portion(start, cpy), pipeline, fd, 1);
+			fd = pipeline_init_process(set_portion(start, cpy),
+					pipeline, fd, 1);
 			if (fd < 0)
 				return (fill_pipeline_err(pipeline));
 			cpy = cpy->next;
