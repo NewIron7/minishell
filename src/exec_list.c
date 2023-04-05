@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 07:44:19 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/04 15:31:35 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:59:30 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static char	exec_list_if(t_list *pipeline, t_parsing *cpy)
 	return (0);
 }
 
-void	exec_list(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipeline)
+void	exec_list(t_parsing **parsing, t_portion chunck,
+	t_env *envp, t_list **pipeline)
 {
 	t_parsing	*cpy;
 
@@ -51,7 +52,11 @@ void	exec_list(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipe
 	if (!cpy)
 		cpy = *parsing;
 	while (cpy->type != AND && cpy->type != OR)
+	{
+		if (cpy->type == LEFT_PAR)
+			cpy = goto_par_end(cpy);
 		cpy = cpy->next;
+	}
 	eval_exec(parsing, set_portion(chunck.start, cpy), envp, pipeline);
 	if (is_pipeline_sigint(*pipeline))
 		return ;
@@ -62,5 +67,6 @@ void	exec_list(t_parsing **parsing, t_portion chunck, t_env *envp, t_list **pipe
 		cpy = cpy->next;
 	}
 	if (cpy)
-		return (eval_exec(parsing, set_portion(cpy->next, chunck.end), envp, free_pipeline(pipeline)));
+		return (eval_exec(parsing, set_portion(cpy->next, chunck.end),
+				envp, free_pipeline(pipeline)));
 }
