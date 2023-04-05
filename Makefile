@@ -1,7 +1,6 @@
 SRCLIST		=	main.c\
 				parser/parser.c\
 				parser/parser_utils.c\
-				parser/parser_print.c\
 				parser/parser_get.c\
 				parser/parser_env_utils_more.c\
 				parser/parser_env_utils.c\
@@ -87,10 +86,10 @@ OBJSLIST	=	$(SRCLIST:.c=.o)
 OBJS		=	$(addprefix $(OBJDIR), $(OBJSLIST))
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g3
-DEBUG		=	-g3
+CFLAGS		=	-Wall -Wextra -Werror
 
 all			:	${OBJDIR} ${LIBFT} ${NAME}
+bonus		:	${OBJDIR} ${LIBFT} ${NAME}
 
 ${OBJDIR}	:
 		mkdir -p ${OBJDIR}builtins
@@ -114,4 +113,4 @@ fclean		:	clean
 
 re			:	fclean all
 
-.PHONY		:	all clean fclean re
+.PHONY		:	all clean fclean re bonus
