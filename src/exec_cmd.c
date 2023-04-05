@@ -6,7 +6,7 @@
 /*   By: ddelhalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:31:20 by ddelhalt          #+#    #+#             */
-/*   Updated: 2023/04/05 08:29:04 by ddelhalt         ###   ########.fr       */
+/*   Updated: 2023/04/05 15:31:44 by ddelhalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ int	exec_cmd(char *argv[], char *envp[], t_process *process, t_list **pipeline)
 	execve(path, argv, envp);
 	ft_printf_fd(STDERR_FILENO, "minishell: ");
 	perror(*argv);
-	free_all(*process->parsing, envp, NULL, argv);
+	free_all(*parsing, envp, NULL, argv);
 	exit(126);
 }
