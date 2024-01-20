@@ -1,4 +1,4 @@
-# MiniShell - A Simple Bash POSIX by NewIron7 🐚
+# MiniShell - A Simple Bash POSIX 🐚
 
 ## Introduction 🌟
 
